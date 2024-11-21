@@ -37,8 +37,8 @@ class DiceRepositoryImpl(DiceRepository):
 
             return cls.__instance
 
-        def rollDice(self):
-            pass
+    def rollDice(self):
+        pass
 
 
 
