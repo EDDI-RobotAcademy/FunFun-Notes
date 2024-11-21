@@ -2,9 +2,16 @@ import random
 
 
 class Dice:
+    # 클래스 생성시 class 키워드를 붙여야합니다.
+    # 생성하고자 하는 클래스 이름은 Dice입니다.
+    #사실상 class를 Domain 바라봐야합니다.
+    #
+
         MAX = 6
         MiN = 1
+    #보편적으로 대문자로만 적는 것들 (상수값)
 
+        #init 생성자
         def __init__(self):
             self.__number = 0
 
