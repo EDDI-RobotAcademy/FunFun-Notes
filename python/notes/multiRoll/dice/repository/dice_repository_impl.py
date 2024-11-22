@@ -7,11 +7,12 @@ from dice.repository.dice_repository import DiceRepository
 class DiceRepositoryImpl(DiceRepository):
     __instance = None
 
+    __diceList = []
+
     MIN = 1
     MAX = 6
 
     def __new__(cls):
-        print("DiceRepositoryImpl __new__()")
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
 
@@ -19,7 +20,6 @@ class DiceRepositoryImpl(DiceRepository):
     
     @classmethod
     def getInstance(cls):
-        print("DiceRepositoryImpl getInstance()")
         if cls.__instance is None:
             cls.__instance = cls()
 
@@ -28,4 +28,11 @@ class DiceRepositoryImpl(DiceRepository):
     def rollDice(self):
         diceNumber = random.randint(self.MIN, self.MAX)
         dice = Dice(diceNumber)
-        return dice.getDiceNumber()
+        self.__diceList.append(dice)
+
+    def rollDiceTwice(self):
+        for _ in range(2):
+            self.rollDice()
+
+    def acquireDiceList(self):
+        return self.__diceList
