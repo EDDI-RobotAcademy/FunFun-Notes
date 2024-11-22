@@ -1,5 +1,6 @@
 class Dice:
 
+
     def __init__(self, diceNumber):
         self.__number = diceNumber
 
