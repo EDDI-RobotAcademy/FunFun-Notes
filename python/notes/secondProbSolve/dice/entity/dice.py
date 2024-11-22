@@ -1,6 +1,3 @@
-import random
-
-
 class Dice:
     MAX = 6
     MIN = 1
