@@ -1,6 +1,4 @@
 class Dice:
-    MAX = 6
-    MIN = 1
 
     def __init__(self, diceNumber):
         self.__number = diceNumber
