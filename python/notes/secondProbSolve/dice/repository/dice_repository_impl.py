@@ -28,5 +28,4 @@ class DiceRepositoryImpl(DiceRepository):
     def rollDice(self):
         diceNumber = random.randint(self.MIN, self.MAX)
         dice = Dice(diceNumber)
-        # return dice.getDiceNumber()
-        print(dice.getDiceNumber())
+        return dice.getDiceNumber()
