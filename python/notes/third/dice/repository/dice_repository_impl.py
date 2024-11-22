@@ -35,6 +35,8 @@ class DiceRepositoryImpl(DiceRepository):
         # 생성자로 만든 dice를 __diceList에 추가하였습니다.
         self.__diceList.append(dice)
 
+        return self.__diceList
+
     # 누적된 전체 리스트를 가져오게 됨
     def acquireDiceList(self):
         return self.__diceList
