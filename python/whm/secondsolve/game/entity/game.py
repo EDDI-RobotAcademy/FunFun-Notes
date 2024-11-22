@@ -1,7 +1,7 @@
-class Dice:
+class Game:
 
-    def __init__(self, diceNumber):
-        self.__number = diceNumber
+    def __init__(self, game):
+        self.__game = game
         #self값 초기화 후 __number 대입 거기에 diceNumber값 주입
 
     def __str__(self):
