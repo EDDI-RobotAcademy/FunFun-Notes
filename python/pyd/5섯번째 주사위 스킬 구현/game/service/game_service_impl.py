@@ -29,6 +29,8 @@ class GameServiceImpl(GameService):
         print("startDiceGame() called!")
         playerNameList = self.__playerRepository.acquirePlayerNameList()
         self.__diceRepository.rollDice()
+        self.__diceRepository.rollDice()
+
         eachPlayerDiceList = self.__diceRepository.rollDice()
 
         self.__gameRepository.start(

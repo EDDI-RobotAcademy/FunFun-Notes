@@ -5,11 +5,13 @@ from player.repository.player_repository_impl import PlayerRepositoryImpl
 playerRepository = PlayerRepositoryImpl.getInstance()
 playerRepository.createName()
 playerRepository.createName()
+playerRepository.createName()
 
 playerList = playerRepository.acquirePlayerNameList()
 
 for player in playerList:
     print(player)
+
 
 # 두 명의 플레이어가 게임을 즐길 것이고
 # 주사위를 굴려서 주사위 합이 큰 사람이 이길 것이다.
