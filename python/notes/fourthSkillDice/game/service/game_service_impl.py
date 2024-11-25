@@ -37,5 +37,17 @@ class GameServiceImpl(GameService):
 
         self.__createGamePlayer()
 
+    def rollFirstDice(self):
+        gamePlayerCount = self.__gameRepository.getGamePlayerCount()
+
+        for playerIndex in range(gamePlayerCount):
+            diceId = self.__diceRepository.rollDice()
+            indexedPlayer = self.__playerRepository.findById(playerIndex + 1)
+            indexedPlayer.setDiceId(diceId)
+
+        for player in self.__playerRepository.acquirePlayerList():
+            print(f"{player}")
+
+
     def checkWinner(self):
         print("checkWinner() called!")
