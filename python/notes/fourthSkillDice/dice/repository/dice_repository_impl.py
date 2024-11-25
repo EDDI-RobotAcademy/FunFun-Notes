@@ -31,5 +31,10 @@ class DiceRepositoryImpl(DiceRepository):
 
         self.__diceList.append(dice)
 
+        return dice.getId()
+
     def acquireDiceList(self):
         return self.__diceList
+
+    # def findById(self, id):
+

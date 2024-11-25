@@ -28,12 +28,12 @@ class DiceRepositoryImpl(DiceRepository):
 
         return cls.__instance
 
-    def rollDice(self):
-        diceNumber = random.randint(self.MIN, self.MAX)
-        dice = Dice(diceNumber)
-        # append() 붙이기를 통해서
-        # 생성자로 만든 dice를 __diceList에 추가하였습니다.
-        self.__diceList.append(dice)
+    def rollDice(self, playerCount):
+        self.__diceList = []
+        for i in range(playerCount):
+            diceNumber = random.randint(self.MIN, self.MAX)
+            dice = Dice(diceNumber)
+            self.__diceList.append(dice)
 
         return self.__diceList
 
