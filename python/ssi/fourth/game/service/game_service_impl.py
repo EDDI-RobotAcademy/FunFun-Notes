@@ -28,11 +28,10 @@ class GameServiceImpl(GameService):
     def startDiceGame(self):
         print("startDiceGame() called!")
         playerNameList = self.__playerRepository.acquirePlayerNameList()
-        self.__diceRepository.rollDice()
-        eachPlayerDiceList = self.__diceRepository.rollDice()
+        playerCount = len(playerNameList)
+        eachPlayerDiceList = self.__diceRepository.rollDice(playerCount)
 
-        self.__gameRepository.start(
-            playerNameList, eachPlayerDiceList)
+        self.__gameRepository.start(playerNameList, eachPlayerDiceList)
 
     def checkWinner(self):
         print("checkWinner() called!")
