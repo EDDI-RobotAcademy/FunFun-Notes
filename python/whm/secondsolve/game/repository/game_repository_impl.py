@@ -1,11 +1,10 @@
+from game.entity.game import Game
 from game.repository.game_repository import GameRepository
-from player.entity.player import Player
+
 
 class GameRepositoryImpl(GameRepository):
     __instance = None
-    __unit=[]
-    #unit리스트 생성
-
+    __gameList=[]
     def __new__(cls):
         #진짜 생성자 생성
         if cls.__instance is None:
@@ -21,24 +20,46 @@ class GameRepositoryImpl(GameRepository):
         return cls.__instance
     #싱글톤 생성
 
-    def Play(self):
-        ser=player.getName()
-        
-        #입력받은 만큼 선수인원 생성
+    def start(self,playerNameList,eachPlayerDiceList):
+        game= Game(playerNameList,eachPlayerDiceList)
+        self.__gameList.append(game)
 
 
-        #인원만큼 for돌리기
-        for i in range(a):
-            self.name=input("Insert your name:")
-            #선수이름 받기
-            player=self.name
-            #player에 선수이름 넣기
-            people=Player(player)
-            #people에 Player클래스에 player값 넣은 결과 넣기
-            self.__team.append(people)
-            #team리스트에 결과 넣기
+    def checkWinner(self):
+        game=self.__gameList[0]
+        gameMapINfo=game.getGameMap()
 
-    #리스트값 출력
-    def acquireTeam(self):
-        return self.__team
+        for player,dicenumber in gameMapINfo.items():
+            print(player,"number is",dicenumber)
+
+
+
+
+
+        #Dictionary의 key값 다 뽑기
+        gameMapKeyList=gameMapINfo.keys()
+        # Dictionary의 value값 다 뽑기
+        gameMapValueList=gameMapINfo.values()
+        # Dictionary의 key,value값 다 뽑기
+        keyValueList=list(gameMapINfo.items())
+
+
+        #print(f"gameMapKeyList: {gameMapKeyList}")
+        #print(f"gameMapValueList: {gameMapValueList}")
+        #print(f"KeyValueList: {keyValueList}")
+
+        #람다 방식은 자체적으로 리스트나 어떤 반복적인 요소에서 개별적인 요소를 쪼개서 진행
+        #keys로 player객체를 선택하고 거기있는 Dice의 번호를 가져와서 비교시키는 코드
+        #Dictionary에서 value 가져오는 부분 ->gameMApINfo[player]
+        winner=max(gameMapINfo,key=lambda player:gameMapINfo[player].getDiceNumber())
+        #map에서 각각의 key,value쌍을 순회하면서 아래의 if조건에 만족하는 정보만 추려낸다
+        maxPlayerList=[player for player, dice in gameMapINfo.items()
+                       if dice.getDiceNumber()==gameMapINfo[winner].getDiceNumber()]
+
+        maxPlayerCount=len(maxPlayerList)
+        if maxPlayerCount>1:
+            print("무승부입니다")
+            return
+
+        print(f"winner: {winner}")
 
