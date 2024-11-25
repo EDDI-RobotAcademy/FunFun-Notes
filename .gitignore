@@ -296,3 +296,24 @@ pyrightconfig.json
 
 # exclude .pem
 .pem
+
+# exclude jge
+python/jge/first/app/task1.py
+
+# exclude hs
+python/hs/third2/third/dice/__init__.py
+python/hs/third2/third/dice/repository/__init__.py
+python/hs/third2/main.py
+python/hs/third2/third/app/__init__.py
+python/hs/third2/third/app/main.py
+python/hs/third2/third/dice/entity/__init__.py
+python/hs/third2/third/dice/entity/dice.py
+python/hs/third2/third/dice/repository/dice_repository.py
+python/hs/third2/third/dice/repository/dice_repository_impl.py
+python/hs/third2/third/player/__init__.py
+python/hs/third2/third/player/entity/__init__.py
+python/hs/third2/third/player/entity/player.py
+python/hs/third2/third/player/repository/__init__.py
+python/hs/third2/third/player/repository/player_repository.py
+python/hs/third2/third/player/repository/player_repository_impl.py
+*.py
