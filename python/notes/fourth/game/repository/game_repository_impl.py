@@ -38,4 +38,11 @@ class GameRepositoryImpl(GameRepository):
         print(f"gameMapValueList: {gameMapValueList}")
         print(f"keyValueList: {keyValueList}")
 
+        for player, dice in gameMapInfo.items():
+            print(f"{player}, dice: {dice.getDiceNumber()}")
 
+        # 람다 방식은 자체적으로 리스트나 어떤 반복적인 요소에서 개별적인 요소를 쪼개서 진행됩니다.
+        # key로 player 객체를 선택하고 거기 있는 Dice의 번호를 가져와서 비교시키는 코드입니다.
+        # Dictionary에서 value 가져오는 부분 -> gameMapInfo[player]
+        winner = max(gameMapInfo, key=lambda player: gameMapInfo[player].getDiceNumber())
+        print(f"winner: {winner}")
