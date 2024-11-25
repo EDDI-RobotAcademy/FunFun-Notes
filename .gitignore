@@ -296,6 +296,11 @@ pyrightconfig.json
 
 # exclude .pem
 .pem
+
+# exclude jge
+python/jge/first/app/task1.py
+
+# exclude hs
 python/hs/third2/third/dice/__init__.py
 python/hs/third2/third/dice/repository/__init__.py
 python/hs/third2/main.py
