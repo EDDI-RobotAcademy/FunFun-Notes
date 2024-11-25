@@ -45,4 +45,13 @@ class GameRepositoryImpl(GameRepository):
         # key로 player 객체를 선택하고 거기 있는 Dice의 번호를 가져와서 비교시키는 코드입니다.
         # Dictionary에서 value 가져오는 부분 -> gameMapInfo[player]
         winner = max(gameMapInfo, key=lambda player: gameMapInfo[player].getDiceNumber())
+        # map에서 각각의 key, value 쌍을 순회하면서 아래의 if 조건에 만족하는 정보만 추려냅니다.
+        maxPlayerList = [player for player, dice in gameMapInfo.items()
+                         if dice.getDiceNumber() == gameMapInfo[winner].getDiceNumber()]
+
+        maxPlayerCount = len(maxPlayerList)
+        if maxPlayerCount > 1:
+            print("무승부입니다!")
+            return
+
         print(f"winner: {winner}")
