@@ -25,9 +25,6 @@ class GameRepositoryImpl(GameRepository):
         self.__gameList.append(game)
 
     def checkWinner(self):
-        # if not self.__gameList:
-        #     print("Error: no game in gamelist")
-        #     return None
         game = self.__gameList[0]
         gameMapInfo = game.getGameMap()
 

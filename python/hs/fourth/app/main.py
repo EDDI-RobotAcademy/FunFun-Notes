@@ -6,7 +6,6 @@ playerRepository = PlayerRepositoryImpl.getInstance()
 playerRepository.createName()
 playerRepository.createName()
 
-# playerList 생성
 playerList = playerRepository.acquirePlayerNameList()
 
 for player in playerList:
