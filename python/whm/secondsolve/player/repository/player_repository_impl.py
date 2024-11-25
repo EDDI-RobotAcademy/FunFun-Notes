@@ -29,9 +29,9 @@ class PlayerRepositoryImpl(PlayerRepository):
 
         #인원만큼 for돌리기
         for i in range(a):
-            self.name=input("Insert your name:")
+            player=input("Insert your name:")
             #선수이름 받기
-            player=self.name
+            self.name=player
             #player에 선수이름 넣기
             people=Player(player)
             #people에 Player클래스에 player값 넣은 결과 넣기
