@@ -1,10 +1,10 @@
-from player.repository.player_repository import PlayerRepository
+from game.repository.game_repository import GameRepository
 from player.entity.player import Player
 
-class PlayerRepositoryImpl(PlayerRepository):
+class GameRepositoryImpl(GameRepository):
     __instance = None
-    __team=[]
-    #team리스트 생성
+    __unit=[]
+    #unit리스트 생성
 
     def __new__(cls):
         #진짜 생성자 생성
@@ -21,9 +21,9 @@ class PlayerRepositoryImpl(PlayerRepository):
         return cls.__instance
     #싱글톤 생성
 
-    #두명의 선수 이름 받기
-    def Sign(self):
-        a=int(input("몇명이세요: "))
+    def Play(self):
+        ser=player.getName()
+        
         #입력받은 만큼 선수인원 생성
 
 
