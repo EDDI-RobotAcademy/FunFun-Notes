@@ -5,7 +5,7 @@ class Dice:
         #self값 초기화 후 __number 대입 거기에 diceNumber값 주입
 
     def __str__(self):
-        return f"dice number: {self.__number}"
+        return f"{self.__number}"
         #__number값 출력
 
     def getDiceNumber(self):

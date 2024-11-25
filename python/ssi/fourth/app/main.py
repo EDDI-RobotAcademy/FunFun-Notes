@@ -1,5 +1,6 @@
 import sys
 import os
+from tabulate import tabulate
 
 # 프로젝트 루트를 sys.path에 추가
 project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -11,13 +12,13 @@ from player.repository.player_repository_impl import PlayerRepositoryImpl
 
 
 playerRepository = PlayerRepositoryImpl.getInstance()
-playerRepository.createName()
-playerRepository.createName()
+playerCount = int(input("게임에 참여할 플레이어 수를 입력하세요 : "))
+
+for player in range(playerCount):
+    playerRepository.createName()
+
 
 playerList = playerRepository.acquirePlayerNameList()
-
-for player in playerList:
-    print(player)
 
 # 두 명의 플레이어가 게임을 즐길 것이고
 # 주사위를 굴려서 주사위 합이 큰 사람이 이길 것이다.
@@ -30,4 +31,15 @@ for player in playerList:
 # Repository가 Repository 호출 안되고 Service가 Service 호출하는 것 또한 안됩니다.
 gameService = GameServiceImpl.getInstance()
 gameService.startDiceGame()
+
+gameRepository = gameService._GameServiceImpl__gameRepository  
+gameMap = gameRepository._GameRepositoryImpl__gameList[0].getGameMap()  
+
+# 플레이어 정보와 주사위 결과 테이블 생성
+playerInfo = [[f"Player #{player.getID()}", player.getName(), gameMap[player].getDiceNumber()]
+              for player in playerList]
+print("참여하는 플레이어 목록:")
+print(tabulate(playerInfo, headers=["Player ID", "Name", "Dice"], tablefmt="pretty"))
+
+
 gameService.checkWinner()
