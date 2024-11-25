@@ -1,6 +1,14 @@
+import sys
+import os
+
+# 프로젝트 루트를 sys.path에 추가
+project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+sys.path.append(project_root)
+
 from dice.repository.dice_repository_impl import DiceRepositoryImpl
 from game.service.game_service_impl import GameServiceImpl
 from player.repository.player_repository_impl import PlayerRepositoryImpl
+
 
 playerRepository = PlayerRepositoryImpl.getInstance()
 playerRepository.createName()

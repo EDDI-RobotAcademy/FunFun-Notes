@@ -316,4 +316,3 @@ python/hs/third2/third/player/entity/player.py
 python/hs/third2/third/player/repository/__init__.py
 python/hs/third2/third/player/repository/player_repository.py
 python/hs/third2/third/player/repository/player_repository_impl.py
-*.py
