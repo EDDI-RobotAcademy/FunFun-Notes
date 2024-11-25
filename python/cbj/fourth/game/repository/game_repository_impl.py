@@ -5,7 +5,7 @@ from game.repository.game_repository import GameRepository
 class GameRepositoryImpl(GameRepository):
     __instance = None
 
-    __gameList = []
+    __game = None
 
     def __new__(cls):
         if cls.__instance is None:
@@ -20,40 +20,21 @@ class GameRepositoryImpl(GameRepository):
 
         return cls.__instance
 
-    def start(self, playerNameList, eachPlayerDiceList):
-        game = Game(playerNameList, eachPlayerDiceList)
-        self.__gameList.append(game)
+    def create(self):
+        while True:
+            try:
+                playerCount = int(input('몇 명이 플레이 하나요? '))
+                if playerCount <= 1:
+                    print("플레이어 숫자는 반드시 2명 이상이 필요합니다!")
+                    continue
 
-    def checkWinner(self):
-        game = self.__gameList[0]
-        gameMapInfo = game.getGameMap()
+                game = Game(playerCount)
+                self.__game = game
 
-        # Dictionary의 key 값 다 뽑기
-        gameMapKeyList = gameMapInfo.keys()
-        # Dictionary의 value 값 다 뽑기
-        gameMapValueList = gameMapInfo.values()
-        # Dictionary의 key, value 값 다 뽑기
-        keyValueList = list(gameMapInfo.items())
-        print(f"gameMapKeyList: {gameMapKeyList}")
-        print(f"gameMapValueList: {gameMapValueList}")
-        print(f"keyValueList: {keyValueList}")
+                break
 
-        # for player, dice in gameMapInfo.items():
-        #     print(f"{player}, dice: {dice.getDiceNumber()}")
+            except ValueError:
+                print("플레이 인원 수를 숫자로 입력해주세요!")
 
-        # 람다 방식은 자체적으로 리스트나 어떤 반복적인 요소에서 개별적인 요소를 쪼개서 진행됩니다.
-        # key로 player 객체를 선택하고 거기 있는 Dice의 번호를 가져와서 비교시키는 코드입니다.
-        # Dictionary에서 value 가져오는 부분 -> gameMapInfo[player]
-        for player, dice in gameMapInfo.items():
-            print(f"{player}, dice: {dice.getDiceNumber()}")
-
-        winner = max(gameMapInfo, key=lambda player: gameMapInfo[player].getDiceNumber())
-        maxPlayerList = [player for player, dice in gameMapInfo.items()
-                         if dice.getDiceNumber() == gameMapInfo[winner].getDiceNumber()]
-
-        maxPlayerCount = len(maxPlayerList)
-        if maxPlayerCount > 1:
-            print("무승부입니다!")
-            return
-
-        print(f"winner: {winner}")
+    def getGamePlayerCount(self):
+        return self.__game.getPlayerCount()
