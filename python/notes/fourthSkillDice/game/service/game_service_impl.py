@@ -54,7 +54,7 @@ class GameServiceImpl(GameService):
             indexedPlayer = self.__playerRepository.findById(playerIndex + 1)
             # Player 엔티티에 setDiceId를 구현하여 획득한 주사위의 번호를 설정함
             # 고로 특정 Player가 특정 Dice의 소유권을 확보하게 되었음
-            indexedPlayer.setDiceId(diceId)
+            indexedPlayer.addDiceId(diceId)
 
         for player in self.__playerRepository.acquirePlayerList():
             print(f"{player}")

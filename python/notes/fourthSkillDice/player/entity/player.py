@@ -1,6 +1,6 @@
 class Player:
     __counter = 1
-    __diceId = None
+    __diceIdList = []
 
     def __init__(self, playerName):
         self.__playerName = playerName
@@ -13,8 +13,8 @@ class Player:
     def getId(self):
         return self.__id
 
-    def setDiceId(self, diceId):
-        self.__diceId = diceId
+    def addDiceId(self, diceId):
+        self.__diceIdList.append(diceId)
 
 # Player
 # CashItem
