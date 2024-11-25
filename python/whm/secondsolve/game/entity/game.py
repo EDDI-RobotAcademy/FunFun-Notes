@@ -1,13 +1,16 @@
 class Game:
+    #HashMap(Dictionary) 생성은 아래와 같이 '중괄호' 줄 표기하여 생성 가능
+    #key와 value 형태로 구성되며 key값을 주면 value가 나오게 된다
+    __gameMap={}
 
-    def __init__(self, game):
-        self.__game = game
-        #self값 초기화 후 __number 대입 거기에 diceNumber값 주입
+    def __init__(self, playerNameList,eachPlayerDiceList):
+        #현재 케이스에서는 key값이 player객체
+        #value 값은 Dice객체
+        #zip의 경우엔 각각의 리스트를 하나로 묶어서 처리할 때 아래와 같은 형태로 사용
+        for player, eachPlayerDice in zip(playerNameList,eachPlayerDiceList):
+            self.__gameMap[player]=eachPlayerDice
 
-    def __str__(self):
-        return f"dice number: {self.__number}"
-        #__number값 출력
+            #print(f"self.gameMap: {self.__gameMap}")
 
-    def getDiceNumber(self):
-        return self.__number
-    #__number값 가져오기
+    def getGameMap(self):
+        return self.__gameMap
