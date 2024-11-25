@@ -11,7 +11,7 @@ class GameServiceImpl(GameService):
             cls.__instance = super().__new__(cls)
 
             # Service Layer에서 Repository Layer를 연결하는 방법
-            # cls.__instance.__gameRepository = GameRepositoryImpl.getInstance()
+            cls.__instance.__gameRepository = GameRepositoryImpl.getInstance()
             cls.__instance.__playerRepository = PlayerRepositoryImpl.getInstance()
             cls.__instance.__diceRepository = DiceRepositoryImpl.getInstance()
 
@@ -26,7 +26,12 @@ class GameServiceImpl(GameService):
 
     def startDiceGame(self):
         print("startDiceGame() called!")
-        pass
+        playerNameList = self.__playerRepository.acquirePlayerNameList()
+        self.__diceRepository.rollDice()
+        eachPlayerDiceList = self.__diceRepository.rollDice()
+
+        self.__gameRepository.start(
+            playerNameList, eachPlayerDiceList)
 
     def checkWinner(self):
         print("checkWinner() called!")
