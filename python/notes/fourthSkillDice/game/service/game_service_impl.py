@@ -43,6 +43,7 @@ class GameServiceImpl(GameService):
         # 실제 정말 사용자 숫자만큼 반복을 함 (3명이라 가정)
         # 위 가정의 경우 0, 1, 2로 playerIndex가 설정됨
         for playerIndex in range(gamePlayerCount):
+            print(f"playerIndex: {playerIndex}")
             # 기존에는 단순히 굴리기만 했음
             # 혹은 굴리고 Dice 객체 자체를 리턴했음
             # 그러나 Player가 어떤 Dice 객체를 소유하고 있는지 판단할 필요가 생겼음
@@ -52,6 +53,7 @@ class GameServiceImpl(GameService):
             # 그러므로 발생한 이격을 조정하기 위해 +1을 해서 검색하고 있음
             # findById()를 통해 검색된 Player 객체를 획득
             indexedPlayer = self.__playerRepository.findById(playerIndex + 1)
+            print(f"indexedPlayer: {indexedPlayer}")
             # Player 엔티티에 setDiceId를 구현하여 획득한 주사위의 번호를 설정함
             # 고로 특정 Player가 특정 Dice의 소유권을 확보하게 되었음
             indexedPlayer.addDiceId(diceId)
