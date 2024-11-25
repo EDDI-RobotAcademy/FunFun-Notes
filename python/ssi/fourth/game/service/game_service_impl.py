@@ -1,5 +1,4 @@
 from dice.repository.dice_repository_impl import DiceRepositoryImpl
-from game.repository.game_repository_impl import GameRepositoryImpl
 from game.service.game_service import GameService
 from player.repository.player_repository_impl import PlayerRepositoryImpl
 
@@ -36,4 +35,4 @@ class GameServiceImpl(GameService):
 
     def checkWinner(self):
         print("checkWinner() called!")
-        self.__gameRepository.checkWinner()
+        pass
