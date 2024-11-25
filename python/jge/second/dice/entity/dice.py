@@ -1,4 +1,5 @@
 import random
+
 #클래스 생성 시 class 키워드를 붙여야 합니다.
 #생성하고자 하는 클래스 이름은 Dice 입니다.
 #사실상 class를 Domain으로 바라봐야함.
