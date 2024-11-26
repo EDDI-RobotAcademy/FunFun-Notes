@@ -23,3 +23,11 @@ class Game:
             self.__playerDiceGameMap[index] = [diceId]
 
         print(f"self.__playerDiceGameMap: {self.__playerDiceGameMap}")
+
+    def deleteTargetPlayerId(self, targetPlayerId):
+        if targetPlayerId in self.__playerDiceGameMap:
+            # Map에서 특정 쌍 완전히 제거
+            # 정확히는 targetPlayerId를 key로 사용하는 정보를 완전히 제거함
+            del self.__playerDiceGameMap[targetPlayerId]
+
+        print(f"저격 이후 self.__playerDiceGameMap: {self.__playerDiceGameMap}")
