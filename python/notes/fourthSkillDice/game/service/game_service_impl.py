@@ -1,4 +1,5 @@
 from dice.entity.dice_kinds import DiceKinds
+from dice.entity.dice_skill import DiceSkill
 from dice.repository.dice_repository_impl import DiceRepositoryImpl
 from game.repository.game_repository_impl import GameRepositoryImpl
 from game.service.game_service import GameService
@@ -106,6 +107,36 @@ class GameServiceImpl(GameService):
         self.__gameRepository.updatePlayerDiceGameMap(
             skillAppliedPlayerIndexList, secondDiceIdList)
 
+    def __applySkill(self, secondDice):
+        secondDiceNumber = secondDice.getDiceNumber()
+        print(f"secondDiceNumber: {secondDiceNumber}")
+
+        if secondDiceNumber == DiceSkill.STEEL_SCORE.value:
+            pass
+
+        if secondDiceNumber == DiceSkill.DEATH_SHOT.value:
+            game = self.__gameRepository.getGame()
+            playerDiceGameMap = game.getPlayerDiceGameMap()
+
+            playerDiceSum = {}
+
+            for playerId, diceIdList in playerDiceGameMap.items():
+                diceSum = 0
+
+                for diceId in diceIdList:
+                    dice = self.__diceRepository.findById(diceId)
+
+                    if dice:
+                        diceSum += dice.getDiceNumber()
+
+                playerDiceSum[playerId] = diceSum
+
+            for playerId, diceSum in playerDiceSum.items():
+                print(f"플레이어 {playerId}의 누산 점수: {diceSum}")
+
+            deathShotTargetPlayerId = int(input('누구를 저격하시겠습니까? '))
+            self.__gameRepository.deletePlayer(deathShotTargetPlayerId)
+
     def applySkill(self):
         gamePlayerCount = self.__gameRepository.getGamePlayerCount()
 
@@ -120,7 +151,7 @@ class GameServiceImpl(GameService):
             indexedPlayerSecondDiceId = indexedPlayerDiceIdList[1]
             secondDice = self.__diceRepository.findById(indexedPlayerSecondDiceId)
 
-            self.__gameRepository.applySkill(secondDice)
+            self.__applySkill(secondDice)
 
     def checkWinner(self):
         print("checkWinner() called!")
