@@ -8,3 +8,6 @@ class GameService(ABC):
 
     def checkWinner(self):
         pass
+
+    def rollFirstDice(self):
+        pass

@@ -38,6 +38,27 @@ class GameServiceImpl(GameService):
         self.__gameRepository.start(
             playerNameList, eachPlayerDiceList)
 
+    def rollFirstDice(self):
+        gamePlayerCount=len(self.__playerRepository.acquireTeam())
+        #gamePlayerCount에 플레이어들 인원수를 추가
+
+        #playerindex가 0~플레이어 인원수만큼 가짐
+        #각 Player가 어떤 주사위를 가지고 있는지를 표현
+        for playerindex in range(gamePlayerCount):
+            diceId = self.__diceRepository.rollDice()
+            #diceId에는 주사위를 굴린 숫자가 들어감
+            indexedPlayer=self.__playerRepository.findId(playerindex+1)
+            #indexedPlayer에는 1번플레이어부터 들어감
+            indexedPlayer.addDiceId(diceId)
+
+        for player in self.__playerRepository.acquireTeam():
+            print(f"{player}")
+
+
+
+    def rollSecondDice(self):
+        pass
+
 
     def checkWinner(self):
         self.__gameRepository.checkWinner()
