@@ -1,3 +1,4 @@
+from dice.entity.dice_kinds import DiceKinds
 from dice.repository.dice_repository_impl import DiceRepositoryImpl
 from game.repository.game_repository_impl import GameRepositoryImpl
 from game.service.game_service import GameService
@@ -39,6 +40,8 @@ class GameServiceImpl(GameService):
 
     def rollFirstDice(self):
         gamePlayerCount = self.__gameRepository.getGamePlayerCount()
+        playerIndexList = []
+        diceIdList = []
 
         # 실제 정말 사용자 숫자만큼 반복을 함 (3명이라 가정)
         # 위 가정의 경우 0, 1, 2로 playerIndex가 설정됨
@@ -49,17 +52,23 @@ class GameServiceImpl(GameService):
             # 그러나 Player가 어떤 Dice 객체를 소유하고 있는지 판단할 필요가 생겼음
             # 그러므로 rollDice() 이후 생성된 주사위의 고유한 번호(id)를 리턴시켰음
             diceId = self.__diceRepository.rollDice()
+            diceIdList.append(diceId)
             # 위의 인덱스는 0부터 시작하지만 Entity 구성의 id가 1부터 시작함
             # 그러므로 발생한 이격을 조정하기 위해 +1을 해서 검색하고 있음
             # findById()를 통해 검색된 Player 객체를 획득
             indexedPlayer = self.__playerRepository.findById(playerIndex + 1)
             print(f"indexedPlayer: {indexedPlayer}")
+
+            playerIndexList.append(playerIndex + 1)
+
             # Player 엔티티에 setDiceId를 구현하여 획득한 주사위의 번호를 설정함
             # 고로 특정 Player가 특정 Dice의 소유권을 확보하게 되었음
             indexedPlayer.addDiceId(diceId)
 
         for player in self.__playerRepository.acquirePlayerList():
             print(f"{player}")
+
+        self.__gameRepository.setPlayerIndexListToMap(playerIndexList, diceIdList)
 
     def __checkSkillAppliedPlayerIndexList(self):
         gamePlayerCount = self.__gameRepository.getGamePlayerCount()
@@ -79,16 +88,39 @@ class GameServiceImpl(GameService):
     def rollSecondDice(self):
         skillAppliedPlayerIndexList = self.__checkSkillAppliedPlayerIndexList()
         skillAppliedPlayerLength = len(skillAppliedPlayerIndexList)
+        secondDiceIdList = []
 
         for index in range(skillAppliedPlayerLength):
             secondDiceId = self.__diceRepository.rollDice()
+            secondDiceIdList.append(secondDiceId)
+
             skillAppliedPlayerIndex = skillAppliedPlayerIndexList[index]
             skillAppliedPlayer = self.__playerRepository.findById(skillAppliedPlayerIndex)
             skillAppliedPlayer.addDiceId(secondDiceId)
             print(f"skillAppliedPlayer: {skillAppliedPlayer}")
 
             secondDice = self.__diceRepository.findById(secondDiceId)
+            secondDice.setDiceKinds(DiceKinds.SPECIAL)
             print(f"secondDice: {secondDice}")
+
+        self.__gameRepository.updatePlayerDiceGameMap(
+            skillAppliedPlayerIndexList, secondDiceIdList)
+
+    def applySkill(self):
+        gamePlayerCount = self.__gameRepository.getGamePlayerCount()
+
+        for playerIndex in range(gamePlayerCount):
+            indexedPlayer = self.__playerRepository.findById(playerIndex + 1)
+            indexedPlayerDiceIdList = indexedPlayer.getDiceIdList()
+            indexedPlayerDiceIdListLength = len(indexedPlayerDiceIdList)
+
+            if indexedPlayerDiceIdListLength < 2:
+                continue
+
+            indexedPlayerSecondDiceId = indexedPlayerDiceIdList[1]
+            secondDice = self.__diceRepository.findById(indexedPlayerSecondDiceId)
+
+            self.__gameRepository.applySkill(secondDice)
 
     def checkWinner(self):
         print("checkWinner() called!")

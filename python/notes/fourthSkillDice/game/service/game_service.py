@@ -16,5 +16,9 @@ class GameService(ABC):
         pass
 
     @abstractmethod
+    def applySkill(self):
+        pass
+
+    @abstractmethod
     def checkWinner(self):
         pass
