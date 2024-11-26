@@ -16,12 +16,16 @@ diceList=diceRepository.acquireDiceList()
 #주사위 굴리기 값 리스트
 
 #플레이어 리스트에 있는 이름들 뽑기(player entity에서 __str__뽑기)
-for player in Team:
-    print(player)
+#for player in Team:
+    #print(player)
 
 #플레이어 리스트 길이만큼 주사위 굴리기
-for i in range(len(Team)):
-    diceRepository.rollDice()
+#for i in range(len(Team)):
+   #diceRepository.rollDice()
+
+#숫자 2개의 합
+#Sum=diceRepository.sumDiceNumber()
+#print(Sum)
 
 # 주사위 결과 리스트 출력(dice entity에서 __str__뽑기)
 #for dice in diceList:
@@ -32,12 +36,12 @@ for i in range(len(Team)):
 
 # 아래처럼 '무엇'을 할 것인지 먼저 작성
 gameService=GameServiceImpl.getInstance()
-gameService.startDiceGame()
-gameService.checkWinner()
+#gameService.startDiceGame()
+gameService.rollFirstDice()
+#gameService.rollSecondDice()
+#gameService.checkWinner()
 
-#숫자 2개의 합
-Sum=diceRepository.sumDiceNumber()
-print(Sum)
+
 
 
 

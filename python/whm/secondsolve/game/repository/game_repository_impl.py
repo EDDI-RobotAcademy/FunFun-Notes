@@ -24,17 +24,12 @@ class GameRepositoryImpl(GameRepository):
         game= Game(playerNameList,eachPlayerDiceList)
         self.__gameList.append(game)
 
-
     def checkWinner(self):
         game=self.__gameList[0]
         gameMapINfo=game.getGameMap()
 
         for player,dicenumber in gameMapINfo.items():
             print(player,"number is",dicenumber)
-
-
-
-
 
         #Dictionary의 key값 다 뽑기
         gameMapKeyList=gameMapINfo.keys()
@@ -56,10 +51,12 @@ class GameRepositoryImpl(GameRepository):
         maxPlayerList=[player for player, dice in gameMapINfo.items()
                        if dice.getDiceNumber()==gameMapINfo[winner].getDiceNumber()]
 
-        maxPlayerCount=len(maxPlayerList)
-        if maxPlayerCount>1:
+        maxPlayerCount = len(maxPlayerList)
+        if maxPlayerCount > 1:
             print("무승부입니다")
             return
 
         print(f"winner: {winner}")
+
+
 

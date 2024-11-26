@@ -42,3 +42,10 @@ class PlayerRepositoryImpl(PlayerRepository):
     def acquireTeam(self):
         return self.__team
 
+    def findId(self,id):
+        for player in self.__team:
+            if player.getId()==id:
+                return player
+        return None
+
+
