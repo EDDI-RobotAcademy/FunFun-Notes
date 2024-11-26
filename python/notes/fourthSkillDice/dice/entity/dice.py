@@ -18,3 +18,6 @@ class Dice:
 
     def getDiceNumber(self):
         return self.__number
+
+    def setDiceKinds(self, diceKinds):
+        self.__diceKinds = diceKinds
