@@ -16,6 +16,9 @@ class Player:
     def addDiceId(self, diceId):
         self.__diceIdList.append(diceId)
 
+    def getDiceIdList(self):
+        return self.__diceIdList
+
 # Player
 # CashItem
 # Order -> Player, CashItem X

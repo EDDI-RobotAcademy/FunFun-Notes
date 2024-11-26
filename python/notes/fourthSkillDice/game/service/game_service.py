@@ -8,6 +8,10 @@ class GameService(ABC):
         pass
 
     @abstractmethod
+    def printCurrentStatus(self):
+        pass
+
+    @abstractmethod
     def rollFirstDice(self):
         pass
 
