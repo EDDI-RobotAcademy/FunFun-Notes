@@ -61,6 +61,34 @@ class GameServiceImpl(GameService):
         for player in self.__playerRepository.acquirePlayerList():
             print(f"{player}")
 
+    def __checkSkillAppliedPlayerIndexList(self):
+        gamePlayerCount = self.__gameRepository.getGamePlayerCount()
+        skillAppliedPlayerList = []
+
+        for playerIndex in range(gamePlayerCount):
+            indexedPlayer = self.__playerRepository.findById(playerIndex + 1)
+            indexedPlayerDiceIdList = indexedPlayer.getDiceIdList()
+            indexedPlayerFirstDiceId = indexedPlayerDiceIdList[0]
+
+            indexedPlayerDice = self.__diceRepository.findById(indexedPlayerFirstDiceId)
+            if indexedPlayerDice.getDiceNumber() % 2 == 0:
+                skillAppliedPlayerList.append(playerIndex + 1)
+
+        return skillAppliedPlayerList
+
+    def rollSecondDice(self):
+        skillAppliedPlayerIndexList = self.__checkSkillAppliedPlayerIndexList()
+        skillAppliedPlayerLength = len(skillAppliedPlayerIndexList)
+
+        for index in range(skillAppliedPlayerLength):
+            secondDiceId = self.__diceRepository.rollDice()
+            skillAppliedPlayerIndex = skillAppliedPlayerIndexList[index]
+            skillAppliedPlayer = self.__playerRepository.findById(skillAppliedPlayerIndex)
+            skillAppliedPlayer.addDiceId(secondDiceId)
+            print(f"skillAppliedPlayer: {skillAppliedPlayer}")
+
+            secondDice = self.__diceRepository.findById(secondDiceId)
+            print(f"secondDice: {secondDice}")
 
     def checkWinner(self):
         print("checkWinner() called!")

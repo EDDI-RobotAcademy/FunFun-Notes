@@ -39,6 +39,7 @@ class DiceRepositoryImpl(DiceRepository):
         dice = Dice(diceNumber)
         #diec에 Dice클래스에서 diceNumber를 대입한 결과 대입
         self.__dicelist.append(dice)
+        return dice.getId()
         #결과들 리스트에 추가
 
     #주사위 더하기 구현
