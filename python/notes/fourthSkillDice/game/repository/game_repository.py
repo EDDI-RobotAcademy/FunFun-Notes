@@ -16,5 +16,5 @@ class GameRepository(ABC):
         pass
 
     @abstractmethod
-    def applySkill(self, secondDice):
+    def deletePlayer(self, tagetPlayerId):
         pass

@@ -1,3 +1,4 @@
+from dice.entity.dice_skill import DiceSkill
 from game.entity.game import Game
 from game.repository.game_repository import GameRepository
 
@@ -42,8 +43,11 @@ class GameRepositoryImpl(GameRepository):
     def updatePlayerDiceGameMap(self, skillAppliedPlayerIndexList, secondDiceIdList):
         self.__game.updatePlayerIndexListToMap(skillAppliedPlayerIndexList, secondDiceIdList)
 
-    def applySkill(self, secondDice):
-        pass
+    def deletePlayer(self, tagetPlayerId):
+        self.__game.deleteTargetPlayerId(tagetPlayerId)
 
     def getGamePlayerCount(self):
         return self.__game.getPlayerCount()
+
+    def getGame(self):
+        return self.__game
