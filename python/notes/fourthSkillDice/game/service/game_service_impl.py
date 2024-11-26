@@ -39,6 +39,20 @@ class GameServiceImpl(GameService):
 
         self.__createGamePlayer()
 
+    def printCurrentStatus(self):
+        game = self.__gameRepository.getGame()
+        playerDiceGameMap = game.getPlayerDiceGameMap()
+        playerDiceNumberList = []
+
+        for playerId, diceIdList in playerDiceGameMap.items():
+            player = self.__playerRepository.findById(playerId)
+            for diceId in diceIdList:
+                dice = self.__diceRepository.findById(diceId)
+                playerDiceNumberList.append(dice.getDiceNumber())
+
+            print(f"플레이어 정보: {player}, 주사위 눈금 리스트: {playerDiceNumberList}")
+            playerDiceNumberList.clear()
+
     def rollFirstDice(self):
         gamePlayerCount = self.__gameRepository.getGamePlayerCount()
         playerIndexList = []
