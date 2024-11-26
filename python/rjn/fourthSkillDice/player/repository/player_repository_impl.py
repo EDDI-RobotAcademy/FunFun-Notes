@@ -9,6 +9,8 @@ class PlayerRepositoryImpl(PlayerRepository):
 
     __playerList = []
 
+    MIN = 0
+    MAX = 2
 
     def __new__(cls):
         if cls.__instance is None:
