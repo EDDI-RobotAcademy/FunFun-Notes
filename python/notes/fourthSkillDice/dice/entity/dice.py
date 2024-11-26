@@ -21,3 +21,6 @@ class Dice:
 
     def setDiceKinds(self, diceKinds):
         self.__diceKinds = diceKinds
+
+    def setDiceNumber(self, diceNumber):
+        self.__number = diceNumber
