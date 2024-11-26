@@ -33,6 +33,13 @@ class DiceRepositoryImpl(DiceRepository):
 
         return dice.getId()
 
+    def findById(self, diceId):
+        for dice in self.__diceList:
+            if dice.getId() == diceId:
+                return dice
+
+        return None
+
     def acquireDiceList(self):
         return self.__diceList
 
