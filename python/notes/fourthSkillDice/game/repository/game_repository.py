@@ -6,3 +6,15 @@ class GameRepository(ABC):
     @abstractmethod
     def create(self):
         pass
+
+    @abstractmethod
+    def setPlayerIndexListToMap(self, playerIndexList, diceIdList):
+        pass
+
+    @abstractmethod
+    def updatePlayerDiceGameMap(self, skillAppliedPlayerIndexList, secondDiceIdList):
+        pass
+
+    @abstractmethod
+    def applySkill(self, secondDice):
+        pass

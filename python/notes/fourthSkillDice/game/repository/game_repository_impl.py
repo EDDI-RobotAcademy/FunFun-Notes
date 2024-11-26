@@ -36,5 +36,14 @@ class GameRepositoryImpl(GameRepository):
             except ValueError:
                 print("플레이 인원 수를 숫자로 입력해주세요!")
 
+    def setPlayerIndexListToMap(self, playerIndexList, diceIdList):
+        self.__game.setPlayerIndexListToMap(playerIndexList, diceIdList)
+
+    def updatePlayerDiceGameMap(self, skillAppliedPlayerIndexList, secondDiceIdList):
+        self.__game.updatePlayerIndexListToMap(skillAppliedPlayerIndexList, secondDiceIdList)
+
+    def applySkill(self, secondDice):
+        pass
+
     def getGamePlayerCount(self):
         return self.__game.getPlayerCount()
