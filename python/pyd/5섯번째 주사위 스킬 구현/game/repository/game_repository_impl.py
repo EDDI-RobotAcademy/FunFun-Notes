@@ -1,3 +1,4 @@
+from dice.entity.dice_skill import DiceSkill
 from game.entity.game import Game
 from game.repository.game_repository import GameRepository
 
@@ -36,5 +37,17 @@ class GameRepositoryImpl(GameRepository):
             except ValueError:
                 print("플레이 인원 수를 숫자로 입력해주세요!")
 
+    def setPlayerIndexListToMap(self, playerIndexList, diceIdList):
+        self.__game.setPlayerIndexListToMap(playerIndexList, diceIdList)
+
+    def updatePlayerDiceGameMap(self, skillAppliedPlayerIndexList, secondDiceIdList):
+        self.__game.updatePlayerIndexListToMap(skillAppliedPlayerIndexList, secondDiceIdList)
+
+    def deletePlayer(self, tagetPlayerId):
+        self.__game.deleteTargetPlayerId(tagetPlayerId)
+
     def getGamePlayerCount(self):
         return self.__game.getPlayerCount()
+
+    def getGame(self):
+        return self.__game
