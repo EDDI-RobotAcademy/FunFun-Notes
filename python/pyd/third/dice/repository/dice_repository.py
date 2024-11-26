@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 
-class GameRepository(ABC):
+class DiceRepository(ABC):
 
     @abstractmethod
-    def create(self):
+    def rollDice(self):
         pass
