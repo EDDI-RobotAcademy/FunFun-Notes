@@ -6,3 +6,7 @@ class PlayerRepository(ABC):
     def createName(self):
         pass
     
+    @abstractmethod
+    def getAllPlayers(self):
+        pass
+    

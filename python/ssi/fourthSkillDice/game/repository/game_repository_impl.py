@@ -22,11 +22,16 @@ class GameRepositoryImpl(GameRepository):
         return cls.__instance
 
     def create(self, playerCount):
-        game = Game(playerCount)
-        self.__game = game
+        # Game 객체 생성 및 초기화
+        self.__game = Game(playerCount)
+        # Game 객체 내부의 playerDiceGameMap을 초기화
+        self.__game.__playerDiceGameMap =  {playerId: [] for playerId in range(1, playerCount + 1)}
 
     def setPlayerIndexListToMap(self, playerIndexList, diceIdList):
         self.__game.setPlayerIndexListToMap(playerIndexList, diceIdList)
+
+    def getPlayerDiceGameMap(self):
+        return self.__playerDiceGameMap
 
     def updatePlayerDiceGameMap(self, skillAppliedPlayerIndexList, secondDiceIdList):
         self.__game.updatePlayerIndexListToMap(skillAppliedPlayerIndexList, secondDiceIdList)
@@ -39,4 +44,3 @@ class GameRepositoryImpl(GameRepository):
 
     def getGame(self):
         return self.__game
-        
