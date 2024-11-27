@@ -21,31 +21,23 @@ class PlayerRepositoryImpl(PlayerRepository):
         return cls.__instance
     #싱글톤 생성
 
-    #두명의 선수 이름 받기
-    def Sign(self):
-        a=int(input("몇명이세요: "))
-        #입력받은 만큼 선수인원 생성
+    #선수 이름 받기
+    def __Sign(self):
+        userName=input("INSERT YOUR NAME:")
+        return userName
 
-
-        #인원만큼 for돌리기
-        for i in range(a):
-            player=input("Insert your name:")
-            #선수이름 받기
-            self.name=player
-            #player에 선수이름 넣기
-            people=Player(player)
-            #people에 Player클래스에 player값 넣은 결과 넣기
-            self.__team.append(people)
-            #team리스트에 결과 넣기
+    def createName(self):
+        user=self.__Sign()
+        player=Player(user)
+        self.__team.append(player)
 
     #리스트값 출력
     def acquireTeam(self):
         return self.__team
 
+    #플레이어 Id찾기
     def findId(self,id):
         for player in self.__team:
             if player.getId()==id:
                 return player
         return None
-
-
