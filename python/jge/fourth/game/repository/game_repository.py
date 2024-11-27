@@ -1,11 +1,20 @@
 from abc import ABC, abstractmethod
 
+
 class GameRepository(ABC):
 
     @abstractmethod
-    def start(self, playerNameList, eachPlayerDiceNumber):
+    def create(self):
         pass
 
     @abstractmethod
-    def checkWinner(self):
+    def setPlayerIndexListToMap(self, playerIndexList, diceIdList):
+        pass
+
+    @abstractmethod
+    def updatePlayerDiceGameMap(self, skillAppliedPlayerIndexList, secondDiceIdList):
+        pass
+
+    @abstractmethod
+    def deletePlayer(self, tagetPlayerId):
         pass
