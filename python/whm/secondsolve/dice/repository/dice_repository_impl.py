@@ -39,17 +39,17 @@ class DiceRepositoryImpl(DiceRepository):
         dice = Dice(diceNumber)
         #diec에 Dice클래스에서 diceNumber를 대입한 결과 대입
         self.__dicelist.append(dice)
+        #dicelsit에 값 추가
         return dice.getId()
-        #결과들 리스트에 추가
+        #dice에서 id값 출력
 
-    #주사위 더하기 구현
-    def sumDiceNumber(self):
-        sumNumber=0
-
+    def findById(self,diceId):
+        #dicelist값 나열
         for dice in self.__dicelist:
-            number=dice.getDiceNumber()
-            sumNumber+=number
-        return sumNumber
+            #그중 diceId가 같다면
+            if dice.getId()==diceId:
+                #결과 출력
+                return dice
 
     #리스트에 굴린결과 출력
     def acquireDiceList(self):

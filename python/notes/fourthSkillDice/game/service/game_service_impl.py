@@ -167,6 +167,7 @@ class GameServiceImpl(GameService):
         deathShotTargetPlayerId = int(input('누구를 저격하시겠습니까? '))
         self.__gameRepository.deletePlayer(deathShotTargetPlayerId)
 
+    # 스킬을 적용해봅시다
     def __applySkill(self, playerIndex, secondDice):
         secondDiceNumber = secondDice.getDiceNumber()
         print(f"secondDiceNumber: {secondDiceNumber}")

@@ -8,3 +8,6 @@ class DiceRepository(ABC):
     def rollDice(self):
         pass
     #동작 하지 않는 함수 정의
+    @abstractmethod
+    def findById(self,diceId):
+        pass
