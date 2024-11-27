@@ -167,6 +167,7 @@ class GameServiceImpl(GameService):
         deathShotTargetPlayerId = int(input('누구를 저격하시겠습니까? '))
         self.__gameRepository.deletePlayer(deathShotTargetPlayerId)
 
+    # 스킬을 적용해봅시다
     def __applySkill(self, playerIndex, secondDice):
         secondDiceNumber = secondDice.getDiceNumber()
         print(f"secondDiceNumber: {secondDiceNumber}")
@@ -212,6 +213,14 @@ class GameServiceImpl(GameService):
 
             playerDiceSum[playerId] = diceSum
 
-        winnerId = max(playerDiceSum, key=playerDiceSum.get)
+        maxDiceSum = max(playerDiceSum.values())
+        maxDicePlayerList = [playerId for playerId, diceSum in playerDiceSum.items()
+                             if diceSum == maxDiceSum]
+        
+        if len(maxDicePlayerList) > 1:
+            print("무승부")
+            return
+
+        winnerId = maxDicePlayerList[0]
         winner = self.__playerRepository.findById(winnerId)
         print(f"승자: {winner}")

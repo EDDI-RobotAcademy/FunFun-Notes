@@ -18,3 +18,7 @@ class GameRepository(ABC):
     @abstractmethod
     def deletePlayer(self, tagetPlayerId):
         pass
+
+    @abstractmethod
+    def create(self, playerCount):
+        pass
