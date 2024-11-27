@@ -83,7 +83,7 @@ class Card_Game:
         
         total_games = len(self.game_record)
         win_rate = (wins/total_games) * 100
-        print(f"\n총 게임수 : {total_games}, 승리 : {wins}, voqo : {total_games - wins}")
+        print(f"\n총 게임수 : {total_games}, 승리 : {wins}, 패배 : {total_games - wins}")
         print(f" 승률 : {win_rate:.2f}%")
 
         # print("카드 게임을 실행합니다!")
