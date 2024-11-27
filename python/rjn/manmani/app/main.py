@@ -1,18 +1,18 @@
-from inventory.repository.inventory_repository_impl import InventoryRepositoryImpl
+from mart.repository.mart_repository_impl import MartRepositoryImpl
 
-inventoryRepository = InventoryRepositoryImpl.getInstance()
+martRepository = MartRepositoryImpl.getInstance()
 
-inventoryRepository.addProduct("오렌지", 5)
-inventoryRepository.addProduct("사과", 3)
+martRepository.addProduct("오렌지", 5)
+martRepository.addProduct("사과", 3)
 
 
 print("현재 재고 상태:")
-for product in inventoryRepository.getAllProducts():
+for product in martRepository.getAllProducts():
     print(product)
 
+print("\n")
+print("사과 3개 구매")
+martRepository.reduceProduct("사과", 2)
 
-print("\n사과 3개 구매")
-inventoryRepository.reduceProduct("사과", 2)
-
-for product in inventoryRepository.getAllProducts():
+for product in martRepository.getAllProducts():
     print(product)

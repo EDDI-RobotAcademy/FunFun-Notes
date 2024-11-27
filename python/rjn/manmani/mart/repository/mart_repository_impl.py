@@ -1,7 +1,7 @@
-from inventory.entity.inventory import Inventory
-from inventory.repository.inventory_repository import InventoryRepository
+from mart.entity.products import Products
+from mart.repository.mart_repository import MartRepository
 
-class InventoryRepositoryImpl(InventoryRepository):
+class MartRepositoryImpl(MartRepository):
     __instance = None
 
     __products = {}
@@ -25,7 +25,7 @@ class InventoryRepositoryImpl(InventoryRepository):
         if name in self.__products:
             self.__products[name].count += count
         else:
-            self.__products[name] = Inventory(name, count)
+            self.__products[name] = Products(name, count)
 
 
     def reduceProduct(self, name: str, count: int):

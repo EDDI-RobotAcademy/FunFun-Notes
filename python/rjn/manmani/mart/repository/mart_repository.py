@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
 
-from inventory.entity.inventory import Inventory
+from mart.entity.products import Products
 
 
-class InventoryRepository(ABC):
+class MartRepository(ABC):
     @abstractmethod
-    def addProduct(self, namer, count):
+    def addProduct(self, name, count):
         pass
 
     @abstractmethod
@@ -13,5 +13,5 @@ class InventoryRepository(ABC):
         pass
 
     @abstractmethod
-    def getAllProducts(self) -> list[Inventory]:
+    def getAllProducts(self) -> list[Products]:
         pass
