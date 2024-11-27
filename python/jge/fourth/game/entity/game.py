@@ -1,19 +1,34 @@
 class Game:
-    # HashMap(Dictionary) 생성은 아래와 같이 '중괄호' 를 표기하여 생성할 수 있습니다.
-    # Key와 Value 형태로 구성되며 Key 값을 주면 Value가 나오게 됩니다.
-    __gameMap = {}
+    __playerDiceGameMap = {}   #굳이 새판마다 delete 번거롭게 하기보다 game에서 관리하는게 좀 더 효율적일 가능성?
 
-    def __init__(self, playerList, eachPlayerDiceList):
-        # 현재 케이스에서는 Key 값이 Player 객체
-        # Value 값은 Dice 객체인 상황입니다.
-        # zip의 경우엔 각각의 리스트를 하나로 묶어서 처리할 때 아래와 같은 형태로 사용합니다.
-        for player, eachPlayerDice in zip(playerList, eachPlayerDiceList):
+    def __init__(self, playerCount):
+        self.__playerCount = playerCount
 
-            # key 로 player를 선택하고 value로 eachPlayerDice를 선택
-            self.__gameMap[player] = eachPlayerDice
+    def getPlayerCount(self):
+        return self.__playerCount
 
-        print(f"self.gameMap: {self.__gameMap}")
+    def getPlayerDiceGameMap(self):
+        return self.__playerDiceGameMap
 
-    def getGameMap(self):
-        return self.__gameMap
+    def setPlayerIndexListToMap(self, playerIndexList, diceIdList):
+        self.__playerDiceGameMap = { index: [diceId] for index, diceId in zip(playerIndexList, diceIdList) }
+        print(f"self.__playerDiceGameMap: {self.__playerDiceGameMap}")
+
+    def updatePlayerIndexListToMap(self, playerIndexList, diceIdList):
+        for index, diceId in zip(playerIndexList, diceIdList):
+            if index in self.__playerDiceGameMap:
+                self.__playerDiceGameMap[index].append(diceId)
+                continue
+
+            self.__playerDiceGameMap[index] = [diceId]
+
+        print(f"self.__playerDiceGameMap: {self.__playerDiceGameMap}")
+
+    def deleteTargetPlayerId(self, targetPlayerId):
+        if targetPlayerId in self.__playerDiceGameMap:
+            # Map에서 특정 쌍 완전히 제거
+            # 정확히는 targetPlayerId를 key로 사용하는 정보를 완전히 제거함
+            del self.__playerDiceGameMap[targetPlayerId]
+
+        print(f"저격 이후 self.__playerDiceGameMap: {self.__playerDiceGameMap}")
 

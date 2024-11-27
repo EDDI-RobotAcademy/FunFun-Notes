@@ -3,9 +3,13 @@ from abc import ABC, abstractmethod
 class GameRepository(ABC):
 
     @abstractmethod
-    def start(self,playerNameList,eachPlayerDiceList):
+    def setplayerIndexDiceGameMap(self,playerIndexLsit,diceIdList):
         pass
 
     @abstractmethod
-    def checkWinner(self):
+    def updatePlayerIndexListMap(self,skillAppliedPlayerIndexList,secondDiceIdList):
+        pass
+
+    @abstractmethod
+    def deleteTargetPlayerId(self,targetPlayerId):
         pass
