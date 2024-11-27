@@ -5,7 +5,7 @@ from game.repository.game_repository import GameRepository
 class GameRepositoryImpl(GameRepository):
     __instance = None
 
-    __gameList = []
+    __game = None
 
     def __new__(cls):
         if cls.__instance is None:
@@ -17,42 +17,44 @@ class GameRepositoryImpl(GameRepository):
     def getInstance(cls):
         if cls.__instance is None:
             cls.__instance = cls()
+
         return cls.__instance
 
-    def start(self, playerNameList, eachPlayerDiceList):
-        game = Game(playerNameList, eachPlayerDiceList)
-        self.__gameList.append(game)
+    def create(self):
+        while True:
+            try:
+                playerCount = int(input('몇 명이 플레이 하나요? '))
+                if playerCount <= 1:
+                    print("플레이어 숫자는 반드시 2명 이상이 필요합니다!")
+                    continue
 
-    def checkWinner(self):
-        game = self.__gameList[0]
-        gameMapInfo = game.getGameMap()
+                game = Game(playerCount)
+                self.__game = game
 
-        # Dictionary의 key 값 다 뽑기
-        gameMapKeyList = gameMapInfo.keys()
-        # Dictionary의 value 값 다 뽑기
-        gameMapValueList = gameMapInfo.values()
-        # Dictionary의 key, value 값 다 뽑기
-        keyValueList = list(gameMapInfo.items())
-        print(f"gameMapKeyList: {gameMapKeyList}")
-        print(f"gameMapValueList: {gameMapValueList}")
-        print(f"keyValueList: {keyValueList}")
+                break
 
-        for player, dice in gameMapInfo.items():
-            print(f"{player},dice: {dice.getDiceNumber()}")
+            except ValueError:
+                print("플레이 인원 수를 숫자로 입력해주세요!")
 
-        winner = max(gameMapInfo, key=lambda player: gameMapInfo[player].getDiceNumber())
-        # map에서 각각의 key, value 쌍을 순회하면서 아래의 if 조건에 만족하는 정보만 추려냄.
+    #플레이어 인덱스&주사위 ID 매핑
+    def setPlayerIndexListToMap(self, playerIndexList, diceIdList):
+        self.__game.setPlayerIndexListToMap(playerIndexList, diceIdList)
 
-        maxPlayerList = [player for player, dice in gameMapInfo.items()
-                         if dice.getDiceNumber() == gameMapInfo[winner].getDiceNumber()]
+    #스킬 가능한 플레이어 인덱스 & 두번째 주사위 ID 매핑
+    def updatePlayerDiceGameMap(self, skillAppliedPlayerIndexList, secondDiceIdList):
+        self.__game.updatePlayerIndexListToMap(skillAppliedPlayerIndexList, secondDiceIdList)
 
-        maxPlayerCount = len(maxPlayerList)
-        if maxPlayerCount > 1:
-            print("무승부입니다.")
-            return
+    #타겟 플레이어 삭제
+    def deletePlayer(self, tagetPlayerId):
+        self.__game.deleteTargetPlayerId(tagetPlayerId)
 
-        print(f"winner: {winner}")
+    #참여 플레이어 수 반환
+    def getGamePlayerCount(self):
+        return self.__game.getPlayerCount()
 
+    #현재 게임 객체 자체 반환
+    def getGame(self):
+        return self.__game
 
 
 
