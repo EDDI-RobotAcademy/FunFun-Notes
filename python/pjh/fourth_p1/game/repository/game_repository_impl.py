@@ -24,6 +24,23 @@ class GameRepositoryImpl(GameRepository):
         game = Game(playerNameList, eachPlayerDiceList)
         self.__gameList.append(game)
 
+# Firstskill = 숫자 4를 뽑은 플레이어가 상대를 저격하여 제거하는 스킬
+    def pickFirstskillUser(self):
+        game = self.__gameList[0]
+        firstSkillPlayerInfo = game.getGameMap()
+        firstSkillPlayerDiceNumber = firstSkillPlayerInfo.values()
+        firstskillPlayerName = firstSkillPlayerInfo.keys()
+        if firstSkillPlayerDiceNumber == 4:
+            print(f"{firstskillPlayerName}님의 스킬이 활성화되었습니다.")
+            return firstskillPlayerName
+        return None
+
+    def useFirstskill(self):
+        firstskillPlayer = self.pickFirstskillUser()
+        if firstskillPlayer:
+            userInput = input(f"저격할 플레이어를 입력해주세요:")
+            print(userInput)
+
 
     def checkWinner(self):
         game = self.__gameList[0]

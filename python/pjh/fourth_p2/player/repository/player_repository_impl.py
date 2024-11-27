@@ -7,7 +7,7 @@ from player.repository.player_repository import PlayerRepository
 class PlayerRepositoryImpl(PlayerRepository):
     __instance = None
 
-    __playerNameList = []
+    __playerList = []
 
 
     def __new__(cls):
@@ -31,8 +31,15 @@ class PlayerRepositoryImpl(PlayerRepository):
         userInputPlayerName = self.__processUserInput()
         player = Player(userInputPlayerName)
 
-        self.__playerNameList.append(player)
+        self.__playerList.append(player)
 
-    def acquirePlayerNameList(self):
-        return self.__playerNameList
+    def acquirePlayerList(self):
+        return self.__playerList
+
+    def findById(self, id):
+        for player in self.__playerList:
+            if player.getId() == id:
+                return player
+
+        return None
     

@@ -15,3 +15,12 @@ for player in playerList:
 gameService = GameServiceImpl.getInstance()
 gameService.startDiceGame()
 gameService.checkWinner()
+gameService.useFirstskill()
+
+# 주사위 굴림
+# > 스킬 주사위 활성화 (활성화 된 플레이어 리스트 만듦)
+# > 스킬 주사위가 활성화된 플레이어끼리 스킬 주사위 굴림
+# > 스킬1 발동
+# > 스킬2 발동
+# > 최종 결과 리스트업
+# > 승자 결정

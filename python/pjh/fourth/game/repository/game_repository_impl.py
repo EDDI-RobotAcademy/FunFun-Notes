@@ -21,6 +21,10 @@ class GameRepositoryImpl(GameRepository):
         return cls.__instance
 
     def start(self, playerNameList, eachPlayerDiceList):
+        # game 변수는 Game 클래스의 인스턴스(=딕셔너리(플레이어와 숫자의 순서쌍)를 의미함)
+        # 생성된 인스턴스(딕셔너리)들을 __gameList(리스트) 안에 집어넣는 과정임
+        # 즉, [game]
+        # game = {(player, dice), (player, dice), …. , } 형태.
         game = Game(playerNameList, eachPlayerDiceList)
         self.__gameList.append(game)
 

@@ -15,3 +15,4 @@ class Game:
 
     def getGameMap(self):
         return self.__gameMap
+

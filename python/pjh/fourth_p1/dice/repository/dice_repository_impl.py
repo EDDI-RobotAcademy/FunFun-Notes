@@ -2,6 +2,7 @@ import random
 
 from dice.entity.dice import Dice
 from dice.repository.dice_repository import DiceRepository
+from game.entity.game import Game
 
 
 class DiceRepositoryImpl(DiceRepository):
@@ -11,6 +12,7 @@ class DiceRepositoryImpl(DiceRepository):
     # 즉 이번 케이스는 rollDice()가 구동 될 때마다 diceList에 내용이 누적됨
     # 빈 리스트를 생성하는 문법입니다.
     __diceList = []
+    __skilldiceList = []
 
     MIN = 1
     MAX = 6
@@ -28,7 +30,7 @@ class DiceRepositoryImpl(DiceRepository):
 
         return cls.__instance
 
-    def rollDice(self):
+    def rollFirstDice(self):
         diceNumber = random.randint(self.MIN, self.MAX)
         dice = Dice(diceNumber)
         # append() 붙이기를 통해서
@@ -37,6 +39,20 @@ class DiceRepositoryImpl(DiceRepository):
 
         return self.__diceList
 
+
     # 누적된 전체 리스트를 가져오게 됨
     def acquireDiceList(self):
         return self.__diceList
+
+    def SkilldicePlayerList(self):
+        playerList = Game.getGameMap()
+        skilldicePlayer = playerList.values()
+        if skilldicePlayer %2 == 0:
+            return self.rollSkilldice()
+        return None
+
+    def rollSkilldice(self):
+        diceNumber = random.randint(self.MIN, self.MAX)
+        dice = Dice(diceNumber)
+        self.__skilldiceList.append(dice)
+

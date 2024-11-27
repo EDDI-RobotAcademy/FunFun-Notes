@@ -27,8 +27,8 @@ class GameServiceImpl(GameService):
 
     def startDiceGame(self):
         playerNameList = self.__playerRepository.acquirePlayerNameList()
-        self.__diceRepository.rollDice()
-        self.__diceRepository.rollDice()
+        self.__diceRepository.rollFirstDice()
+        self.__diceRepository.rollFirstDice()
         eachPlayerDiceList = self.__diceRepository.rollDice()
 
         self.__gameRepository.start(
