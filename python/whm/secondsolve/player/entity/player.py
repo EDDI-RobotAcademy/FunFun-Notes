@@ -1,4 +1,4 @@
-class Player():
+class Player:
     __counter=1
 
     def __init__(self, name):
