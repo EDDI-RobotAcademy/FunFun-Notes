@@ -1,4 +1,5 @@
 from console_ui.entity.console_ui_message_state import ConsoleUiMessageState
+from console_ui.handler.login_handler import LoginHandler
 from console_ui.handler.main_handler import MainHandler
 from console_ui.handler.register_handler import RegisterHandler
 from console_ui.repository.console_ui_repository import ConsoleUiRepository
@@ -15,6 +16,7 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
 
             cls.__instance.__handlerTable[ConsoleUiMessageState.MAIN.value] = MainHandler.processUserInputOnMain
             cls.__instance.__handlerTable[ConsoleUiMessageState.REGISTER.value] = RegisterHandler.processUserInputOnRegister
+            cls.__instance.__handlerTable[ConsoleUiMessageState.LOGIN.value] = LoginHandler.processUserInputOnLogin
 
             cls.__instance.__messageTable[ConsoleUiMessageState.MAIN.value] = \
                 ("일심칠십 게임(MAIN)에 오신 것을 환영합니다.\n"
@@ -23,6 +25,8 @@ class ConsoleUiRepositoryImpl(ConsoleUiRepository):
                  "3번을 누르면 게임이 종료됩니다.")
             cls.__instance.__messageTable[ConsoleUiMessageState.REGISTER.value] = \
                 ("회원 가입을 진행 합니다.")
+            cls.__instance.__messageTable[ConsoleUiMessageState.LOGIN.value] = \
+                ("로그인을 진행 합니다.")
             cls.__instance.__messageTable[ConsoleUiMessageState.LOBBY.value] = \
                 ("일삼칠십 게임 LOBBY에 진입하셨습니다.\n"
                  "1번을 누르면 게임이 시작됩니다.\n"

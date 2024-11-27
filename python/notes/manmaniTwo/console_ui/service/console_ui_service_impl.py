@@ -43,4 +43,18 @@ class ConsoleUiServiceImpl(ConsoleUiService):
 
             return mainState, 0
 
+        if currentState is ConsoleUiMessageState.LOGIN.value:
+            accountId, password = userInput
+            isSuccess = self.__accountRepository.login(accountId, password)
+
+            mainState = ConsoleUiMessageState.MAIN.value
+            self.__gameRepository.updateState(mainState)
+
+            if isSuccess is True:
+                print("회원 가입이 완료 되었습니다!")
+            else:
+                print("로그인에 실패했습니다!")
+
+            return mainState, 0
+
         return currentState, userInput

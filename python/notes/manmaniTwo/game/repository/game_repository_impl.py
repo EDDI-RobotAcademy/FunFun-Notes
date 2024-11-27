@@ -16,6 +16,7 @@ class GameRepositoryImpl(GameRepository):
             cls.__instance.__convertTable[GameState.MAIN.value] = {}
             cls.__instance.__convertTable[GameState.MAIN.value][0] = GameState.MAIN.value
             cls.__instance.__convertTable[GameState.MAIN.value][1] = GameState.REGISTER.value
+            cls.__instance.__convertTable[GameState.MAIN.value][2] = GameState.LOGIN.value
 
             cls.__game = Game()
 
