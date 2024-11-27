@@ -39,5 +39,8 @@ class InventoryRepositoryImpl(InventoryRepository):
         if product.count == 0:
             del self.__products[name]
 
-    def getAllProducts(self) -> list[Inventory]:
-        return list(self.__products.values())
+    def getAllProducts(self) :
+        productList = []
+        for product in self.__products.values():
+            productList.append(product)
+        return productList

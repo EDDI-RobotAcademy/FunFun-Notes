@@ -5,11 +5,11 @@ from inventory.entity.inventory import Inventory
 
 class InventoryRepository(ABC):
     @abstractmethod
-    def addProduct(self, name: str, count: int):
+    def addProduct(self, namer, count):
         pass
 
     @abstractmethod
-    def reduceProduct(self, name: str, count: int):
+    def reduceProduct(self, name, count):
         pass
 
     @abstractmethod
