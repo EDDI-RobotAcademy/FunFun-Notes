@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
 
-class DiceRepository(ABC):
+
+class MartService(ABC):
 
     @abstractmethod
-    def rollDice(self):
+    def loadFruit(self, fruitName, fruitCount):
         pass
 
     @abstractmethod
-    def findById(self, diceId):
+    def fruitMapList(self):
         pass
+

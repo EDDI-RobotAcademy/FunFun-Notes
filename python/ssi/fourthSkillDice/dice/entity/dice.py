@@ -18,9 +18,9 @@ class Dice:
 
     def getDiceNumber(self):
         return self.__number
+    
+    def setDiceNumber(self, number):
+        self.__number = number
 
     def setDiceKinds(self, diceKinds):
         self.__diceKinds = diceKinds
-
-    def setDiceNumber(self, diceNumber):
-        self.__number = diceNumber

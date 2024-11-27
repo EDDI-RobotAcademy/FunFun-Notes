@@ -12,6 +12,9 @@ class Player:
 
     def getId(self):
         return self.__id
+    
+    def getName(self):
+        return self.__playerName
 
     def addDiceId(self, diceId):
         self.__diceIdList.append(diceId)

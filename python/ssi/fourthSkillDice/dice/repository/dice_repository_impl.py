@@ -35,9 +35,10 @@ class DiceRepositoryImpl(DiceRepository):
 
     def findById(self, diceId):
         for dice in self.__diceList:
-            if dice.getId() == diceId:
+            if id(dice) == diceId:
                 return dice
-
+        # 디버깅 메시지 추가
+        print(f"Dice with ID {diceId}를 찾을 수 없습니다!")
         return None
 
     def acquireDiceList(self):

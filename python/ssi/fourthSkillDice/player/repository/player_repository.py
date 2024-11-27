@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 
-class DiceRepository(ABC):
+class PlayerRepository(ABC):
 
     @abstractmethod
-    def rollDice(self):
+    def createName(self):
         pass
-
+    
     @abstractmethod
-    def findById(self, diceId):
+    def getAllPlayers(self):
         pass
+    
