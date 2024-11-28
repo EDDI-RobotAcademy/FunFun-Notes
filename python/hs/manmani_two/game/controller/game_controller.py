@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
-class GameRepository(ABC):
+
+class GameController(ABC):
 
     @abstractmethod
-    def start(self):
+    def launchGame(self):
         pass

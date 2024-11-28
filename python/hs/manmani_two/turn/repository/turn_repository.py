@@ -1,14 +1,12 @@
 from abc import ABC, abstractmethod
 
+
 class TurnRepository(ABC):
 
     @abstractmethod
-    def selectTurn(self):
+    def create(self):
         pass
 
     @abstractmethod
-    def createTrun(self):
-        pass
-    @abstractmethod
-    def addTurn(self):
+    def addTurnCount(self):
         pass

@@ -29,10 +29,20 @@ class GameServiceImpl(GameService):
     def startGame(self):
         playCount=4
         self.__gameRepository.start()
+        self.__turnRepository.createTrun()
         while 0<playCount<=4:
+            self.__turnRepository.addTurn()
             self.__turnRepository.selectTurn()
-            self.__cardRepository.selectCard()
+            checkNumber=self.__cardRepository.selectCard()
             playCount-=1
+
+            if checkNumber==3 or checkNumber==7:
+                print("you Win!")
+                break
+
+            elif checkNumber==4:
+                print("you Lose...")
+                break
 
             if playCount==0:
                 print("you lose")
