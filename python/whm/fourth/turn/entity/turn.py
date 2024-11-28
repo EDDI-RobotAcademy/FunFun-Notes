@@ -1,7 +1,7 @@
 class Turn:
 
-    def __init__(self,number):
-        self.__number = number
+    def __init__(self):
+        self.__number = 0
 
 
     def __str__(self):
@@ -9,3 +9,6 @@ class Turn:
 
     def getTurn(self):
         return self.__number
+
+    def addTurn(self):
+        self.__number+=1

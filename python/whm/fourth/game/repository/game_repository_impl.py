@@ -26,3 +26,5 @@ class GameRepositoryImpl(GameRepository):
                 break
             else:
                 print("개소리야")
+
+
