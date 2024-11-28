@@ -19,24 +19,18 @@ class ItemRepositoryImpl(ItemRepository):
 
         return cls.__instance
 
-    def createItem(self, itemname, itemamount):
-        self.itemName = itemname
-        self.itemAmount = itemamount
-
+    def createItem(self):
+        self.__itemMap = {}
+        self.itemName = input("입고할 상품을 입력하세요: ")
+        self.itemAmount = int(input("입고할 수량을 입력하세요: "))
         self.__itemMap[self.itemName] = self.itemAmount
-
-        return self.__itemMap
 
     def acquireItemMap(self):
         return self.__itemMap
 
-    def itemlist(self):
-        pass
-
 # itemList = ItemRepositoryImpl.getInstance()
-# itemList.createItem("오렌지", 5)
-# itemList.createItem("사과", 3)
+# itemList.createItem()
+#
 # print(itemList.acquireItemMap())
-
 
 

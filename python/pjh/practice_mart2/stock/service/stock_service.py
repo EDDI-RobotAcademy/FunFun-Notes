@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 
-class PayService(ABC):
+class StockService(ABC):
 
     @abstractmethod
-    def createBillList(self):
+    def addItem(self):
         pass

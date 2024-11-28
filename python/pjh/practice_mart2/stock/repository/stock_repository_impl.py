@@ -1,10 +1,10 @@
-from stock.repository.stock_repository import BuyerRepository
+from stock.repository.stock_repository import StockRepository
 
 
-class BuyerRepositoryImpl(BuyerRepository):
+class StockRepositoryImpl(StockRepository):
     __instance = None
 
-    __chosenItemMap = {}
+    __billList = []
 
     def __new__(cls):
         if cls.__instance is None:
@@ -19,25 +19,7 @@ class BuyerRepositoryImpl(BuyerRepository):
 
         return cls.__instance
 
-    def chooseItem(self, itemName, itemAmount):
-        self.itemName = itemName
-        self.itemAmount = itemAmount
-
-        self.__chosenItemMap[self.itemName] = self.itemAmount
-
-        return self.__chosenItemMap
-
-    def acquireBuyerMap(self):
-        return self.__chosenItemMap
-
-    def buyerlist(self):
-        pass
-
-# buyerList = BuyerRepositoryImpl.getInstance()
-# buyerList.chooseItem("오렌지", 3)
-# buyerList.chooseItem("사과", 3)
-#
-# print(buyerList.acquireBuyerMap())
-
+    def asdf(self):
+        print()
 
 
