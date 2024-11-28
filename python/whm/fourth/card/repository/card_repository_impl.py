@@ -28,7 +28,9 @@ class CardRepositoryImpl(CardRepository):
                 self.__cardList.remove(card)
                 print(myCard)
                 print(self.__cardList)
-                break
+
+                return myCard.getNumber()
+
             else:
                 print("yes말고는 없습니다")
                 continue

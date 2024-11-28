@@ -3,6 +3,8 @@ from turn.entity.turn import Turn
 
 class TurnRepositoryImpl(TurnRepository):
     __instance=None
+    __turn=None
+
     def __new__(cls):
         if cls.__instance is None:
             cls.__instance=super().__new__(cls)
@@ -17,9 +19,17 @@ class TurnRepositoryImpl(TurnRepository):
         return cls.__instance
     #싱글톤
 
+    def getTurn(self):
+        return self.__turn
+
+    def createTrun(self):
+        self.__turn=Turn()
+
+    def addTurn(self):
+        self.__turn.addTurn()
+
+
     def selectTurn(self):
-        myTurn=1
-        now=Turn(myTurn)
-        print(now)
-        myTurn+=1
+        print(self.__turn)
+
 
