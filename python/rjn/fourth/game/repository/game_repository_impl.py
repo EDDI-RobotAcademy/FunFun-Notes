@@ -26,17 +26,7 @@ class GameRepositoryImpl(GameRepository):
 
     def checkWinner(self):
         game = self.__gameList[0]
-        gameMapInfo = game.getGameMap()
-
-        # Dictionary의 key 값 다 뽑기
-        gameMapKeyList = gameMapInfo.keys()
-        # Dictionary의 value 값 다 뽑기
-        gameMapValueList = gameMapInfo.values()
-        # Dictionary의 key, value 값 다 뽑기
-        keyValueList = list(gameMapInfo.items())
-        print(f"gameMapKeyList: {gameMapKeyList}")
-        print(f"gameMapValueList: {gameMapValueList}")
-        print(f"keyValueList: {keyValueList}")
+        gameMapInfo = game.getGameMap() #key, value값 모여있는 딕셔너리;
 
         for player, dice in gameMapInfo.items():
             print(f"{player}, dice: {dice.getDiceNumber()}")
