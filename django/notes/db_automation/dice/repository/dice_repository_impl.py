@@ -38,3 +38,6 @@ class DiceRepositoryImpl(DiceRepository):
 
     def findById(self, id):
         return Dice.objects.get(id=id)
+
+    def findAll(self):
+        return Dice.objects.all()
