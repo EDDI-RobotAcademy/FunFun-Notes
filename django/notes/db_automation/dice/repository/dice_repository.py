@@ -10,3 +10,7 @@ class DiceRepository(ABC):
     @abstractmethod
     def findById(self, id):
         pass
+
+    @abstractmethod
+    def findAll(self):
+        pass
