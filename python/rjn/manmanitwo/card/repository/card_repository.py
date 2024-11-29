@@ -5,3 +5,4 @@ class CardRepository(ABC):
     @abstractmethod
     def pickCard(self):
         pass
+
