@@ -9,7 +9,7 @@ from dice.service.dice_service_impl import DiceServiceImpl
 class DiceController(viewsets.ViewSet):
     diceService = DiceServiceImpl.getInstance()
 
-    def requestRollDice(self):
+    def requestRollDice(self, request):
         dice = self.diceService.rollDice()
 
         return Response(dice, status=status.HTTP_200_OK)
