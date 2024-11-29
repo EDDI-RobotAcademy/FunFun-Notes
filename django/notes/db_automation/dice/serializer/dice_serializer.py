@@ -7,3 +7,4 @@ class DiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dice
         fields = ['id', 'number']
+        # fields = ['number']
