@@ -7,5 +7,13 @@ class GameRepository(ABC):
         pass
 
     @abstractmethod
+    def rollFirstDice(self):
+        pass
+
+    @abstractmethod
+    def rollSecondDice(self):
+        pass
+
+    @abstractmethod
     def checkWinner(self):
         pass
