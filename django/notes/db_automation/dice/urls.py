@@ -17,4 +17,7 @@ urlpatterns = [
     path('request-find-dice',
          DiceController.as_view({ 'get': 'requestFindDice' }),
          name='주사위 id로 찾기'),
+    path('request-every-dice',
+         DiceController.as_view({ 'get': 'requestEveryDice' }),
+         name='주사위 전체 정보 획득'),
 ]
