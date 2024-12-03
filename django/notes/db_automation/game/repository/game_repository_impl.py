@@ -18,11 +18,18 @@ class GameRepositoryImpl(GameRepository):
 
         return cls.__instance
 
-    def create(self):
-        game = Game()
+    def create(self, playerCount):
+        game = Game(playerCount=playerCount)
         game.save()
 
         return game
 
     def findById(self, id):
         return Game.objects.get(id=id)
+
+    def update(self, game, gameState):
+        game.setState(gameState)
+        game.save()
+
+        return game
+

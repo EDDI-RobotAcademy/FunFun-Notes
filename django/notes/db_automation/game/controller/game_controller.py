@@ -8,14 +8,24 @@ class GameController(viewsets.ViewSet):
     gameService = GameServiceImpl.getInstance()
 
     def requestCreateGame(self, request):
-        game = self.gameService.createGame()
+        requestGetData = request.GET
+        playerCount = requestGetData.get('playerCount')
+        game = self.gameService.createGame(playerCount)
 
         return Response(game, status=status.HTTP_200_OK)
 
-    def requestCheckWinner(self, request):
+    def requestCalculateWinner(self, request):
         requestGetData = request.GET
         gameId = requestGetData.get('gameId')
 
-        winnerInfo = self.gameService.checkWinner(gameId)
+        info = self.gameService.calculateWinner(gameId)
 
-        return Response(None, status=status.HTTP_200_OK)
+        return Response(info, status=status.HTTP_200_OK)
+
+    def requestGameInfo(self, request):
+        requestGetData = request.GET
+        gameId = requestGetData.get('gameId')
+
+        info = self.gameService.requestInfo(gameId)
+
+        return Response(info, status=status.HTTP_200_OK)

@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class DiceRepository(ABC):
+class GameWinnerInfoRepository(ABC):
 
     @abstractmethod
     def create(self, game, player):
@@ -12,13 +12,5 @@ class DiceRepository(ABC):
         pass
 
     @abstractmethod
-    def findByGameId(self, gameId):
-        pass
-
-    @abstractmethod
-    def findByGameAndPlayer(self, game, player):
-        pass
-
-    @abstractmethod
-    def findAll(self):
+    def findByGame(self, game):
         pass

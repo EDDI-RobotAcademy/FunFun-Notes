@@ -11,7 +11,10 @@ urlpatterns = [
     path('request-create-game',
          GameController.as_view({ 'get': 'requestCreateGame' }),
          name='게임 생성'),
-    path('request-check-winner',
-         GameController.as_view({ 'get': 'requestCheckWinner' }),
+    path('request-calculate-winner',
+         GameController.as_view({ 'get': 'requestCalculateWinner' }),
          name='게임 승자 판정'),
+    path('request-game-info',
+         GameController.as_view({ 'get': 'requestGameInfo' }),
+         name='게임 정보 요청'),
 ]
