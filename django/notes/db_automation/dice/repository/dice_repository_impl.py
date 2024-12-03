@@ -25,19 +25,18 @@ class DiceRepositoryImpl(DiceRepository):
 
         return cls.__instance
 
-    def create(self):
+    def create(self, game, player):
         randomNumber = random.randint(self.MIN, self.MAX)
-        dice = Dice(number=randomNumber)
+        dice = Dice(number=randomNumber, game=game, player=player)
         dice.save()
 
-        # return dice
-        # Web Page에서 주고 받는 데이터는 전부 JSON 형식을 따름
-        # JSON 형식은 기본적으로 Key, Value 형태의 Dictionary 구성임
-        # 그러므로 model to dict 는 엔티티를 Dictionary로 변경하여 리턴함을 의미
         return model_to_dict(dice)
 
     def findById(self, id):
         return Dice.objects.get(id=id)
+
+    def findByGameId(self, game):
+        return Dice.objects.filter(game=game)
 
     def findAll(self):
         return Dice.objects.all()
