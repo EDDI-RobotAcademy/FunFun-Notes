@@ -1,16 +1,16 @@
 from abc import ABC, abstractmethod
 
 
-class DiceService(ABC):
+class GameRepository(ABC):
 
     @abstractmethod
-    def rollDice(self, gameId, playerId):
+    def create(self, playerCount):
         pass
 
     @abstractmethod
-    def findDice(self, requestDiceId):
+    def findById(self, id):
         pass
 
     @abstractmethod
-    def findEveryDice(self):
+    def update(self, game, gameState):
         pass
