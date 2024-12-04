@@ -33,11 +33,25 @@ class GameServiceImpl(GameService):
 
     def startDiceGame(self):
         print("startDiceGame() called!")
-        playerNameList = self.__playerRepository.acquirePlayerNameList()  # PlayerNameList를 가져옴
-        self.__diceRepository.rollDice()
-        eachPlayerDiceList = self.__diceRepository.rollDice()
 
-        self.__gameRepository.start(playerNameList, eachPlayerDiceList)
+        #playerNameList = self.__playerRepository.acquirePlayerNameList()  # PlayerNameList를 가져옴
+        self.__diceRepository.rollDice()
+        self.__diceRepository.rollDice()
+        #eachPlayerDiceList = self.__diceRepository.rollDice()
+        self.__diceRepository.rollDice()
+
+        #self.__gameRepository.start(playerNameList, eachPlayerDiceList)
+
+    def rollFirstRollDice(self):
+        print("First Try!")
+        gamePlayerCount = self.__gameRepository.getGame
+        self.__gameRepository.rollFirstDice()
+
+
+    def rollSecondDice(self):
+        print("Second Try for one who get even number!")
+        self.__gameRepository.rollSecondDice()
+
 
     def checkWinner(self):
         print("checkWinner() called!")

@@ -2,8 +2,8 @@ from player.repository.player_repository_impl import PlayerRepositoryImpl
 from game.service.game_service_impl import GameServiceImpl
 
 playerRepository = PlayerRepositoryImpl.getInstance()
-playerRepository.createName()
-playerRepository.createName()
+playerRepository.createName()  # player 1
+playerRepository.createName()  # player 2
 
 playerList = playerRepository.acquirePlayerNameList()
 

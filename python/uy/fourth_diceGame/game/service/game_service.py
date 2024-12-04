@@ -1,9 +1,10 @@
 from abc import ABC, abstractmethod
 
-class GameRepository(ABC):
+
+class GameService(ABC):
 
     @abstractmethod
-    def start(self, playerNameList, eachPlayerDiceList):
+    def startDiceGame(self):
         pass
 
     @abstractmethod
