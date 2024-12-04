@@ -52,7 +52,9 @@ class gameRecordController(viewsets.ViewSet):
         )
 
         return Response({
+            
             "message": "Game record saved successfully",
+
             "game_id": next_game_id,
             "player1": {
                 "dice_values": player1_dice,
@@ -70,7 +72,7 @@ class gameRecordController(viewsets.ViewSet):
     def get_records_by_gameId(self, request):
         # game_id 파라미터 추출
         game_id = request.GET.get('game_id')
-        
+
         if not game_id:
             # game_id가 없으면 에러 메시지 반환
             return Response({"error": "game_id is required"}, status=status.HTTP_400_BAD_REQUEST)

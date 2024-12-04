@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'dice',
     'dice_game',
+    'car_ui',
 ]
 
 MIDDLEWARE = [

@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('dice/', include("dice.urls")),
     path('dice_game/', include("dice_game.urls")),
+    # path('car_ui/', include ("car_ui.urls")),
 ]

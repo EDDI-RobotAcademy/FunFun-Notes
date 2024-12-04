@@ -23,7 +23,7 @@ class GameServiceImpl(GameServiceRepository):
 
     def rollDice(self):
         rolled_values = []
-        for i in range(1,5):
+        for _ in range(4):
             dice_data = self.__diceRepository.rollDice()
             rolled_values.append(dice_data)
         return rolled_values
@@ -50,3 +50,4 @@ class GameServiceImpl(GameServiceRepository):
         if lastSumNumber is None:
             print("lastsumnumber is blank")
         return lastSumNumber
+
