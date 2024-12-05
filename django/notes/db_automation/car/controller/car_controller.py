@@ -23,7 +23,7 @@ class CarController(viewsets.ViewSet):
             return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def requestModifyCarText(self, request):
-        isSuccess = self.__carService.modifyCarText()
+        isSuccess = self.__carService.requestModifyCarText()
 
         if isSuccess:
             return JsonResponse({'success': True})
