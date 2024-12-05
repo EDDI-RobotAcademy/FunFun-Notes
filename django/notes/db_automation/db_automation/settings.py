@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'player',
     'dice',
     'car',
+    'car_registration',
 ]
 
 MIDDLEWARE = [

@@ -3,5 +3,5 @@ import pandas as pd
 
 class CarRepository(ABC):
     @abstractmethod
-    async def fetchAll(self) -> pd.DataFrame:
+    def fetchAll(self) -> pd.DataFrame:
         pass
