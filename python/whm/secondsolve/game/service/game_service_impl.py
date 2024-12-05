@@ -70,8 +70,7 @@ class GameServiceImpl(GameService):
             #addDiceId()를 통해 플레이어마다 diceId를 획득한다
             print(f"{indexedPlayer},diceNumber:{num}")
 
-        for player in self.__playerRepository.acquireTeam():
-            print(f"{player}")
+
 
     #짝수가 있는지 판별하는 함수
     def __checkSkillAppliedPlayerList(self):
