@@ -17,4 +17,3 @@ class Dice(models.Model):
         db_table="dice"
 
 
-
