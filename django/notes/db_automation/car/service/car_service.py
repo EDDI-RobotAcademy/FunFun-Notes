@@ -10,3 +10,7 @@ class CarService(ABC):
     @abstractmethod
     def carList(self):
         pass
+
+    @abstractmethod
+    def requestModifyCarText(self):
+        pass
