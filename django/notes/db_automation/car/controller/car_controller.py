@@ -16,6 +16,7 @@ class CarController(viewsets.ViewSet):
     def requestCarList(self, request):
         try:
             carListDataFrame = self.__carService.carList()
+            print(f"carListDataFrame: {carListDataFrame}")
 
             return JsonResponse(carListDataFrame.to_dict(orient='records'), safe=False)
 
