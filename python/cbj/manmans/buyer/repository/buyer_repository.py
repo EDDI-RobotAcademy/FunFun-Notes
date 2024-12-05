@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 
-class DiceRepository(ABC):
+
+class BuyerRepository(ABC):
 
     @abstractmethod
-    def rollDice(self):
+    def create(self, name):
         pass
