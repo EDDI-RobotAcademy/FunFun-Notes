@@ -8,5 +8,5 @@ class GetCarsUseCase:
     def __init__(self, carRepository: CarRepository):
         self.carRepository = carRepository
 
-    async def execute(self) -> pd.DataFrame:
-        return await self.carRepository.fetchAll()
+    def execute(self) -> pd.DataFrame:
+        return self.carRepository.fetchAll()
