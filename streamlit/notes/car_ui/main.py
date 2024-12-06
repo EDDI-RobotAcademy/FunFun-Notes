@@ -1,7 +1,7 @@
 import streamlit as st
 
 from cars.presentation.car_ui import showCarUi
-# from charging.presentation.charging_ui import showChargingUi
+from charging.presentation.charging_ui import showChargingUi
 # from regions.presentation.regions_ui import showRegionsUi
 
 st.set_page_config(layout="wide")
@@ -14,6 +14,6 @@ with tab1:
 
 # with tab2:
 #     showRegionsUi()
-#
-# with tab3:
-#     showChargingUi()
+
+with tab3:
+    showChargingUi()
