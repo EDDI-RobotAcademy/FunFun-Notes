@@ -1,4 +1,6 @@
 import os
+
+import httpx
 import pandas as pd
 from cars.domain.car_repository import CarRepository
 from httpx import AsyncClient, RequestError
@@ -13,14 +15,14 @@ print(f"DJANGO_URL: {base_url}")
 
 
 class CarRepositoryImpl(CarRepository):
-    __http_client = AsyncClient(
+    __http_client = httpx.Client(
         base_url=os.getenv("DJANGO_URL"), timeout=25.0
     )
 
-    async def fetchAll(self) -> pd.DataFrame:
+    def fetchAll(self) -> pd.DataFrame:
         try:
             endpoint = "/car/request-car-list"
-            response = await self.__http_client.get(endpoint)
+            response = self.__http_client.get(endpoint)
 
             if response.status_code == 200:
                 return pd.DataFrame(response.json())

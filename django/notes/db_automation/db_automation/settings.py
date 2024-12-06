@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'player',
     'dice',
     'car',
+    'car_registration',
+    'car_business_pricing',
 ]
 
 MIDDLEWARE = [

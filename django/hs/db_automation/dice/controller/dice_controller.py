@@ -12,7 +12,11 @@ class DiceController(viewsets.ViewSet):
     diceService = DiceServiceImpl.getInstance()
 
     def requestRollDice(self, request):
-        dice = self.diceService.rollDice()
+        requestGetData = request.GET
+        requestPlayerId = requestGetData.get('playerId')
+        gameId = requestGetData.get('gameId')
+
+        dice = self.diceService.rollDice(gameId, requestPlayerId)
 
         return Response(dice, status=status.HTTP_200_OK)
 
