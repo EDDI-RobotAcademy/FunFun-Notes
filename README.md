@@ -1,2 +1,2 @@
-# SK-Networks-8-Notes
-SK Networks AI 8기 과정 내용 정리
+# FunFun-Notes
+그냥 재미 삼아 만드는 것들
