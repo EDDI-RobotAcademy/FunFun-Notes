@@ -25,4 +25,5 @@ urlpatterns = [
     path("dice/", include('dice.urls')),
     path("car/", include('car.urls')),
     path("car-registration/", include('car_registration.urls')),
+    path("car-business-pricing/", include('car_business_pricing.urls')),
 ]
