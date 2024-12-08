@@ -1,16 +1,21 @@
 import streamlit as st
 import plotly.express as px
-from regions.domain.usecases import GetRegionDataUseCase
-from regions.infra.region_repository_impl import RegionRepositoryImpl
+
+from regions.domain.usecase import GetRegionDataUseCase
+from regions.infra.car_region_repository_impl import CarRegionRepositoryImpl
+
 
 def showRegionsUi():
     st.header("지역별 전기차 등록 대수 현황")
-    region_repo = RegionRepositoryImpl()
+    region_repo = CarRegionRepositoryImpl()
     usecase = GetRegionDataUseCase(region_repo)
 
     try:
         df = usecase.execute()
-        select_region = st.sidebar.selectbox("확인하고 싶은 지역을 선택하세요", df["region"].unique())
+        df.rename(columns={"지역1": "region", "등록대수1": "count", "등록대수2": "ratio"}, inplace=True)
+
+        st.write("execute() 결과 데이터프레임:")
+        st.dataframe(df, use_container_width=True, height=600)
 
         col1, col2 = st.columns([2, 3])
         with col1:
@@ -20,8 +25,5 @@ def showRegionsUi():
             fig.update_traces(textposition="inside", textinfo="percent+label")
             st.plotly_chart(fig)
 
-        st.header("특정 지역 현황")
-        filtered_df = df[df["region"] == select_region]
-        st.table(filtered_df.head())
     except Exception as e:
         st.error(f"지역 데이터를 불러오지 못했습니다: {e}")
