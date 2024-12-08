@@ -20,7 +20,6 @@ class DiceServiceImpl(DiceService):
             return cls.__instance
 
 
-
     def rollDice(self):
         return self.__diceRepository.create()
 
