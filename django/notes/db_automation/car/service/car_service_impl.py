@@ -124,6 +124,9 @@ class CarServiceImpl(CarService):
         return carData
 
     def crawlCarData(self):
+        print("Checking attributes of CarServiceImpl instance:", dir(self))
+        print("Crawl Repository:", getattr(self, "_CarServiceImpl__crawlRepository", None))
+
         carData = self.__crawlRepository.crawl()
         print(f"carData: {carData}")
         cleanedCarData = self.cleanCarData(carData)
