@@ -13,3 +13,7 @@ class PandasBasicService(ABC):
     @abstractmethod
     def paginatedPandasInfoList(self, page, perPage):
         pass
+
+    @abstractmethod
+    def statisticsSummary(self):
+        pass
