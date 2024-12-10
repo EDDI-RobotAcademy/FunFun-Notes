@@ -733,7 +733,6 @@ python/hs/third2/third/player/repository/__init__.py
 python/hs/third2/third/player/repository/player_repository.py
 python/hs/third2/third/player/repository/player_repository_impl.py
 /django/hs/homework
-*.py
 django/hs/db_automation/car/__init__.py
 django/hs/db_automation/car_business_pricing/__init__.py
 django/hs/db_automation/car_registraction/__init__.py
@@ -796,8 +795,6 @@ django/hs/homework/dice/service/dice_service.py
 django/hs/homework/dice/service/dice_service_impl.py
 django/hs/homework/dice/tests.py
 django/hs/homework/dice/urls.py
-*.py
-*.py
 django/hs/homework/db_automation/__init__.py
 django/hs/homework/db_automation/asgi.py
 django/hs/homework/db_automation/settings.py

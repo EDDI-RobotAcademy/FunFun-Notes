@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'car',
     'car_registration',
     'car_business_pricing',
+    'pandas_basic',
 ]
 
 MIDDLEWARE = [
