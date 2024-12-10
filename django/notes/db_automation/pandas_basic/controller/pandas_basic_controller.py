@@ -27,8 +27,9 @@ class PandasBasicController(viewsets.ViewSet):
         page = int(getRequest.get("page", 1))
         perPage = int(getRequest.get("perPage", 10))
 
-        paginatedpandasList = self.pandasBasicService.paginatedPandasInfoList(page, perPage)
+        paginatedpandasList, totalPages = self.pandasBasicService.paginatedPandasInfoList(page, perPage)
         print(f"paginatedpandasList: {paginatedpandasList}")
+        print(f"paginatedpandasList.object_list: {paginatedpandasList.object_list}")
         serializer = PandasInfoListSerializer(paginatedpandasList, many=True)
 
         return JsonResponse({"data": serializer.data}, status=status.HTTP_200_OK)
