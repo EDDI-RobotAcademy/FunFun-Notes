@@ -14,4 +14,7 @@ urlpatterns = [
     path('request-pandas-info',
          PandasBasicController.as_view({ 'get': 'requestPandasInfo' }),
          name='pandas 데이터 획득'),
+    path('request-pagenated-pandas-info',
+         PandasBasicController.as_view({ 'get': 'requestPagenatedPandasInfo' }),
+         name='Pagination이 적용된 pandas 데이터 획득'),
 ]
