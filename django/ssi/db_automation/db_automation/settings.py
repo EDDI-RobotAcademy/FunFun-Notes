@@ -47,8 +47,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'dice',
+    'game',
+    'player',
     'dice_game',
     'car',
+    'car_registration',
+    'car_business_pricing',
+    'pandas_basic',
     'fruit_mart',
 ]
 
