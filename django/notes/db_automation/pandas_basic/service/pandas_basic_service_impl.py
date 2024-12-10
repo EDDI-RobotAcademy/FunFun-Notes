@@ -6,8 +6,8 @@ class PandasBasicServiceImpl(PandasBasicService):
     __instance = None
 
     __fixedData = {
-        "name": ["Alice", "Bob", "예닮", "딩.코.재.천", "타의추종불허예닮"],
-        "age": [24, 27, 22, 22, 22]
+        "name": ["Alice", "Bob", "gustj", "qudwns", "ghksals"],
+        "age": [24, 27, 22, 21, 29]
     }
 
     def __new__(cls):
@@ -37,3 +37,6 @@ class PandasBasicServiceImpl(PandasBasicService):
 
     def pandasInfoList(self):
         return self.__pandasBasicRepository.list()
+
+    def paginatedPandasInfoList(self, page, perPage):
+        return self.__pandasBasicRepository.pagenatedList(page, perPage)
