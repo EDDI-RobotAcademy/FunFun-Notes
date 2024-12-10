@@ -3,6 +3,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from pandas_basic.entity.pandas_basic_person import PandasBasicPerson
 from pandas_basic.repository.pandas_basic_repository import PandasBasicRepository
 
+import pandas as pd
+
 
 class PandasBasicRepositoryImpl(PandasBasicRepository):
     __instance = None
@@ -43,3 +45,9 @@ class PandasBasicRepositoryImpl(PandasBasicRepository):
             paginatedData = []
 
         return paginatedData, paginator.num_pages
+
+    def statistics(self, targetData):
+        dataFrame = pd.DataFrame(targetData)
+        describeData = dataFrame.describe(include="all").to_dict()
+
+        return describeData

@@ -40,3 +40,6 @@ class PandasBasicServiceImpl(PandasBasicService):
 
     def paginatedPandasInfoList(self, page, perPage):
         return self.__pandasBasicRepository.pagenatedList(page, perPage)
+
+    def statisticsSummary(self):
+        return self.__pandasBasicRepository.statistics(self.__fixedData)
