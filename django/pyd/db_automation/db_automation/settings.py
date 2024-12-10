@@ -45,7 +45,10 @@ INSTALLED_APPS = [
     "django_extensions",
     "corsheaders",
     "rest_framework",
-    "dice",
+    'game',
+    'player',
+    'dice',
+    'pandas_basic',
 ]
 
 MIDDLEWARE = [

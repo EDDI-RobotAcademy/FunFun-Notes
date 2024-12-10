@@ -19,6 +19,9 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("dice/", include("dice.urls")),
     path("admin/", admin.site.urls),
+    path("game/", include('game.urls')),
+    path("player/", include('player.urls')),
+    path("dice/", include('dice.urls')),
+    path("pandas-basic/", include('pandas_basic.urls')),
 ]
