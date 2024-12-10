@@ -34,3 +34,6 @@ class PandasBasicServiceImpl(PandasBasicService):
         self.__pandasBasicRepository.createMany(data)
 
         return True
+
+    def pandasInfoList(self):
+        return self.__pandasBasicRepository.list()

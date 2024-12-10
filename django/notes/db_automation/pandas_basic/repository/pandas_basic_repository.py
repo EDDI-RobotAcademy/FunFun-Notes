@@ -5,3 +5,7 @@ class PandasBasicRepository(ABC):
     @abstractmethod
     def createMany(self, dataList):
         pass
+
+    @abstractmethod
+    def list(self):
+        pass

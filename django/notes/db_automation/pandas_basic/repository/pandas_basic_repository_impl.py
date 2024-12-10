@@ -25,4 +25,7 @@ class PandasBasicRepositoryImpl(PandasBasicRepository):
         ]
 
         PandasBasicPerson.objects.bulk_create(pandasBasicPersonList)
+
+    def list(self):
+        return PandasBasicPerson.objects.all()
     

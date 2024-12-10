@@ -11,4 +11,7 @@ urlpatterns = [
     path('request-create-info',
          PandasBasicController.as_view({ 'get': 'requestCreatePandasInfo' }),
          name='pandas 데이터 생성'),
+    path('request-pandas-info',
+         PandasBasicController.as_view({ 'get': 'requestPandasInfo' }),
+         name='pandas 데이터 획득'),
 ]
