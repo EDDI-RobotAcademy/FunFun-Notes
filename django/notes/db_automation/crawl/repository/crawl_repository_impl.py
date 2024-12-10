@@ -13,6 +13,7 @@ class CrawlRepositoryImpl(CrawlRepository):
     def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
+            cls.__instance._initialize()
 
         return cls.__instance
 
@@ -23,10 +24,11 @@ class CrawlRepositoryImpl(CrawlRepository):
 
         return cls.__instance
 
-    def __init__(self):
+    def _initialize(self):
+        if not hasattr(self, 'driver'):
         # 크롤링을 위한 Chrome 드라이버 구성 
-        # self.driver = webdriver.Chrome()
-        self.base_url = "https://tago.kr/model/index.htm"
+            self.driver = webdriver.Chrome(ChromeDriverManager().install())
+            self.base_url = "https://tago.kr/model/index.htm"
 
     def crawl(self):
         self.driver.get(self.base_url)
