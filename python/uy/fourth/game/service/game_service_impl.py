@@ -3,6 +3,7 @@
 # 3. 주사위 눈 비교해서 승자 가리기
 
 from twodice.repository.twodice_repository_impl import TwoDiceRepositoryImpl
+from twodice.repository.twodice_repository import TwoDiceRepository
 from game.service.game_service import GameService
 from player.repository.player_repository_impl import PlayerRepositoryImpl
 from game.repository.game_repository_impl import GameRepositoryImpl
@@ -32,12 +33,12 @@ class GameServiceImpl(GameService):
 
     def startDiceGame(self):
         print("startDiceGame() called!")
-        playerNameList = self.__playerRepository.acquirePlayerNameList()
+        playerNameList = self.__playerRepository.acquirePlayerNameList()  # PlayerNameList를 가져옴
         self.__diceRepository.rollDice()
         eachPlayerDiceList = self.__diceRepository.rollDice()
+
         self.__gameRepository.start(playerNameList, eachPlayerDiceList)
-        pass
 
     def checkWinner(self):
         print("checkWinner() called!")
-        pass
+        self.__gameRepository.checkWinner()
