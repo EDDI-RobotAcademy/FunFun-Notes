@@ -33,3 +33,8 @@ class PandasBasicController(viewsets.ViewSet):
         serializer = PandasInfoListSerializer(paginatedpandasList, many=True)
 
         return JsonResponse({"data": serializer.data}, status=status.HTTP_200_OK)
+
+    def requestPandasStatisticsSummary(self, request):
+        statisticsSummary = self.pandasBasicService.statisticsSummary()
+
+        return JsonResponse({"summary": statisticsSummary}, status=status.HTTP_200_OK)
