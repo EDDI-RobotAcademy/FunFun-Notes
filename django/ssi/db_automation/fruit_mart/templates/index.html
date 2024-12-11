@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mart Management</title>
+    <link rel="stylesheet" href="{% static 'fruit_mart/styles.css' %}">
+    <script>
+        //현재 재고 출력
+        async function fetchInventory() {
+            const response = await fetch('/fruit_mart/get_all_fruits/');
+            const data = await response.json();
+            document.getElementById("inventory").innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        }
+        // 소비자 생성
+        async function createCustomer() {
+            const name = document.getElementById("customer-name").value;
+
+            if (!name || !email) {
+                alert("모든 필드를 입력해주세요.");
+                return;
+            }
+
+            const response = await fetch('/customer/create/', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({ name, email })
+            });
+
+            const data = await response.json();
+            document.getElementById("customer-result").textContent = data.message || data.error;
+        }
+
+        // 과일 입고
+        async function addFruitStock() {
+            const fruit_name = document.getElementById("fruit_name").value;
+            const fruit_number = document.getElementById("fruit_number").value;
+
+            if (!fruit_name || !fruit_number) {
+                alert("모든 필드를 입력해주세요.");
+                return;
+            }
+
+            const parsedNumber = parseInt(fruit_number, 10);
+            if (isNaN(parsedNumber) || parsedNumber <= 0) {
+                alert("수량은 1 이상의 숫자여야 합니다.");
+                return;
+            }
+
+            const response = await fetch('/fruit_mart/create_or_update_fruit/', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                },
+                body: JSON.stringify({ fruit_name, fruit_number: parseInt(fruit_number, 10) })
+            });
+
+            const data = await response.json();
+            document.getElementById("fruit-result").textContent = data.message || JSON.stringify(data);
+        }
+
+        //과일 조회
+        async function fetchFruitDetails() {
+            const fruit_name = document.getElementById("fruit-name").value;
+
+            if (!fruit_name) {
+                alert("과일 이름을 입력해주세요.");
+                return;
+            }
+
+            const response = await fetch(`/fruit_mart/get_fruit_by_name/?fruit_name=${fruit_name}`);
+            const data = await response.json();
+            document.getElementById("fruit-details").innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+        }
+
+        // 주문 처리
+        async function placeOrder() {
+            const customerId = document.getElementById("order-customer-id").value;
+            const fruit = document.getElementById("order-item").value;
+            const number = document.getElementById("order-quantity").value;
+        
+            if (!customerId || !fruit || !number) {
+                alert("모든 필드를 입력해주세요.");
+                return;
+            }
+        
+            try {
+                const response = await fetch('/fruit_mart/order/sell/', {  // URL 수정
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: JSON.stringify({ customer_id: customerId, fruit, number })
+                });
+        
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+        
+                const data = await response.json();
+                console.log(data);
+                document.getElementById("order-result").textContent = data.message || data.error;
+            } catch (error) {
+                console.error(error);
+                alert(`요청 처리 중 오류가 발생했습니다: ${error.message}`);
+            }
+        }
+        
+        //주문 조회
+        async function fetchOrders() {
+            const customerName = document.getElementById("query-customer-name").value;
+        
+            if (!customerName) {
+                alert("소비자 이름을 입력해주세요.");
+                return;
+            }
+        
+            try {
+                const response = await fetch(`/fruit_mart/order/customer-orders/?customer-name=${encodeURIComponent(customerName)}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+        
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+        
+                const orders = await response.json();
+                console.log(orders);
+        
+                // 주문 내역 출력
+                const resultDiv = document.getElementById("order-result");
+                resultDiv.innerHTML = ""; // 기존 내용을 초기화
+                orders.forEach(order => {
+                    const orderInfo = `ID: ${order.id}, Customer: ${order.customer}, Fruit: ${order.fruit}, Number: ${order.number}`;
+                    const orderElement = document.createElement("p");
+                    orderElement.textContent = orderInfo;
+                    resultDiv.appendChild(orderElement);
+                });
+            } catch (error) {
+                console.error(error);
+                alert(`요청 처리 중 오류가 발생했습니다: ${error.message}`);
+            }
+        }
+        
+
+        // 환불 처리
+        async function processRefund() {
+            const customerName = document.getElementById("refund-customer-name").value;
+            const orderId = document.getElementById("refund-order-id").value;
+            const item = document.getElementById("refund-item").value;
+            const refundQuantity = document.getElementById("refund-quantity").value;
+        
+            if (!customerName || !orderId || !item || !refundQuantity) {
+                alert("모든 필드를 입력해주세요.");
+                return;
+            }
+        
+            try {
+                const response = await fetch('/fruit_mart/order/refund/', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value
+                    },
+                    body: JSON.stringify({
+                        customer_name: customerName,
+                        order_id: orderId,
+                        item: item,
+                        refund_quantity: parseInt(refundQuantity, 10)
+                    })
+                });
+        
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+        
+                const data = await response.json();
+                alert(data.message || data.error);
+            } catch (error) {
+                console.error("Error occurred:", error.message);
+                alert(`요청 처리 중 오류가 발생했습니다: ${error.message}`);
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Mart Management</h1>
+
+
+        <!-- 현재 재고 -->
+        <h2>현재 재고</h2>
+        <button onclick="fetchInventory()">현재 재고 확인</button>
+        <div id="inventory" class="result"></div>
+        <!-- 소비자 생성 -->
+        <h2>소비자 생성</h2>
+        <form onsubmit="createCustomer(); return false;">
+            {% csrf_token %}
+            <div>
+                <label for="customer-name">이름:</label>
+                <input id="create-customer-name" type="text" placeholder="소비자 이름">
+            </div>
+            <button type="submit">소비자 생성</button>
+        </form>
+        <div id="customer-result" class="result"></div>
+
+        <!-- 과일 입고 -->
+        <h2>과일 입고</h2>
+        <form onsubmit="addFruitStock(); return false;">
+            {% csrf_token %}
+            <div>
+                <label for="fruit_name">과일 이름:</label>
+                <input id="fruit_name" type="text" placeholder="예: 사과">
+            </div>
+            <div>
+                <label for="fruit_number">수량:</label>
+                <input id="fruit_number" type="number" placeholder="예: 10">
+            </div>
+            <button type="submit">입고</button>
+        </form>
+        <div id="fruit-result" class="result"></div>
+
+        <!-- 과일 조회 -->
+        <h2>과일 조회</h2>
+        <form onsubmit="fetchFruitDetails(); return false;">
+            <div>
+                <label for="fruit-name">과일 이름:</label>
+                <input id="fruit-name" type="text" placeholder="과일 이름 입력">
+            </div>
+            <button type="submit">조회</button>
+        </form>
+        <div id="fruit-details" class="result"></div>
+
+        <!-- 주문 -->
+        <h2>주문</h2>
+        <form onsubmit="placeOrder(); return false;">
+            {% csrf_token %}
+            <div>
+                <label for="order-customer-id">소비자 ID:</label>
+                <input id="order-customer-id" type="text" placeholder="소비자 이름 입력">
+            </div>
+            <div>
+                <label for="order-item">물품:</label>
+                <input id="order-item" type="text" placeholder="예: 사과">
+            </div>
+            <div>
+                <label for="order-quantity">수량:</label>
+                <input id="order-quantity" type="number" placeholder="예: 5">
+            </div>
+            <button type="submit">주문</button>
+        </form>
+        <div id="order-result" class="result"></div>
+
+        <!-- 주문 조회 -->
+        <h2>주문 조회</h2>
+        <form onsubmit="fetchOrders(); return false;">
+            <label for="customer-name">소비자 이름:</label>
+            <input id="query-customer-name" type="text" placeholder="소비자 이름 입력">
+            <button type="submit">주문 조회</button>
+        </form>
+        <div id="order-results" class="result"></div>  
+
+        <!-- 환불 -->
+        <h2>환불 요청</h2>
+        <form onsubmit="processRefund(); return false;">
+            {% csrf_token %}
+            <div>
+                <label for="refund-customer-name">소비자 이름:</label>
+                <input id="refund-customer-name" type="text" placeholder="소비자 이름 입력">
+            </div>
+            <div>
+                <label for="refund-order-id">주문 ID:</label>
+                <input id="refund-order-id" type="text" placeholder="주문 ID 입력">
+            </div>
+            <div>
+                <label for="refund-item">과일 이름:</label>
+                <input id="refund-item" type="text" placeholder="과일 이름 입력">
+            </div>
+            <div>
+                <label for="refund-quantity">환불 수량:</label>
+                <input id="refund-quantity" type="number" placeholder="환불할 수량 입력">
+            </div>
+            <button type="submit">환불 요청</button>
+        </form>
+        <div id="refund-result" class="result"></div>
+    </div>
+</body>
+</html>

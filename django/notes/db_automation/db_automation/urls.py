@@ -26,4 +26,5 @@ urlpatterns = [
     path("car/", include('car.urls')),
     path("car-registration/", include('car_registration.urls')),
     path("car-business-pricing/", include('car_business_pricing.urls')),
+    path("pandas-basic/", include('pandas_basic.urls')),
 ]
