@@ -20,4 +20,7 @@ urlpatterns = [
     path('request-statistics-summary',
          PandasBasicController.as_view({ 'get': 'requestPandasStatisticsSummary' }),
          name='pandas 데이터 통계 요약 획득'),
+    path('request-filtered-data',
+         PandasBasicController.as_view({ 'get': 'requestFilteredData' }),
+         name='pandas 필터링 데이터 획득'),
 ]
