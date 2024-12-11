@@ -2,12 +2,13 @@ from abc import ABC, abstractmethod
 
 
 class DiceService(ABC):
+
     @abstractmethod
-    def rollDice(self):
+    def rollDice(self, gameId, playerId):
         pass
 
     @abstractmethod
-    def findDice(self,requestDice):
+    def findDice(self, requestDiceId):
         pass
 
     @abstractmethod

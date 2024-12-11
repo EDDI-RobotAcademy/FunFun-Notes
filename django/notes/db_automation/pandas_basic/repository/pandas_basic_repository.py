@@ -9,3 +9,11 @@ class PandasBasicRepository(ABC):
     @abstractmethod
     def list(self):
         pass
+
+    @abstractmethod
+    def statistics(self, targetData):
+        pass
+
+    @abstractmethod
+    def filterByCondition(self, ormFilteredDictionary):
+        pass
