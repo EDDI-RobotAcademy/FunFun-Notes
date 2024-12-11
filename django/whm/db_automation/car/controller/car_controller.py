@@ -16,6 +16,7 @@ class CarController(viewsets.ViewSet):
     def requestCarList(self, request):
         try:
             carListDataFrame = self.__carService.carList()
+            print(f"carListDataFrame: {carListDataFrame}")
 
             return JsonResponse(carListDataFrame.to_dict(orient='records'), safe=False)
 
@@ -23,10 +24,11 @@ class CarController(viewsets.ViewSet):
             return JsonResponse({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def requestModifyCarText(self, request):
-        isSuccess = self.__carService.modifyCarText()
+        isSuccess = self.__carService.requestModifyCarText()
 
         if isSuccess:
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'error': 'Failed to modify car text'},
                                 status=status.HTTP_400_BAD_REQUEST)
+
