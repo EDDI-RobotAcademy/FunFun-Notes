@@ -38,3 +38,6 @@ class PandasBasicController(viewsets.ViewSet):
         statisticsSummary = self.pandasBasicService.statisticsSummary()
 
         return JsonResponse({"summary": statisticsSummary}, status=status.HTTP_200_OK)
+
+    def requestFilteredData(self, request):
+        pass
