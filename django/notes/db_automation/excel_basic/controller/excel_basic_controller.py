@@ -12,3 +12,8 @@ class ExcelBasicController(viewsets.ViewSet):
         isSuccess = self.excelBasicService.createExcelToDatabase()
 
         return JsonResponse({"isSuccess": isSuccess}, status=status.HTTP_200_OK)
+
+    def requestDatabaseToExcel(self, request):
+        isSuccess = self.excelBasicService.createDatabaseToExcel()
+
+        return JsonResponse({"isSuccess": isSuccess}, status=status.HTTP_200_OK)

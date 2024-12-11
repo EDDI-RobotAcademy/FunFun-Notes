@@ -44,4 +44,15 @@ class ExcelBasicServiceImpl(ExcelBasicService):
 
         self.__excelBasicRepository.createMany(readExcelData)
         return True
-    
+
+    def createDatabaseToExcel(self):
+        currentWorkingDirectory = os.getcwd()
+        generateExcelPath = os.path.join(currentWorkingDirectory, "generate", "excel_test.xlsx")
+
+        excelDataList = self.__excelBasicRepository.list()
+        print(f"excelDataList: {excelDataList}")
+        employeeDictionary = excelDataList.values("name", "age", "city", "score", "department")
+
+        dataFrame = pd.DataFrame(employeeDictionary)
+        dataFrame.to_excel(generateExcelPath, index=False, engine='openpyxl')
+        return True
