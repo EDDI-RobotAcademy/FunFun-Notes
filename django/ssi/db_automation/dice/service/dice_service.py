@@ -10,3 +10,7 @@ class DiceService(ABC):
     @abstractmethod
     def findDice(self,id):
         pass
+
+    @abstractmethod
+    def findEveryDice(self):
+        pass

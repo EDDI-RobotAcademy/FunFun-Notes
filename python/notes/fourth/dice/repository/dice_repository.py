@@ -5,4 +5,3 @@ class DiceRepository(ABC):
     @abstractmethod
     def rollDice(self):
         pass
-    
