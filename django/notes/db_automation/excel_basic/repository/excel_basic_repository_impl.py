@@ -31,4 +31,7 @@ class ExcelBasicRepositoryImpl(ExcelBasicRepository):
         ]
 
         ExcelBasicEmployee.objects.bulk_create(employeeDictionary)
+
+    def list(self):
+        return ExcelBasicEmployee.objects.all()
     

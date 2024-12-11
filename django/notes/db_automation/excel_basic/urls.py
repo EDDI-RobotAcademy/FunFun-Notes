@@ -11,7 +11,7 @@ urlpatterns = [
     path('request-create-excel2db',
          ExcelBasicController.as_view({ 'get': 'requestCreateExcelInfo' }),
          name='excel 정보 데이터 생성'),
-    # path('request-create-info',
-    #      ExcelBasicController.as_view({ 'get': 'requestDatabaseToExcel' }),
-    #      name='DB 데이터를 excel로 생성'),
+    path('request-create-db2excel',
+         ExcelBasicController.as_view({ 'get': 'requestDatabaseToExcel' }),
+         name='DB 데이터를 excel로 생성'),
 ]
