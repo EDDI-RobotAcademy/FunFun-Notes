@@ -25,4 +25,6 @@ class DiceServiceImpl(DiceService):
 
     def findDice(self, requestDiceId):
         return self.__diceRepository.findById(requestDiceId)
-    
+
+    def findEveryDice(self):
+        return self.__diceRepository.findAll()
