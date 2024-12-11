@@ -1,16 +1,15 @@
 from abc import ABC, abstractmethod
 
 
-class DiceService(ABC):
-
+class PandasBasicRepository(ABC):
     @abstractmethod
-    def rollDice(self, gameId, playerId):
+    def createMany(self, dataList):
         pass
 
     @abstractmethod
-    def findDice(self, requestDiceId):
+    def list(self):
         pass
 
     @abstractmethod
-    def findEveryDice(self):
+    def statistics(self, targetData):
         pass
