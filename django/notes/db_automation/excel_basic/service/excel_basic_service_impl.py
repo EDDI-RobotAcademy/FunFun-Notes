@@ -1,7 +1,11 @@
-from abc import ABC, abstractmethod
+import os.path
+import pandas as pd
+
+from excel_basic.repository.excel_basic_repository_impl import ExcelBasicRepositoryImpl
+from excel_basic.service.excel_basic_service import ExcelBasicService
 
 
-class ExcelBasicService(ABC):
+class ExcelBasicServiceImpl(ExcelBasicService):
     __instance = None
 
     __fixedExcelFile = "fixedExcelForTest.xlsx"
@@ -21,7 +25,23 @@ class ExcelBasicService(ABC):
 
         return cls.__instance
 
-    @abstractmethod
+    def __readExcel(self, excelFilePath):
+        try:
+            dataFrame = pd.read_excel(excelFilePath)
+            excelDataDictionary = dataFrame.to_dict(orient='records')
+            return excelDataDictionary
+
+        except Exception as e:
+            print(f"파일을 읽는 중 오류가 발생했습니다: {str(e)}")
+            return []
+
     def createExcelToDatabase(self):
-        pass
+        currentWorkingDirectory = os.getcwd()
+        excelFilePath = os.path.join(currentWorkingDirectory, "resource", self.__fixedExcelFile)
+
+        readExcelData = self.__readExcel(excelFilePath)
+        print(f"readExcelData: {readExcelData}")
+
+        self.__excelBasicRepository.createMany(readExcelData)
+        return True
     
