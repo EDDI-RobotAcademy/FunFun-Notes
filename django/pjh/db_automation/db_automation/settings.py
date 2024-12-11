@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     "django_extensions",
     "corsheaders",
     "rest_framework",
-    'dice',
+    "pandas_basic",
+    "excel_basic",
 ]
 
 MIDDLEWARE = [
