@@ -43,3 +43,4 @@ class DiceRepositoryImpl(DiceRepository):
 
     def findByGameAndPlayer(self, game, player):
         return Dice.objects.filter(game=game, player=player)
+

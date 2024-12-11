@@ -13,3 +13,7 @@ class PandasBasicController(viewsets.ViewSet):
         isSuccess = self.pandasBasicService.createPandasInfo()
 
         return JsonResponse({"isSuccess": True}, status=status.HTTP_200_OK)
+
+    def requestPandasInfo(self, request):
+        pandasInfoList = self.pandasBasicService.getPandasInfo()
+        serializer = PandasBasicServiceImpl
