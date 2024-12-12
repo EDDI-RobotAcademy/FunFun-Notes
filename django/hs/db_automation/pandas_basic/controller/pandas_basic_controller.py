@@ -38,3 +38,30 @@ class PandasBasicController(viewsets.ViewSet):
         statisticsSummary = self.pandasBasicService.statisticsSummary()
 
         return JsonResponse({"summary": statisticsSummary}, status=status.HTTP_200_OK)
+
+    def requestFilteredData(self, request):
+        getRequest = request.GET
+
+        name = getRequest.get("name", None)
+        minAge = getRequest.get("minAge", None)
+        maxAge = getRequest.get("maxAge", None)
+        print(f"name: {name}, minAge: {minAge}, maxAge: {maxAge}")
+
+        filterDictionary = {}
+        if name:
+            filterDictionary["name"] = name
+
+        if minAge:
+            filterDictionary["minAge"] = int(minAge)
+
+        if maxAge:
+            filterDictionary["maxAge"] = int(maxAge)
+
+        print(f"controller -> filterDictionary: {filterDictionary}")
+        filteredPandasInfo = self.pandasBasicService.filteredPandasInfo(filterDictionary)
+
+        serializer = PandasInfoListSerializer(filteredPandasInfo, many=True)
+
+        return JsonResponse({
+            "filteredData": serializer.data
+        }, status=status.HTTP_200_OK)
