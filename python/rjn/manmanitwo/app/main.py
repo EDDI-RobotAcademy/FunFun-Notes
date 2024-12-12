@@ -1,5 +1,11 @@
-from game.service.game_service_impl import gameServiceImpl
+from game.repository.game_repository_impl import GameRepositoryImpl
+from game.service.game_service_impl import GameServiceImpl
 
-gameService = gameServiceImpl.getInstance()
-gameService.cardGameStart()
-gameService.gameRecord()
+gameService = GameServiceImpl.getInstance()
+
+gameService.startCardGame()
+gameService.startCardGame()
+gameService.startCardGame()
+
+
+gameService.showGameRecords()
