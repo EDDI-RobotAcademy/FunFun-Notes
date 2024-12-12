@@ -10,7 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@mdi/js": "^7.4.47",
+    "@mdi/font": "^7.4.47",
     "@nuxtjs/axios": "^5.13.6",
     "@pinia/nuxt": "^0.9.0",
     "nuxt": "^3.14.1592",
