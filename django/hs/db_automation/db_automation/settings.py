@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework",
     'pandas_basic',
+    'excel_basic'
 ]
 
 MIDDLEWARE = [
