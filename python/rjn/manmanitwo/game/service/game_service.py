@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 
 class GameService(ABC):
     @abstractmethod
-    def cardGameStart(self):
+    def startCardGame(self):
         pass
     @abstractmethod
-    def gameRecord(self):
+    def showGameRecords(self):
         pass
