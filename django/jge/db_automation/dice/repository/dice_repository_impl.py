@@ -36,8 +36,14 @@ class DiceRepositoryImpl(DiceRepository):
         # 그러므로 model to dict 는 엔티티를 Dictionary로 변경하여 리턴함을 의미
         return model_to_dict(dice)
 
-    def findById(self, id):
+    def findById(self, id): #고유값을 가진 아이디로 검색
         return Dice.objects.get(id=id)
+
+    def findByGameId(self, game):
+        return Dice.objects.filters(game=game) #고유하지 않은 다른 아이디로 검색
 
     def findAll(self):
         return Dice.objects.all()
+
+    def findByGameAndPlayer(self, game, player):
+        return Dice.objects.filter(game=game, player=player)
