@@ -1,31 +1,19 @@
 <template>
-  <v-container class="container">
-    <div class="login-wrapper">
-      <div>
-
-        <div class="login_logo">
-          <!-- LOGIN 텍스트 대신 이미지 삽입 -->
-        </div>
-
-        <!-- 한줄 소개 -->
-        <div class="introduction">
-          <p>Let's Go <b>EDDI TCG</b></p>
-        </div>
-
-        <!-- 영역 구분선 -->
-        <v-divider class="mt-5 mb-7" :thickness="3"></v-divider>
-
-        <!-- 각 소셜 로그인 버튼들 -->
-        <v-btn class="kakao-login-btn" @click="goToKakaoLogin">
+  <v-container fluid class="d-flex justify-center align-center pa-0" :style="{ backgroundImage: `url(${loginBgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }">
+    <v-row justify="center" align="center" class="fill-height ma-0">
+      <v-col cols="12" sm="8" md="6" class="text-center">
+        <v-btn class="kakao-login-btn" @click="goToKakaoLogin" block>
           <!-- 카카오 로그인 -->
         </v-btn>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 
 <script setup>
+import loginBgImage from '@/assets/images/fixed/login_bg.webp';
+
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAccountStore } from '@/stores/accountStore';
@@ -108,18 +96,19 @@ const onSubmit = async () => {
 
 <style scoped>
 .container {
-  max-width: 100vw;
-  height: 110vh;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   background-color: white;
   background: url("@/assets/images/fixed/login_bg.webp") no-repeat center center;
-  background-size: cover;
+  background-size: cover; /* Ensures the background image covers the whole container */
+  overflow: hidden; /* Prevents scrollbars */
 }
 
-.login_logo {
+/* .login_logo {
   height: 20vh;
   margin-bottom: 3vh;
   overflow: hidden;
@@ -127,7 +116,7 @@ const onSubmit = async () => {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-}
+} */
 
 /* 로그인 박스 설정 */
 .login-wrapper {
@@ -191,6 +180,10 @@ const onSubmit = async () => {
 
 /* Kakao 로그인 버튼 설정 */
 .kakao-login-btn {
+  position: relative;
+  top: 40vh;
+  width: 200px !important;
+  height: 150px !important; /* Force height change */
   background-image: url("@/assets/images/fixed/btn_login_kakao.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -199,8 +192,8 @@ const onSubmit = async () => {
   align-items: center;
   justify-content: center;
   background-color: #FFEA00;
-  margin-bottom: 1vh;
   border-radius: 1.4vh;
+  cursor: pointer;
 }
 
 .v-text-field input {
@@ -213,6 +206,7 @@ const onSubmit = async () => {
   color: black !important;
   /* 레이블을 검정색으로 설정 */
 }
+
 
 /* 로그인 폼의 텍스트 필드 라벨 색상 설정 */
 :deep(.v-label.v-field-label) {
