@@ -13,6 +13,7 @@ class PandasBasicController(viewsets.ViewSet):
 
     def requestCreatePandasInfo(self, request):
         isSuccess = self.pandasBasicService.createPandasInfo()
+                   # PandasBasicService에 있는 .createPandasInfo()를 실행시켜
 
         return JsonResponse({"isSuccess": isSuccess}, status=status.HTTP_200_OK)
 
