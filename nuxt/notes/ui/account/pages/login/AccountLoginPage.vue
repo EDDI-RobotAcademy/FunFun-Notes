@@ -7,22 +7,6 @@
           <!-- LOGIN 텍스트 대신 이미지 삽입 -->
         </div>
 
-        <div v-if="login_flag == false && this.isEmailCollect == false" class="login-error-box">
-          이메일이 올바르지 않습니다.
-          <br />
-          올바른 이메일을 입력하거나,
-          <br />
-          다른 간편로그인을 시도해 보세요.
-        </div>
-        <div v-if="login_flag == false && this.isEmailCollect == true && this.isPasswordCollect == false"
-          class="login-error-box">
-          비밀번호가 올바르지 않습니다.
-          <br />
-          올바른 비밀번호를 입력하거나,
-          <br />
-          다른 간편로그인을 시도해 보세요.
-        </div>
-
         <!-- 한줄 소개 -->
         <div class="introduction">
           <p>Let's Go <b>EDDI TCG</b></p>
@@ -30,7 +14,6 @@
 
         <!-- 영역 구분선 -->
         <v-divider class="mt-5 mb-7" :thickness="3"></v-divider>
-
 
         <!-- 각 소셜 로그인 버튼들 -->
         <v-btn class="kakao-login-btn" @click="goToKakaoLogin">
@@ -46,7 +29,8 @@
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAccountStore } from '@/stores/accountStore';
-import { useKakaoAuthenticationStore } from '../../../kakaoAuthentication/stores/kakaoAuthenticationStore';
+import { useKakaoAuthenticationStore } from '../../../kakaoAuthentication/stores/kakaoAuthenticationStore'
+
 
 const router = useRouter();
 
@@ -66,28 +50,14 @@ const kakaoAuthentication = useKakaoAuthenticationStore();
 // Google, Kakao, Naver 로그인 함수들
 const goToKakaoLogin = async () => {
   sessionStorage.setItem("loginType", "KAKAO");
-  await authentication.requestKakaoOauthRedirectionToDjango();
-};
-
-const goToGoogleLogin = async () => {
-  // alert("현재 로그인 검수 중입니다.");
-  sessionStorage.setItem("loginType", "GOOGLE");
-  await googleAuthentication.requestGoogleOauthRedirectionToDjango();
-};
-
-const goToNaverLogin = async () => {
-  alert("현재 로그인 검수 중입니다.");
-  // sessionStorage.setItem('loginType', "NAVER");
-  // await naverAuthentication.requestNaverOauthRedirectionToDjango();
+  await kakaoAuthentication.requestKakaoOauthRedirectionToDjango();
 };
 
 // Computed properties (Pinia 상태에 기반한 계산된 속성)
-const isAuthenticatedKakao = computed(() => authentication.isAuthenticatedKakao);
-const isAuthenticatedNormal = computed(() => account.isAuthenticatedNormal);
-const loginType = computed(() => account.loginType);
-const isKakaoAdmin = computed(() => account.isKakaoAdmin);
-// const isAuthenticatedGoogle = computed(() => googleAuthentication.isAuthenticatedGoogle);
-const isAuthenticatedNaver = computed(() => naverAuthentication.isAuthenticatedNaver);
+// const isAuthenticatedKakao = computed(() => authentication.isAuthenticatedKakao);
+// const isAuthenticatedNormal = computed(() => account.isAuthenticatedNormal);
+// const loginType = computed(() => account.loginType);
+// const isKakaoAdmin = computed(() => account.isKakaoAdmin);
 
 // Methods
 const goToHome = () => {
@@ -134,24 +104,6 @@ const onSubmit = async () => {
   }
 };
 
-// Email, Password validation
-const emailRequired = v => !!v || "정확한 이메일 주소를 입력하세요.";
-const passwordRequired = v => !!v || "비밀번호는 8~20자 사이여야 합니다.";
-
-// 비밀번호 확인 함수
-const checkPassword = async () => {
-  try {
-    const payload = {
-      email: email.value,
-      password: password.value,
-    };
-    const response = await account.requestAccountCheckToDjango(payload);
-    return response;
-  } catch (error) {
-    console.error("비밀번호 확인 중 에러 발생: ", error);
-  }
-};
-
 </script>
 
 <style scoped>
@@ -163,7 +115,7 @@ const checkPassword = async () => {
   align-items: center;
   box-sizing: border-box;
   background-color: white;
-  background: url("@/assets/images/fixed/login_bg.png") no-repeat center center;
+  background: url("@/assets/images/fixed/login_bg.webp") no-repeat center center;
   background-size: cover;
 }
 
@@ -171,7 +123,7 @@ const checkPassword = async () => {
   height: 20vh;
   margin-bottom: 3vh;
   overflow: hidden;
-  background-image: url("@/assets/images/fixed/AIM_BI_White.png");
+  background-image: url("@/assets/images/fixed/EDDI_TCG_BI.webp");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -251,32 +203,6 @@ const checkPassword = async () => {
   border-radius: 1.4vh;
 }
 
-/* Google 로그인 버튼 설정 */
-.google-login-btn {
-  background-image: url("@/assets/images/fixed/btn_login_google.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  margin-bottom: 1vh;
-  border-radius: 1.4vh;
-}
-
-.naver-login-btn {
-  background-image: url("@/assets/images/fixed/btn_login_naver.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #03C75A;
-  border-radius: 1.4vh;
-}
-
 .v-text-field input {
   background-color: transparent !important;
   color: black !important;
@@ -287,7 +213,6 @@ const checkPassword = async () => {
   color: black !important;
   /* 레이블을 검정색으로 설정 */
 }
-
 
 /* 로그인 폼의 텍스트 필드 라벨 색상 설정 */
 :deep(.v-label.v-field-label) {
