@@ -1,29 +1,25 @@
-from librarian.BookSaveService.BookSaveService_repository_impl import BookSaveServiceRepositoryImpl
-from library.repository.library_repository_impl import LibraryRepositoryImpl
-from librarian.repository.librarian_repository_impl import LibrarianRepositoryImpl
+from librarian.service.librarian_service_impl import LibrarianServiceImpl
+from library.service.library_service_impl import LibraryServiceImpl
 
-libraryRepository = LibraryRepositoryImpl.getInstance()
-librarianRepository = LibrarianRepositoryImpl.getInstance()
-bookSaveServiceRepository = BookSaveServiceRepositoryImpl.getInstance()
+libraryService = LibraryServiceImpl.getInstance()
+librarianService = LibrarianServiceImpl.getInstance()
 
-# Agenda 설계
-
-# 사용자를 위해서 book list 제시
 bookListDisplay = ['Das Kapital', 'The Wealth of Nations',
                     'Guns, Germs, and Steel', 'Sapiens',
                     'Infinity', 'Geometry']
 print(bookListDisplay)
 
-# 1. 도서관에서 책을 2권 빌림, 카테고리도 함께 출력
-#libraryRepository.checkOutBook()
-#libraryRepository.checkOutBook()
+# 두명의 사용자가 도서관에서 책을 빌림. 빌린 후 사서에게 보여짐
 
-# 3. **빌린 책은 사서가 볼 수 있습니다.  -> DB에 정보를 넣는 개념(?)
-#librarianRepository.bookChecker()
-bookSaveServiceRepository.bookSaveService()
-#bookSaveServiceRepository.getBorrowedBookList()
-bookSaveServiceRepository.bookSaveService()
-#bookSaveServiceRepository.getBorrowedBookList()
+# 사용자 1
+libraryService.bookChecker()
+librarianService.bookShelf()  # 한번 더 입력을 받고, 사서에게 책 이름이 뜸
+
+# 사용자2
+libraryService.bookChecker()
+librarianService.bookShelf() # 한번 더 입력을 받고, 사서에게 책 이름이 뜸 
+
+
 
 
 
