@@ -14,6 +14,10 @@ declare module '@nuxt/schema' {
      */
     ["pandas_basic"]: typeof import("C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/pandas_basic/index").default extends NuxtModule<infer O> ? O : Record<string, any>
     /**
+     * Configuration for `C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/account/index`
+     */
+    ["account"]: typeof import("C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/account/index").default extends NuxtModule<infer O> ? O : Record<string, any>
+    /**
      * Configuration for `@nuxt/devtools`
      */
     ["devtools"]: typeof import("@nuxt/devtools").default extends NuxtModule<infer O> ? O : Record<string, any>
@@ -36,6 +40,10 @@ declare module '@nuxt/schema' {
      */
     ["pandas_basic"]?: typeof import("C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/pandas_basic/index").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
     /**
+     * Configuration for `C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/account/index`
+     */
+    ["account"]?: typeof import("C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/account/index").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    /**
      * Configuration for `@nuxt/devtools`
      */
     ["devtools"]?: typeof import("@nuxt/devtools").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
@@ -43,7 +51,7 @@ declare module '@nuxt/schema' {
      * Configuration for `@nuxt/telemetry`
      */
     ["telemetry"]?: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
-    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["vuetify-nuxt-module", Exclude<NuxtConfig["vuetify"], boolean>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["~/pandas_basic/index.ts", Exclude<NuxtConfig["pandas_basic"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
+    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["vuetify-nuxt-module", Exclude<NuxtConfig["vuetify"], boolean>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["~/pandas_basic/index.ts", Exclude<NuxtConfig["pandas_basic"], boolean>] | ["~/account/index.ts", Exclude<NuxtConfig["account"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
   }
 }
 declare module 'nuxt/schema' {
@@ -63,6 +71,10 @@ declare module 'nuxt/schema' {
      */
     ["pandas_basic"]: typeof import("C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/pandas_basic/index").default extends NuxtModule<infer O> ? O : Record<string, any>
     /**
+     * Configuration for `C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/account/index`
+     */
+    ["account"]: typeof import("C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/account/index").default extends NuxtModule<infer O> ? O : Record<string, any>
+    /**
      * Configuration for `@nuxt/devtools`
      * @see https://www.npmjs.com/package/@nuxt/devtools
      */
@@ -89,6 +101,10 @@ declare module 'nuxt/schema' {
      */
     ["pandas_basic"]?: typeof import("C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/pandas_basic/index").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
     /**
+     * Configuration for `C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/account/index`
+     */
+    ["account"]?: typeof import("C:/lecture/SK-Networks-8-Notes/nuxt/uy/ui/account/index").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
+    /**
      * Configuration for `@nuxt/devtools`
      * @see https://www.npmjs.com/package/@nuxt/devtools
      */
@@ -98,7 +114,7 @@ declare module 'nuxt/schema' {
      * @see https://www.npmjs.com/package/@nuxt/telemetry
      */
     ["telemetry"]?: typeof import("@nuxt/telemetry").default extends NuxtModule<infer O> ? Partial<O> : Record<string, any>
-    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["vuetify-nuxt-module", Exclude<NuxtConfig["vuetify"], boolean>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["~/pandas_basic/index.ts", Exclude<NuxtConfig["pandas_basic"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
+    modules?: (undefined | null | false | NuxtModule<any> | string | [NuxtModule | string, Record<string, any>] | ["vuetify-nuxt-module", Exclude<NuxtConfig["vuetify"], boolean>] | ["@pinia/nuxt", Exclude<NuxtConfig["pinia"], boolean>] | ["~/pandas_basic/index.ts", Exclude<NuxtConfig["pandas_basic"], boolean>] | ["~/account/index.ts", Exclude<NuxtConfig["account"], boolean>] | ["@nuxt/devtools", Exclude<NuxtConfig["devtools"], boolean>] | ["@nuxt/telemetry", Exclude<NuxtConfig["telemetry"], boolean>])[],
   }
   interface RuntimeConfig {
    app: {

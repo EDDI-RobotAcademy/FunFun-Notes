@@ -12,11 +12,11 @@ print(bookListDisplay)
 # 두명의 사용자가 도서관에서 책을 빌림. 빌린 후 사서에게 보여짐
 
 # 사용자 1
-libraryService.bookChecker()
+#libraryService.bookChecker()
 librarianService.bookShelf()  # 한번 더 입력을 받고, 사서에게 책 이름이 뜸
 
 # 사용자2
-libraryService.bookChecker()
+#libraryService.bookChecker()
 librarianService.bookShelf() # 한번 더 입력을 받고, 사서에게 책 이름이 뜸 
 
 

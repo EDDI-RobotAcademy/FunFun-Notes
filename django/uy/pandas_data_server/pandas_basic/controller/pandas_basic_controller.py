@@ -1,7 +1,7 @@
 from django.forms import model_to_dict
 from django.http import JsonResponse
 from django.shortcuts import render
-from intake.container.serializer import serializers
+#from intake.container.serializer import serializers
 from rest_framework import viewsets, status
 
 from pandas_basic.serializer.pandas_info_list_serializer import PandasInfoListSerializer
@@ -47,7 +47,7 @@ class PandasBasicController(viewsets.ViewSet):
     def requestFilteredData(self, request):
         getRequest = request.GET
 
-        name = getRequest.get("name", None)
+        name = getRequest.get("name", None)  # 이름을 여기서 받음
         minAge = getRequest.get("minAge", None)
         maxAge = getRequest.get("maxAge", None)
         print(f"name: {name}, minAge: {minAge}, maxAge: {maxAge}")

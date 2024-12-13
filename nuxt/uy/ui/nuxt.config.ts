@@ -3,7 +3,10 @@ import { defineNuxtConfig } from "nuxt/config"
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
-  extends: ['./pandas_basic/nuxt.config.ts'],
+  extends: [
+    './pandas_basic/nuxt.config.ts',
+    './account/nuxt.config.ts',
+  ],
 
   css: [
     'vuetify/styles',
@@ -23,7 +26,8 @@ export default defineNuxtConfig({
   modules: [
     'vuetify-nuxt-module',
     '@pinia/nuxt',
-    '~/pandas_basic/index.ts'
+    '~/pandas_basic/index.ts',
+    '~/account/index.ts',
   ],
 
   imports: {
