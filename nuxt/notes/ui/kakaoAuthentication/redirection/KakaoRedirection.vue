@@ -15,7 +15,7 @@ const route = useRoute()
 const setRedirectKakaoData = async() => {
     const code = route.query.code
 
-    const isEmailDuplication = await kakaoAuthenticationStore.requestAccessTokenToDjango({ email })
+    const isEmailDuplication = await kakaoAuthenticationStore.requestKakaoLoginToDjango({ email })
 
     if (isEmailDuplication === true) {
         console.log('이미 가입한 회원입니다!')

@@ -38,7 +38,7 @@ const kakaoAuthentication = useKakaoAuthenticationStore();
 // Google, Kakao, Naver 로그인 함수들
 const goToKakaoLogin = async () => {
   sessionStorage.setItem("loginType", "KAKAO");
-  await kakaoAuthentication.requestKakaoOauthRedirectionToDjango();
+  await kakaoAuthentication.requestKakaoLoginToDjango();
 };
 
 // Computed properties (Pinia 상태에 기반한 계산된 속성)
