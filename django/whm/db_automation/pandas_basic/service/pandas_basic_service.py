@@ -17,3 +17,7 @@ class PandasBasicService(ABC):
     @abstractmethod
     def statisticsSummery(self):
         pass
+
+    @abstractmethod
+    def filteredPandasInfo(self, filteredDictionary):
+        pass

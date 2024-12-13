@@ -45,8 +45,16 @@ INSTALLED_APPS = [
     "django_extensions",
     "corsheaders",
     "rest_framework",
-    "dice",
+    'game',
+    'player',
+    'dice',
+    'car',
+    #'car_registration',
+    #'car_business_pricing',
+    'pandas_basic',
+    'excel_basic',
 ]
+
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

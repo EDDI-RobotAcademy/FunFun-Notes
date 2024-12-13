@@ -51,3 +51,6 @@ class PandasBasicRepositoryImpl(PandasBasicRepository):
         describeData = dataFrame.describe(include="all").to_dict()
 
         return describeData
+
+    def filterByCondition(self, **ormFilteredDictionary):
+        return PandasBasicPerson.objects.filter(**ormFilteredDictionary)
