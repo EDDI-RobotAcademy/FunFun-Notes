@@ -1,11 +1,14 @@
 from librarian.repository.librarian_repository import LibrarianRepository
+from library.service.library_service_impl import LibraryServiceImpl
 
 
 class LibrarianRepositoryImpl(LibrarianRepository):
 
     __instance = None
 
-    __borrowedBookList = []
+    bookDict = {'Das Kapital': 'Economics', 'The Wealth of Nations': 'Economics',
+                'Guns, Germs, and Steel': 'History', 'Sapiens': 'History',
+                'Infinity': 'Mathematics', 'Geometry': 'Mathematics'}
 
     def __new__(cls):
         if cls.__instance is None:
@@ -20,12 +23,15 @@ class LibrarianRepositoryImpl(LibrarianRepository):
 
         return cls.__instance
 
-    # 관리자 페이지에 책 내용 전달
-    # 사용자가 도서를 입력하면 자동으로 borrowedBook에 저장되고, 사서에게 보여짐.
-    def bookChecker(self, borrowedBook):
-        self.__borrowedBookList.append(borrowedBook)
+
+    def getBookShelf(self, catg1):
+        # 단순히 catg를 받아서 bookDict을 검색 후 해당 책의 카테고리를 Dict에 함께 저장
+        #database = {}
+        #for book in catg1:
+        #    if book in self.bookDict.keys():
+        #        database.append(book)
+        return print(catg1)
 
 
-    # __borrowedBookList 리턴이 필요함
-    def getBorrowedBookList(self):
-        return self.__borrowedBookList
+
+        return

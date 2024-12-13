@@ -13,3 +13,7 @@ class PandasBasicRepository(ABC):
     @abstractmethod
     def statistics(self,targetData):
         pass
+
+    @abstractmethod
+    def filterByCondition(self, ormFilteredDictionary):
+        pass

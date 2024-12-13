@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 
 class GameRepository(ABC):
     @abstractmethod
-    def start(self):
+    def recordGame(self):
         pass
 
-    def record(self):
+    def getRecords(self):
         pass

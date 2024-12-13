@@ -24,7 +24,7 @@ class CrawlRepositoryImpl(CrawlRepository):
         return cls.__instance
 
     def __init__(self):
-        self.driver = webdriver.Chrome()
+        # self.driver = webdriver.Chrome()
         self.base_url = "https://tago.kr/model/index.htm"
 
     def crawl(self):
