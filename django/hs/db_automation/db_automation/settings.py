@@ -43,10 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
-    "corsheaders",
-    "rest_framework",
     'pandas_basic',
-    'excel_basic'
+    'excel_basic',
 ]
 
 MIDDLEWARE = [
