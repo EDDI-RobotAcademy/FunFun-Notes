@@ -1,52 +1,24 @@
 <template>
-  <v-container class="container">
-    <div class="login-wrapper">
-      <div>
-
-        <div class="login_logo">
-          <!-- LOGIN 텍스트 대신 이미지 삽입 -->
-        </div>
-
-        <div v-if="login_flag == false && this.isEmailCollect == false" class="login-error-box">
-          이메일이 올바르지 않습니다.
-          <br />
-          올바른 이메일을 입력하거나,
-          <br />
-          다른 간편로그인을 시도해 보세요.
-        </div>
-        <div v-if="login_flag == false && this.isEmailCollect == true && this.isPasswordCollect == false"
-          class="login-error-box">
-          비밀번호가 올바르지 않습니다.
-          <br />
-          올바른 비밀번호를 입력하거나,
-          <br />
-          다른 간편로그인을 시도해 보세요.
-        </div>
-
-        <!-- 한줄 소개 -->
-        <div class="introduction">
-          <p>Let's Go <b>EDDI TCG</b></p>
-        </div>
-
-        <!-- 영역 구분선 -->
-        <v-divider class="mt-5 mb-7" :thickness="3"></v-divider>
-
-
-        <!-- 각 소셜 로그인 버튼들 -->
-        <v-btn class="kakao-login-btn" @click="goToKakaoLogin">
+  <v-container fluid class="d-flex justify-center align-center pa-0" :style="{ backgroundImage: `url(${loginBgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }">
+    <v-row justify="center" align="center" class="fill-height ma-0">
+      <v-col cols="12" sm="8" md="6" class="text-center">
+        <v-btn class="kakao-login-btn" @click="goToKakaoLogin" block>
           <!-- 카카오 로그인 -->
         </v-btn>
-      </div>
-    </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 
 <script setup>
+import loginBgImage from '@/assets/images/fixed/login_bg.webp';
+
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAccountStore } from '@/stores/accountStore';
-import { useKakaoAuthenticationStore } from '../../../kakaoAuthentication/stores/kakaoAuthenticationStore';
+import { useKakaoAuthenticationStore } from '../../../kakaoAuthentication/stores/kakaoAuthenticationStore'
+
 
 const router = useRouter();
 
@@ -66,28 +38,14 @@ const kakaoAuthentication = useKakaoAuthenticationStore();
 // Google, Kakao, Naver 로그인 함수들
 const goToKakaoLogin = async () => {
   sessionStorage.setItem("loginType", "KAKAO");
-  await authentication.requestKakaoOauthRedirectionToDjango();
-};
-
-const goToGoogleLogin = async () => {
-  // alert("현재 로그인 검수 중입니다.");
-  sessionStorage.setItem("loginType", "GOOGLE");
-  await googleAuthentication.requestGoogleOauthRedirectionToDjango();
-};
-
-const goToNaverLogin = async () => {
-  alert("현재 로그인 검수 중입니다.");
-  // sessionStorage.setItem('loginType', "NAVER");
-  // await naverAuthentication.requestNaverOauthRedirectionToDjango();
+  await kakaoAuthentication.requestKakaoLoginToDjango();
 };
 
 // Computed properties (Pinia 상태에 기반한 계산된 속성)
-const isAuthenticatedKakao = computed(() => authentication.isAuthenticatedKakao);
-const isAuthenticatedNormal = computed(() => account.isAuthenticatedNormal);
-const loginType = computed(() => account.loginType);
-const isKakaoAdmin = computed(() => account.isKakaoAdmin);
-// const isAuthenticatedGoogle = computed(() => googleAuthentication.isAuthenticatedGoogle);
-const isAuthenticatedNaver = computed(() => naverAuthentication.isAuthenticatedNaver);
+// const isAuthenticatedKakao = computed(() => authentication.isAuthenticatedKakao);
+// const isAuthenticatedNormal = computed(() => account.isAuthenticatedNormal);
+// const loginType = computed(() => account.loginType);
+// const isKakaoAdmin = computed(() => account.isKakaoAdmin);
 
 // Methods
 const goToHome = () => {
@@ -134,48 +92,31 @@ const onSubmit = async () => {
   }
 };
 
-// Email, Password validation
-const emailRequired = v => !!v || "정확한 이메일 주소를 입력하세요.";
-const passwordRequired = v => !!v || "비밀번호는 8~20자 사이여야 합니다.";
-
-// 비밀번호 확인 함수
-const checkPassword = async () => {
-  try {
-    const payload = {
-      email: email.value,
-      password: password.value,
-    };
-    const response = await account.requestAccountCheckToDjango(payload);
-    return response;
-  } catch (error) {
-    console.error("비밀번호 확인 중 에러 발생: ", error);
-  }
-};
-
 </script>
 
 <style scoped>
 .container {
-  max-width: 100vw;
-  height: 110vh;
+  width: 100vw; /* Full viewport width */
+  height: 100vh; /* Full viewport height */
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   background-color: white;
-  background: url("@/assets/images/fixed/login_bg.png") no-repeat center center;
-  background-size: cover;
+  background: url("@/assets/images/fixed/login_bg.webp") no-repeat center center;
+  background-size: cover; /* Ensures the background image covers the whole container */
+  overflow: hidden; /* Prevents scrollbars */
 }
 
-.login_logo {
+/* .login_logo {
   height: 20vh;
   margin-bottom: 3vh;
   overflow: hidden;
-  background-image: url("@/assets/images/fixed/AIM_BI_White.png");
+  background-image: url("@/assets/images/fixed/EDDI_TCG_BI.webp");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
-}
+} */
 
 /* 로그인 박스 설정 */
 .login-wrapper {
@@ -239,6 +180,10 @@ const checkPassword = async () => {
 
 /* Kakao 로그인 버튼 설정 */
 .kakao-login-btn {
+  position: relative;
+  top: 40vh;
+  width: 200px !important;
+  height: 150px !important; /* Force height change */
   background-image: url("@/assets/images/fixed/btn_login_kakao.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -247,34 +192,8 @@ const checkPassword = async () => {
   align-items: center;
   justify-content: center;
   background-color: #FFEA00;
-  margin-bottom: 1vh;
   border-radius: 1.4vh;
-}
-
-/* Google 로그인 버튼 설정 */
-.google-login-btn {
-  background-image: url("@/assets/images/fixed/btn_login_google.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #fff;
-  margin-bottom: 1vh;
-  border-radius: 1.4vh;
-}
-
-.naver-login-btn {
-  background-image: url("@/assets/images/fixed/btn_login_naver.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #03C75A;
-  border-radius: 1.4vh;
+  cursor: pointer;
 }
 
 .v-text-field input {
