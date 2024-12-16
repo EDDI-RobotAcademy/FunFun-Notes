@@ -1,3 +1,5 @@
+import os
+
 from car.repository.car_repository_impl import CarRepositoryImpl
 from car.service.car_service import CarService
 from crawl.repository.crawl_repository_impl import CrawlRepositoryImpl
@@ -124,10 +126,12 @@ class CarServiceImpl(CarService):
         return carData
 
     def crawlCarData(self):
+        print("Checking attributes of CarServiceImpl instance:", dir(self))
+        print("Crawl Repository:", getattr(self, "_CarServiceImpl__crawlRepository", None))
+
         carData = self.__crawlRepository.crawl()
         print(f"carData: {carData}")
-        cleanedCarData = self.cleanCarData(carData) # cleaned? 정제가 안됐는데? 보호의 의미 ?
-
+        cleanedCarData = self.cleanCarData(carData)
         print(f"cleanedCarData: {cleanedCarData}")
         clearKmDriveRangeData = self.__processDriveRange(cleanedCarData)
         print(f"clearKmDriveRangeData: {clearKmDriveRangeData}")
@@ -148,52 +152,79 @@ class CarServiceImpl(CarService):
     def carList(self):
         return self.__carRepository.findAll()
 
-    def modifyCarText(self):
-        try:
-            # CSV 파일 읽기
-            csv_data = self.__load_csv('resources/car_text_modify.csv')
-            if csv_data is None:
-                return False
+    def requestModifyCarText(self):
+        csvFilePath = os.path.join("resource", "car_text_modify.csv")
 
-            # 데이터베이스 차량 데이터 가져오기
-            car_data = self.__carRepository.findAll()
-            if not car_data:
-                print("No car data found in the database.")
-                return False
+        # 파일에서 데이터를 읽는 것은 헬퍼로 위임
+        carTextList = self.__readCarTextsFromFile(csvFilePath)
+        if not carTextList:
+            return
 
-            # 차량 데이터 수정
-            modified_cars = self.__update_car_texts(car_data, csv_data)
+        print(f"carTextList: {carTextList}")
 
-            # 수정된 데이터 저장
-            self.__save_modified_cars(modified_cars)
+        # 기존 데이터 가져오기
+        existingCarList = self.__carRepository.findAll()
+        print(f"existingCarList: {existingCarList}")
 
-            print(f"Successfully modified {len(modified_cars)} cars.")
+        # 기존 데이터와 파일 데이터를 기반으로 업데이트 작업만 수행
+        updateCarList = self.__prepareUpdateCars(existingCarList, carTextList)
+        print(f"updateCarList: {updateCarList}")
+
+        # 업데이트 작업 실행
+        if updateCarList:
+            self.__updateExistingCars(updateCarList)
             return True
 
-        except Exception as e:
-            print(f"An error occurred while modifying car text: {e}")
-            return False
+        print("업데이트할 데이터가 없습니다.")
+        return False
 
-    def __load_csv(self, file_path):
-        try:
-            return pd.read_csv(file_path)
-        except Exception as e:
-            print(f"Failed to read CSV file at {file_path}: {e}")
+    # Private Method 1: 파일에서 텍스트 읽기
+    def __readCarTextsFromFile(self, csvFilePath):
+        currentWorkingDirectory = os.getcwd()
+        print(f"현재 작업 디렉토리: {currentWorkingDirectory}")
+
+        # 절대 경로 생성
+        absPath = os.path.join(currentWorkingDirectory, csvFilePath)
+        print(f"absPath: {absPath}")
+
+        if not os.path.exists(absPath):
+            print(f"CSV 파일이 존재하지 않습니다: {absPath}")
             return None
 
-    def __update_car_texts(self, car_data, csv_data):
-        modified_cars = []
-        for car in car_data:
-            car_id = car.get('id')
-            matching_row = csv_data[csv_data['car_id'] == car_id]
+        try:
+            with open(absPath, newline="", encoding="utf-8") as csvfile:
+                # 첫 번째 줄을 건너뛰고 데이터를 읽어들임
+                reader = csvfile.readlines()[1:]  # 첫 번째 줄을 건너뛰고 나머지 데이터를 읽음
+                return {line.strip() for line in reader if line.strip()}  # 빈 줄을 제외하고 데이터만 셋에 추가
+        except Exception as e:
+            print(f"CSV 파일을 읽는 중 오류 발생: {e}")
+            return None
 
-            if not matching_row.empty:
-                new_text = matching_row.iloc[0]['new_text']
-                car['text'] = new_text
-                modified_cars.append(car)
+    # Private Method 2: 업데이트 데이터 준비
+    def __prepareUpdateCars(self, existingCarList, carTextList):
+        update_cars = []
+        print(f'len(existingCarList): {len(existingCarList)}')
+        print(f'len(carTextList): {len(carTextList)}')
 
-        return modified_cars
+        # carTextList가 빈 값이 아니어야 함
+        if carTextList:
+            # existingCarList의 각 항목에 대해 carTextList에서 값을 가져와서 넣기
+            carTextList = list(carTextList)  # set이 아닌 list로 변환 (순서 보장)
 
-    def __save_modified_cars(self, modified_cars):
-        for car in modified_cars:
-            self.__carRepository.save(car)
+            if len(existingCarList) == len(carTextList):
+                for i, car in enumerate(existingCarList.to_dict("records")):
+                    car['text'] = carTextList[i]  # carTextList에서 해당 인덱스의 값을 넣기
+                    update_cars.append({"id": car["id"], "text": car['text']})
+                    print(f"Updated car with id: {car['id']} and new text: {car['text']}")
+            else:
+                print("The lengths of existingCarList and carTextList do not match.")
+        else:
+            print("carTextList is empty.")
+
+        return update_cars
+
+    # Private Method 3: 기존 데이터 업데이트
+    def __updateExistingCars(self, updateCarList):
+        for carData in updateCarList:
+            self.__carRepository.save(carData)
+            print(f"업데이트된 차량 데이터: {carData['text']}")

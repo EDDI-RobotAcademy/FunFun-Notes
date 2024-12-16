@@ -22,5 +22,10 @@ urlpatterns = [
     path('dice/', include("dice.urls")),
     path('dice_game/', include("dice_game.urls")),
     path('car/', include ("car.urls")),
-    path('fruit_mart/', include("fruit_mart.urls"))
+    path('fruit_mart/', include("fruit_mart.urls")),
+    path("car-registration/", include('car_registration.urls')),
+    path("car-business-pricing/", include('car_business_pricing.urls')),
+    path("pandas-basic/", include('pandas_basic.urls')),
+    path("excel-basic/", include('excel_basic.urls')),
+    path("kakao-oauth/", include('kakao_authentication.urls')),
 ]

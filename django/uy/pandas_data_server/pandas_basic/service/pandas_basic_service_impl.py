@@ -32,7 +32,6 @@ class PandasBasicServiceImpl(PandasBasicService):
                 {"name": name, "age": age}
                 for name, age in zip(self.__fixedData["name"], self.__fixedData["age"])
             ]
-            print(f"createPandasInfo() data: {data}")
             self.__pandasBasicRepository.createMany(data)
 
             return True
@@ -48,16 +47,23 @@ class PandasBasicServiceImpl(PandasBasicService):
 
         def filteredPandasInfo(self, filteredDictionary):
             ormFilterDictionary = {}
+            # Django의 ORM은 SQL을 자동 생성해줌
             print(f"service -> filteredPandasInfo() filteredDictionary: {filteredDictionary}")
 
             if "name" in filteredDictionary:
                 ormFilterDictionary["name__icontains"] = filteredDictionary["name"]
+                # filteredDictionary에 'name' 키가 존재할 경우,
+                # ormFilterDictionary에 'name__icontains' 조건을 추가하여, Django ORM의 부분 검색 조건을 적용하는 코드
+                # name__icontains는 대소문자를 구분하지 않는 부분 일치 검색
 
             if "minAge" in filteredDictionary:
                 ormFilterDictionary["age__gte"] = filteredDictionary["minAge"]
+                # __gte: lookup 표현식
+                # age__gte=20 : age가 20 이상
 
             if "maxAge" in filteredDictionary:
                 ormFilterDictionary["age__lte"] = filteredDictionary["maxAge"]
+                # age__lte=20 : age가 20 이하
 
             print(f"service -> ormFilterDictionary: {ormFilterDictionary}")
 

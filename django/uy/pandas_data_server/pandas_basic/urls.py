@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from kakao_authentication.controller.kakao_oauth_controller import KakaoOauthController
 from pandas_basic.controller.pandas_basic_controller import PandasBasicController
 
 router = DefaultRouter()
@@ -27,5 +28,9 @@ urlpatterns = [
     path('request-filtered-data',
          PandasBasicController.as_view({'get': 'requestFilteredData'}),
          name='pandas 필터링 데이터 획득'),
+
+    path('kakao',
+         KakaoOauthController.as_view({ 'get': 'requestKakaoOauthLink' }),
+         name='Kakao Oauth 링크 요청'),
 
 ]

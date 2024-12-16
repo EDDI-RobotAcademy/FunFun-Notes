@@ -156,10 +156,10 @@
         async function processRefund() {
             const customerName = document.getElementById("refund-customer-name").value;
             const orderId = document.getElementById("refund-order-id").value;
-            const item = document.getElementById("refund-item").value;
+            const refundItem = document.getElementById("refund-item").value;
             const refundQuantity = document.getElementById("refund-quantity").value;
         
-            if (!customerName || !orderId || !item || !refundQuantity) {
+            if (!customerName || !orderId || !refundItem || !refundQuantity) {
                 alert("모든 필드를 입력해주세요.");
                 return;
             }
@@ -174,7 +174,7 @@
                     body: JSON.stringify({
                         customer_name: customerName,
                         order_id: orderId,
-                        item: item,
+                        refund_item: refundItem,
                         refund_quantity: parseInt(refundQuantity, 10)
                     })
                 });
