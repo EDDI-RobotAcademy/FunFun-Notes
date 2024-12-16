@@ -1,3 +1,5 @@
+import requests
+
 from db_automation import settings
 from kakao_authentication.repository.kakao_oauth_repository import KakaoOauthRepository
 
@@ -29,4 +31,15 @@ class KakaoOauthRepositoryImpl(KakaoOauthRepository):
 
         return (f"{self.loginUrl}/oauth/authorize?"
                 f"client_id={self.clientId}&redirect_uri={self.redirectUri}&response_type=code")
-    
+
+    def getAccessToken(self, code):
+        accessTokenRequest = {
+            'grant_type': 'authorization_code',
+            'client_id': self.clientId,
+            'redirect_uri': self.redirectUri,
+            'code': code,
+            'client_secret': None
+        }
+
+        response = requests.post(self.tokenRequestUri, data=accessTokenRequest)
+        return response.json()

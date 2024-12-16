@@ -5,7 +5,7 @@ export const kakaoAuthenticationAction = {
         const { djangoAxiosInstance } = axiosUtility.createAxiosInstances()
 
         try {
-            return djangoAxiosInstance.get('/kakao-oauth/kakao').then((res) => {
+            return djangoAxiosInstance.get('/kakao-oauth/request-login-url').then((res) => {
                 console.log(`res: ${res}`)
                 window.location.href = res.data.url
             })
