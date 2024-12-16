@@ -29,59 +29,25 @@ class KakaoOauthController(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
         code = serializer.validated_data['code']
 
-        # try:
-        #     tokenResponse = self.kakaoOauthService.requestAccessToken(code)
-        #     accessToken = tokenResponse['access_token']
-        #
-        #     with transaction.atomic():
-        #         userInfo = self.kakaoOauthService.requestUserInfo(accessToken)
-        #         nickname = userInfo.get('properties', {}).get('nickname', '')
-        #         email = userInfo.get('kakao_account', {}).get('email', '')
-        #
-        #         createdAccount = self.accountService.createAccount(email)
-        #         createdAccountProfile = self.accountProfileService.createAccountProfile(
-        #             createdAccount.getId(), nickname
-        #         )
-        #
-        #         userToken = self.__createUserTokenWithAccessToken(createdAccount, accessToken)
-        #
-        #     return JsonResponse({'userToken': userToken})
-        #
-        # except Exception as e:
-        #     return JsonResponse({'error': str(e)}, status=500)
-
         try:
-            print("Received code:", code)
             tokenResponse = self.kakaoOauthService.requestAccessToken(code)
-            print("Token response:", tokenResponse)
             accessToken = tokenResponse['access_token']
-            print("Access token:", accessToken)
 
             with transaction.atomic():
-                print("Requesting user info...")
                 userInfo = self.kakaoOauthService.requestUserInfo(accessToken)
-                print("User info:", userInfo)
-
                 nickname = userInfo.get('properties', {}).get('nickname', '')
                 email = userInfo.get('kakao_account', {}).get('email', '')
-                print("Nickname:", nickname)
-                print("Email:", email)
 
                 createdAccount = self.accountService.createAccount(email)
-                print("Created account:", createdAccount)
-
                 createdAccountProfile = self.accountProfileService.createAccountProfile(
                     createdAccount.getId(), nickname
                 )
-                print("Created account profile:", createdAccountProfile)
 
                 userToken = self.__createUserTokenWithAccessToken(createdAccount, accessToken)
-                print("Created user token:", userToken)
 
             return JsonResponse({'userToken': userToken})
 
         except Exception as e:
-            print("Error occurred:", str(e))  # 에러 메시지 출력
             return JsonResponse({'error': str(e)}, status=500)
 
     def __createUserTokenWithAccessToken(self, account, accessToken):
