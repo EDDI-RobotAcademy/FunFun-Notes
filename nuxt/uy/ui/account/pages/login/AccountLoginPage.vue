@@ -1,5 +1,14 @@
 <template>
-  <v-container fluid class="d-flex justify-center align-center pa-0" :style="{ backgroundImage: `url(${loginBgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }">
+  <v-container
+    fluid
+    class="d-flex justify-center align-center pa-0"
+    :style="{
+      backgroundImage: `url(${loginBgImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      height: '100vh',
+    }"
+  >
     <v-row justify="center" align="center" class="fill-height ma-0">
       <v-col cols="12" sm="8" md="6" class="text-center">
         <v-btn class="kakao-login-btn" @click="goToKakaoLogin" block>
@@ -10,14 +19,12 @@
   </v-container>
 </template>
 
-
 <script setup>
-import loginBgImage from '@/assets/images/fixed/gugu.jpeg'
-import { ref, computed } from 'vue';
-import { useRouter } from 'vue-router';
-import { useAccountStore } from '@/stores/accountStore';
-import { useKakaoAuthenticationStore } from '../../../kakaoAuthentication/stores/kakaoAuthenticationStore'
-
+import loginBgImage from "@/assets/images/fixed/gugu.jpeg";
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useAccountStore } from "@/stores/accountStore";
+import { useKakaoAuthenticationStore } from "../../../kakaoAuthentication/stores/kakaoAuthenticationStore";
 
 const router = useRouter();
 
@@ -65,18 +72,18 @@ const onSubmit = async () => {
 
     if (response) {
       login_flag.value = true; // 로그인 성공
-      sessionStorage.setItem('email', email.value);
-      sessionStorage.setItem('loginType', 'NORMAL');
+      sessionStorage.setItem("email", email.value);
+      sessionStorage.setItem("loginType", "NORMAL");
 
       if (roleType.data.roleType === "ADMIN") {
         // Admin 처리
-        sessionStorage.removeItem('normalToken');
-        sessionStorage.setItem('adminToken', true);
+        sessionStorage.removeItem("normalToken");
+        sessionStorage.setItem("adminToken", true);
         account.REQUEST_IS_ADMIN_TO_DJANGO(true);
         goToHome();
       } else {
         // Normal 처리
-        sessionStorage.setItem('normalToken', true);
+        sessionStorage.setItem("normalToken", true);
         account.isAuthenticatedNormal = true;
         goToHome();
       }
@@ -90,7 +97,6 @@ const onSubmit = async () => {
     loading.value = false;
   }
 };
-
 </script>
 
 <style scoped>
@@ -154,7 +160,6 @@ const onSubmit = async () => {
   word-break: break-word;
 }
 
-
 @media (max-width: 768px) {
   .v-btn {
     height: 45px; /* 모바일 환경에서는 높이를 줄임 */
@@ -172,9 +177,8 @@ const onSubmit = async () => {
     height: 13vh;
   }
   .introduction {
-  white-space: pre-wrap;
-}
-
+    white-space: pre-wrap;
+  }
 }
 
 /* Kakao 로그인 버튼 설정 */
@@ -183,14 +187,14 @@ const onSubmit = async () => {
   top: 40vh;
   width: 200px !important;
   height: 150px !important; /* Force height change */
-  background-image: url("@/assets/images/fixed/btn_login_kakao.png");
+  background-image: url("@/assets/images/fixed/googleImage.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #FFEA00;
+  background-color: #ffea00;
   border-radius: 1.4vh;
   cursor: pointer;
 }
@@ -205,7 +209,6 @@ const onSubmit = async () => {
   color: black !important;
   /* 레이블을 검정색으로 설정 */
 }
-
 
 /* 로그인 폼의 텍스트 필드 라벨 색상 설정 */
 :deep(.v-label.v-field-label) {

@@ -4,7 +4,7 @@ import { useAccountStore } from "./accountStore"
 
 export const accountAction = {
 
-	async requestAccountIdToDjango(email: string): Promise<any> {
+	    async requestAccountIdToDjango(email: string): Promise<any> {
         const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
         try{
             const res: AxiosResponse = await djangoAxiosInstance.post('/account/get-account-id', { email })
