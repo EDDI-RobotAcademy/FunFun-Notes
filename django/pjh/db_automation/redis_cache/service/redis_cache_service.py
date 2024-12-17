@@ -1,16 +1,15 @@
 from abc import ABC, abstractmethod
 
 
-class KakaoOauthRepository(ABC):
-
+class RedisCacheService(ABC):
     @abstractmethod
-    def getOauthLink(self):
+    def storeKeyValue(self, key, value):
         pass
 
     @abstractmethod
-    def getAccessToken(self, code):
+    def getValueByKey(self, key):
         pass
 
     @abstractmethod
-    def getUserInfo(self, accessToken):
+    def deleteKey(self, key):
         pass
