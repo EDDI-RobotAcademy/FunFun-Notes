@@ -7,6 +7,7 @@ export function createAxiosInstances() {
     const config = useRuntimeConfig();
 
     const mainApiUrl: string = config.public.MAIN_API_URL as string;
+    console.log(`mainApiUrl: ${mainApiUrl}`)
     const aiBaseUrl: string = config.public.AI_BASE_URL as string;
 
     if (!djangoAxiosInstance) {

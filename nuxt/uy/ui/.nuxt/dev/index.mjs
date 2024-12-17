@@ -705,7 +705,10 @@ const _inlineRuntimeConfig = {
       }
     }
   },
-  "public": {}
+  "public": {
+    "MAIN_API_URL": "http://localhost:8000",
+    "AI_BASE_URL": ""
+  }
 };
 const envOptions = {
   prefix: "NITRO_",

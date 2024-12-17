@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   extends: [
     './pandas_basic/nuxt.config.ts',
     './account/nuxt.config.ts',
+    './kakaoAuthentication/nuxt.config.ts',
   ],
 
   css: [
@@ -28,9 +29,17 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     '~/pandas_basic/index.ts',
     '~/account/index.ts',
+    '~/kakaoAuthentication/index.ts',
   ],
 
   imports: {
     dirs: ['./stores']
-  }
+  },
+
+  runtimeConfig: {
+    public: {
+      MAIN_API_URL: process.env.VUE_APP_BASE_URL,
+      AI_BASE_URL: process.env.VUE_APP_AI_BASE_URL,
+    }
+  },
 })

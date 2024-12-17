@@ -71,6 +71,9 @@
       "assets": [
         "../assets"
       ],
+      "assets/*": [
+        "../assets/*"
+      ],
       "public": [
         "../public"
       ],
@@ -145,6 +148,8 @@
     "../pandas_basic/dist/runtime",
     "../account/runtime",
     "../account/dist/runtime",
+    "../kakaoAuthentication/runtime",
+    "../kakaoAuthentication/dist/runtime",
     "../node_modules/@nuxt/devtools/runtime",
     "../node_modules/@nuxt/devtools/dist/runtime",
     "../node_modules/@nuxt/telemetry/runtime",
@@ -158,6 +163,7 @@
     "../node_modules/nuxt/node_modules",
     "../pandas_basic/node_modules",
     "../account/node_modules",
+    "../kakaoAuthentication/node_modules",
     "../node_modules/vuetify-nuxt-module/runtime/server",
     "../node_modules/vuetify-nuxt-module/dist/runtime/server",
     "../node_modules/@pinia/nuxt/runtime/server",
@@ -166,6 +172,8 @@
     "../pandas_basic/dist/runtime/server",
     "../account/runtime/server",
     "../account/dist/runtime/server",
+    "../kakaoAuthentication/runtime/server",
+    "../kakaoAuthentication/dist/runtime/server",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/devtools/dist/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",

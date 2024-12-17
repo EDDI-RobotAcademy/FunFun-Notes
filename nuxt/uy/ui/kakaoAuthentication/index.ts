@@ -1,12 +1,10 @@
-//  url 매핑
-
 import { defineNuxtModule } from '@nuxt/kit';
 import { resolve } from 'path';
 
 export default defineNuxtModule({
     meta: {
-        name: 'pandas_basic',
-        configKey: 'pandas_basic',
+        name: 'kakaoAuthentication',
+        configKey: 'kakaoAuthentication',
     },
 
     setup(moduleOptions, nuxt) {
@@ -15,8 +13,8 @@ export default defineNuxtModule({
         nuxt.hook('pages:extend', (pages) => {
             pages.push({
                 name: 'kakaoRedirection',
-                path: '/kakao-oauth/',
-                file: resolve(themeDir, 'pandas_basic/pages/PandasBasicInfo.vue'),
+                path: '/kakao-oauth/redirect-access-token',
+                file: resolve(themeDir, 'kakaoAuthentication/redirection/KakaoRedirection.vue'),
             });
         });
 
