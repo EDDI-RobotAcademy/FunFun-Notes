@@ -4,22 +4,22 @@
     
     <!-- 상품 등록 링크 -->
     <div style="text-align: left; margin: 15px;">
-      <NuxtLink :to="{ name: 'ProductRegisterPage' }">게임 소프트웨어 등록</NuxtLink>
+<!--      <NuxtLink :to="{ name: 'GameSoftwareRegisterPage' }">게임 소프트웨어 등록</NuxtLink>-->
     </div>
     
     <!-- 상품 목록 -->
-    <v-row v-if="productList.length > 0">
-      <v-col v-for="(product, index) in productList" :key="index" sm="6">
-        <v-card @click="goToProductReadPage(product.productId)">
-          <v-img :src="getProductImageUrl(product.productImage)" aspect-ratio="1" class="grey lighten-2">
+    <v-row v-if="gameSoftwareList.length > 0">
+      <v-col v-for="(gameSoftware, index) in gameSoftwareList" :key="index" sm="6">
+        <v-card @click="goToGameSoftwareReadPage(gameSoftware.id)">
+          <v-img :src="getGameSoftwareImageUrl(gameSoftware.image)" aspect-ratio="1" class="grey lighten-2">
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular indeterminate color="grey lighten-5"/>
               </v-row>
             </template>
           </v-img>
-          <v-card-title>{{ product.productName }}</v-card-title>
-          <v-card-subtitle>{{ product.productPrice }}</v-card-subtitle>
+          <v-card-title>{{ gameSoftware.name }}</v-card-title>
+          <v-card-subtitle>{{ gameSoftware.price }}</v-card-subtitle>
         </v-card>
       </v-col>
     </v-row>
@@ -51,31 +51,29 @@ import { ref, computed, onMounted } from 'vue'
 // import { useGameSoftwareStore } from '../../stores/gameSoftwareStore' // Pinia store 가져오기
 import { useRouter } from 'vue-router'
 
-// Pinia store
-// const productStore = useProductStore()
-
-// 상품 목록 가져오기
-// const productList = computed(() => productStore.productList)
+// const gameSoftwareStore = useGameSoftwareStore()
+// const gameSoftwareList = computed(() => gameSoftwareStore.list)
+const gameSoftwareList = ref([])
 
 // 라우터 설정
 const router = useRouter()
 
 // 상품 이미지 URL을 반환하는 함수
-const getProductImageUrl = (imageName: string) => {
+const getGameSoftwareImageUrl = (imageName: string) => {
   return require('@/assets/images/uploadImages/' + imageName)
 }
 
 // 상품 상세 페이지로 이동하는 함수
-const goToProductReadPage = (productId: string) => {
+const goToGameSoftwareReadPage = (id: string) => {
   router.push({
-    name: 'ProductReadPage',
-    params: { productId },
+    name: 'GameSoftwareReadPage',
+    params: { id },
   })
 }
 
 // 컴포넌트 마운트 시 상품 목록 요청
 onMounted(() => {
-//   productStore.requestProductListToDjango()
+//   gameSoftwareStore.requestGameSoftwareList()
 })
 </script>
 
