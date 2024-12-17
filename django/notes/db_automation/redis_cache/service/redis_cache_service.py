@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class RedisCacheService(ABC):
     @abstractmethod
-    def storeAccessToken(self, account_id, userToken):
+    def storeKeyValue(self, key, value):
         pass
 
     @abstractmethod

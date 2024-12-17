@@ -25,9 +25,9 @@ class RedisCacheServiceImpl(RedisCacheService):
             cls.__instance = cls()
         return cls.__instance
 
-    def storeAccessToken(self, account_id, userToken):
+    def storeAccessToken(self, key, value):
         try:
-            self.redisClient.set(userToken, account_id)
+            self.redisClient.set(key, value)
         except Exception as e:
             print('Error storing access token in Redis:', e)
             raise e
