@@ -1,30 +1,34 @@
 <template>
-    <div></div>
+  <div></div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 
-const accountStore = useAccountStore()
-const kakaoAuthenticationStore = useKakaoAuthentication()
+import { useAccountStore } from "../../account/stores/accountStore";
+import { useKakaoAuthenticationStore } from "../../kakaoAuthentication/stores/kakaoAuthenticationStore";
 
-const router = useRouter()
-const route = useRoute()
+const accountStore = useAccountStore();
+const kakaoAuthenticationStore = useKakaoAuthenticationStore();
 
-const setRedirectKakaoData = async() => {
-    const code = route.query.code
+const router = useRouter();
+const route = useRoute();
 
-    const isEmailDuplication = await kakaoAuthenticationStore.requestKakaoLoginToDjango({ email })
+const setRedirectKakaoData = async () => {
+  const code = route.query.code;
+  await kakaoAuthenticationStore.requestAccessToken({ code });
 
-    if (isEmailDuplication === true) {
-        console.log('이미 가입한 회원입니다!')
-    } else {
-        console.log('새로 가입이 필요한 회원입니다.')
-    }
+  // const isEmailDuplication = await kakaoAuthenticationStore.requestKakaoLoginToDjango({ email })
+
+  // if (isEmailDuplication === true) {
+  //     console.log('이미 가입한 회원입니다!')
+  // } else {
+  //     console.log('새로 가입이 필요한 회원입니다.')
+  // }
 }
 
 onMounted(async () => {
-    await setRedirectKakaoData()
+  await setRedirectKakaoData();
 })
 </script>
