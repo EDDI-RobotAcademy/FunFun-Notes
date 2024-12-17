@@ -43,7 +43,7 @@ const kakaoAuthentication = useKakaoAuthenticationStore();
 
 // Google, Kakao, Naver 로그인 함수들
 const goToKakaoLogin = async () => {
-  sessionStorage.setItem("loginType", "KAKAO");
+  //sessionStorage.setItem("loginType", "KAKAO");
   await kakaoAuthentication.requestKakaoLoginToDjango();
 };
 
