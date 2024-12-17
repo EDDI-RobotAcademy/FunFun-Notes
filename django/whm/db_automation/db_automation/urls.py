@@ -28,4 +28,6 @@ urlpatterns = [
     path("car-business-pricing/", include('car_business_pricing.urls')),
     path("pandas-basic/", include('pandas_basic.urls')),
     path("excel-basic/", include('excel_basic.urls')),
+    path("kakao-oauth/", include('kakao_authentication.urls')),
+    path("account/", include('account.urls')),
 ]

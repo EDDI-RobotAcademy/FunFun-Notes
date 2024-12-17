@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     #'car_business_pricing',
     'pandas_basic',
     'excel_basic',
+    'kakao_authentication',
 ]
 
 
@@ -91,7 +92,16 @@ CORS_ALLOW_HEADERS = [
     'user-agent',
     'x-csrftoken',
     'x-request-with',
+
 ]
+
+KAKAO = {
+    'LOGIN_URL': os.getenv('KAKAO_LOGIN_URL'),
+    'CLIENT_ID': os.getenv('KAKAO_CLIENT_ID'),
+    'REDIRECT_URI': os.getenv('KAKAO_REDIRECT_URI'),
+    'TOKEN_REQUEST_URI': os.getenv('KAKAO_TOKEN_REQUEST_URI'),
+    'USER_INFO_REQUEST_URI': os.getenv('KAKAO_USER_INFO_REQUEST_URI'),
+}
 
 ROOT_URLCONF = "db_automation.urls"
 
