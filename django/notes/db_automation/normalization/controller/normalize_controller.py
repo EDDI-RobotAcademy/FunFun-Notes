@@ -46,6 +46,7 @@ class NormalizeController(viewsets.ViewSet):
         print(df_scaled)
         
         print("표준화")
+        # PANDAS, Logistic 회귀 준비
         # 위에 논했듯이 0 ~ 1 사이로 정리하는 부분 (standard_scaler.fit_transform)
         standard_scaler = StandardScaler()
         df_standardized = pd.DataFrame(standard_scaler.fit_transform(df), columns=df.columns)
