@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    # path("admin/", admin.site.urls),
     # path("game/", include('game.urls')),
     # path("player/", include('player.urls')),
     # path("dice/", include('dice.urls')),
@@ -29,6 +29,6 @@ urlpatterns = [
     # path("pandas-basic/", include('pandas_basic.urls')),
     # path("excel-basic/", include('excel_basic.urls')),
     path("kakao-oauth/", include('kakao_authentication.urls')),
-    path("account-profile/", include('account_profile.urls')),
     path("account/", include('account.urls')),
+    path("account-profile/", include('account_profile.urls')),
 ]
