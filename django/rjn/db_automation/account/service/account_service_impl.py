@@ -22,4 +22,3 @@ class AccountServiceImpl(AccountService):
 
     def createAccount(self, email):
         return self.__accountRepository.save(email)
-    
