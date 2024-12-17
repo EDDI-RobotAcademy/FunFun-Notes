@@ -24,6 +24,12 @@ export default defineNuxtConfig({
     },
   },
 
+  components: [
+    {
+      path: '~/navigationBar', extensions: ['vue'],
+    },
+  ],
+
   modules: [
     'vuetify-nuxt-module',
     '@pinia/nuxt',

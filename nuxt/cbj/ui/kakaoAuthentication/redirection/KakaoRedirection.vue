@@ -6,7 +6,7 @@
 import { onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
-import { useAccountStore } from '../../account/stores/accountStore'
+import { useAccountStore } from '../../account/stores/accountStore';
 import { useKakaoAuthenticationStore } from '../../kakaoAuthentication/stores/kakaoAuthenticationStore'
 
 const accountStore = useAccountStore()
