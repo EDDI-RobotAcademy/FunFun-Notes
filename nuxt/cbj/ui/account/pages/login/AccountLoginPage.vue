@@ -12,11 +12,11 @@
 
 
 <script setup>
-import loginBgImage from '@/assets/images/fixed/dgfhjfg.jpg';
+import loginBgImage from '@/assets/images/fixed/artwork-digital-art-evelynn-league-of-legends-league-of-legends-video-games-hd-wallpaper-preview.jpg';
 
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
-import { useAccountStore } from '../../store/accountStore';
+import { useAccountStore } from '../../stores/accountStore';
 import { useKakaoAuthenticationStore } from '../../../kakaoAuthentication/stores/kakaoAuthenticationStore'
 
 
