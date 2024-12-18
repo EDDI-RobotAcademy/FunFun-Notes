@@ -5,7 +5,7 @@ from game_software.entity.game_software import GameSoftware
 
 class GameSoftwareDescription(models.Model):
     id = models.AutoField(primary_key=True)
-    product = models.ForeignKey(GameSoftware, on_delete=models.CASCADE, related_name="prices")
+    gameSoftware = models.ForeignKey(GameSoftware, on_delete=models.CASCADE, related_name="descriptions")
     description = models.TextField()
 
     class Meta:
