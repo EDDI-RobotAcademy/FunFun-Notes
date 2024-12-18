@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
-    "corsheaders",
+    # "corsheaders",
     "rest_framework",
     'pandas_basic',
 ]
@@ -61,6 +61,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
+
+
 
 CORS_ALLOW_CREDENTIALS = True
 
