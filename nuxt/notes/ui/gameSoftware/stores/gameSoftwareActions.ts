@@ -1,6 +1,6 @@
 import * as axiosUtility from "../../utility/axiosInstance"
 
-export const kakaoAuthenticationAction = {
+export const gameSoftwareAction = {
     async requestKakaoLoginToDjango(): Promise<void> {
         const { djangoAxiosInstance } = axiosUtility.createAxiosInstances()
 

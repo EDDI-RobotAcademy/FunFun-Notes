@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-// import { kakaoAuthenticationState } from "./kakaoAuthenticationState";
-// import { kakaoAuthenticationAction } from "./kakaoAuthenticationActions";
+import { gameSoftwareState } from "./gameSoftwareState";
+import { gameSoftwareAction } from "./gameSoftwareActions";
 
-// export const useGameSoftwareStore = defineStore('kakaoAuthenticationStore', {
-//     state: kakaoAuthenticationState,
-//     actions: kakaoAuthenticationAction,
-// })
+export const useGameSoftwareStore = defineStore('gameSoftwareStore', {
+    state: gameSoftwareState,
+    actions: gameSoftwareAction,
+})
