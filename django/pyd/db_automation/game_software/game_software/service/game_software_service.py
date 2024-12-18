@@ -6,5 +6,3 @@ class GameSoftwareService(ABC):
     @abstractmethod
     def requestList(self, page, perPage):
         pass
-
-

@@ -1,12 +1,12 @@
 from abc import ABC, abstractmethod
 
 
-class GameSoftwareRepository(ABC):
+class AccountRepository(ABC):
 
     @abstractmethod
-    def list(self, page, perPage):
+    def save(self, email):
         pass
 
     @abstractmethod
-    def findAll(self):
+    def findById(self, accountId):
         pass
