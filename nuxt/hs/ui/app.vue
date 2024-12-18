@@ -1,8 +1,9 @@
 <template>
   <v-container>
     <v-app>
+      <NavigationBar/>
       <v-main>
-        <NuxtPage />
+        <NuxtPage/>
       </v-main>
     </v-app>
   </v-container>
@@ -13,5 +14,3 @@
 
 <style scoped>
 </style>
-
-

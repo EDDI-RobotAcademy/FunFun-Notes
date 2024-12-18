@@ -31,6 +31,12 @@ export default defineNuxtConfig({
     '~/account/index.ts',
     '~/kakaoAuthentication/index.ts',
   ],
+  
+  components: [
+    {
+      path: '~/navigationBar', extensions: ['vue'],
+    },
+  ],
 
   imports: {
     dirs: ['./stores']

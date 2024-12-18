@@ -22,4 +22,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("pandas-basic/", include('pandas_basic.urls')),
     path("excel-basic/", include('excel_basic.urls')),
+    path("kakao-oauth/", include('kakao_authentication.urls')),
+    path("account/", include('account.urls')),
+    path("account-profile/", include('account_profile.urls')),
 ]
