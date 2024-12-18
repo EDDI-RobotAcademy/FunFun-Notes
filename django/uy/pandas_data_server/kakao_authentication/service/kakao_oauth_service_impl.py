@@ -25,3 +25,6 @@ class KakaoOauthServiceImpl(KakaoOauthService):
 
     def requestAccessToken(self, code):
         return self.__kakaoOauthRepository.getAccessToken(code)
+
+    def requestUserInfo(self, accessToken):
+        return self.__kakaoOauthRepository.getUserInfo(accessToken)

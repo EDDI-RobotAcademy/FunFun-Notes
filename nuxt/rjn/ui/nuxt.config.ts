@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     './pandas_basic/nuxt.config.ts',
     './account/nuxt.config.ts',
     './kakaoAuthentication/nuxt.config.ts',
+    './gameSoftware/nuxt.config.ts',
   ],
 
   css: [
@@ -24,18 +25,19 @@ export default defineNuxtConfig({
     },
   },
 
+  components: [
+    {
+      path: '~/navigationBar', extensions: ['vue'],
+    },
+  ],
+
   modules: [
     'vuetify-nuxt-module',
     '@pinia/nuxt',
     '~/pandas_basic/index.ts',
     '~/account/index.ts',
     '~/kakaoAuthentication/index.ts',
-  ],
-  
-  components: [
-    {
-      path: '~/navigationBar', extensions: ['vue'],
-    },
+    '~/gameSoftware/index.ts',
   ],
 
   imports: {

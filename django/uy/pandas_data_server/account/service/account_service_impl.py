@@ -21,8 +21,4 @@ class AccountServiceImpl(AccountService):
         return cls.__instance
 
     def createAccount(self, email):
-        savedAccount = self.__accountRepository.save(email)
-        if savedAccount is not None:
-            return True
-
-        return False
+        return self.__accountRepository.save(email)
