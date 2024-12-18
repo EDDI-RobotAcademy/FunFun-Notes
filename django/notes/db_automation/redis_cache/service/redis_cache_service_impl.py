@@ -25,7 +25,7 @@ class RedisCacheServiceImpl(RedisCacheService):
             cls.__instance = cls()
         return cls.__instance
 
-    def storeAccessToken(self, key, value):
+    def storeKeyValue(self, key, value):
         try:
             self.redisClient.set(key, value)
         except Exception as e:
