@@ -24,6 +24,12 @@ export default defineNuxtConfig({
     },
   },
 
+  components: [
+    {
+      path: '~/navigationBar', extensions: ['vue'],
+    },
+  ],
+
   modules: [
     'vuetify-nuxt-module',
     '@pinia/nuxt',
@@ -35,7 +41,7 @@ export default defineNuxtConfig({
   imports: {
     dirs: ['./stores']
   },
-  
+
   runtimeConfig: {
     public: {
       MAIN_API_URL: process.env.VUE_APP_BASE_URL,
