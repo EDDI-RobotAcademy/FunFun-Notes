@@ -47,6 +47,7 @@
 </template>
 
 <script setup lang="ts">
+
 import { ref, computed, onMounted } from 'vue'
 import { useGameSoftwareStore } from '../../stores/gameSoftwareStore'
 import { useRouter } from 'vue-router'
