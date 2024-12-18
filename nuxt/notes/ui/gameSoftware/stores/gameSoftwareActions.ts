@@ -15,4 +15,23 @@ export const gameSoftwareAction = {
             console.log('requestGameSoftwareList() 중 에러:', error)
         }
     },
+    async requestCreateGameSoftware(imageFormData: FormData): Promise<void> {
+        console.log(`requestCreateGameSoftware(): ${imageFormData}`)
+        const { djangoAxiosInstance } = axiosUtility.createAxiosInstances()
+
+        try {
+            const res = await djangoAxiosInstance.post('/game-software/create', 
+                imageFormData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                },
+            )
+            console.log('Response Data:', res.data)
+
+            this.productList = res.data
+        } catch (error) {
+            console.log('requestCreateGameSoftware() 중 에러:', error)
+        }
+    },
 }

@@ -75,4 +75,7 @@ class GameSoftwareRepositoryImpl(GameSoftwareRepository):
 
     def findAll(self):
         return GameSoftware.objects.all()
-    
+
+    def create(self, title):
+        return GameSoftware.objects.create(title=title)
+

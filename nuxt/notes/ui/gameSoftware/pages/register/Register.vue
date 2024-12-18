@@ -1,6 +1,8 @@
 <template>
   <v-container>
     <v-row>
+      <!-- bootstrap이라는 UI 꾸미는 녀석이 있음
+           기본적으로 화면은 12개의 열로 구성됨 -->
       <v-col cols="12">
         <v-text-field v-model="gameSoftwareTitle" label="게임 소프트웨어 타이틀" />
       </v-col>
@@ -61,7 +63,7 @@ const onSubmit = async () => {
   console.log('상품 등록 버튼 눌렀음')
 
   try {
-    if (productImage.value) {
+    if (gameSoftwareImage.value) {
       const formData = new FormData()
       formData.append('gameSoftwareTitle', gameSoftwareTitle.value)
       formData.append('gameSoftwarePrice', gameSoftwarePrice.value.toString())
