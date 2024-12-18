@@ -1,7 +1,8 @@
+from game_software.repository.game_software_repository_impl import GameSoftwareRepositoryImpl
 from game_software.service.game_software_service import GameSoftwareService
 
 
-class GameSoftwareService(GameSoftwareService):
+class GameSoftwareServiceImpl(GameSoftwareService):
     __instance = None
 
     def __new__(cls):

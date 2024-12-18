@@ -7,3 +7,9 @@ class GameSoftware(models.Model):
     class Meta:
         db_table = 'game_software'
         app_label = 'game_software'
+
+    def getId(self):
+        return self.id
+
+    def getTitle(self):
+        return self.title
