@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from game_software.controller.game_software_controller import GameSoftwareController
 
 router = DefaultRouter()
 router.register(r"game-software", GameSoftwareController, basename='car')
