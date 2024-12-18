@@ -40,17 +40,21 @@
 </template>
 
 <script setup>
+definePageMeta({
+  name: 'GameSoftwareRegisterPage'
+})
+
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useProductStore } from '~/store/product'
+import { useGameSoftwareStore } from '../../stores/gameSoftwareStore'
 
 const router = useRouter()
-const productStore = useProductStore()
+const gameSoftwareStore = useGameSoftwareStore()
 
-const productName = ref('')
-const productPrice = ref(0)
-const productDescription = ref('')
-const productImage = ref(null)
+const gameSoftwareName = ref('')
+const gameSoftwarePrice = ref(0)
+const gameSoftwareDescription = ref('')
+const gameSoftwareImage = ref(null)
 const uploadedFileName = ref('')
 
 const onSubmit = async () => {
@@ -64,9 +68,9 @@ const onSubmit = async () => {
       formData.append('productDescription', productDescription.value)
       formData.append('productImage', productImage.value)
 
-      await productStore.requestCreateProductToDjango(formData)
+      await gameSoftwareStore.requestCreateGameSoftware(formData)
 
-      uploadedFileName.value = productStore.uploadedFileName
+      uploadedFileName.value = gameSoftwareStore.uploadedFileName
 
       router.push({ name: 'ProductListPage' })
     } else {
