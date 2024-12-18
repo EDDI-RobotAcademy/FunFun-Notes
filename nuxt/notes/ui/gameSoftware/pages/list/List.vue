@@ -21,6 +21,8 @@
         <v-card @click="goToGameSoftwareReadPage(gameSoftware.id)">
           <v-img :src="getGameSoftwareImageUrl(gameSoftware.image)" aspect-ratio="1" class="grey lighten-2">
             <!-- 이미지 로딩 중 빙글빙글 도는 부분이 추가됨(지연이 없다면 나타나지 않음) -->
+<!--          <v-img :src="`@/assets/images/uploadImages/${gameSoftware.image}`" aspect-ratio="1" class="grey lighten-2" >-->
+<!--          <v-img :src="getImageUrl(gameSoftware.image)" aspect-ratio="1" class="grey lighten-2">-->
             <template v-slot:placeholder>
               <v-row class="fill-height ma-0" align="center" justify="center">
                 <v-progress-circular indeterminate color="grey lighten-5"/>
@@ -65,17 +67,34 @@
 import { ref, computed, onMounted } from 'vue'
 import { useGameSoftwareStore } from '../../stores/gameSoftwareStore'
 import { useRouter } from 'vue-router'
+import {resolve} from "path";
 
 const gameSoftwareStore = useGameSoftwareStore()
-// const gameSoftwareList = computed(() => gameSoftwareStore.list)
-const gameSoftwareList = ref([])
+const gameSoftwareList = computed(() => gameSoftwareStore.gameSoftwareList);
 
 // 라우터 설정
 const router = useRouter()
 
 // 상품 이미지 URL을 반환하는 함수
+const images = import.meta.glob('@/assets/images/uploadImages/*', { eager: true });
+for (const [key, value] of Object.entries(images)) {
+    console.log(`Key: ${key}`);
+    console.log(`Value:`, value);
+}
+
 const getGameSoftwareImageUrl = (imageName: string) => {
-  return require('@/assets/images/uploadImages/' + imageName)
+    console.log(`imageName: ${imageName}`)
+    console.log(`images[\`@/assets/images/uploadImages/${imageName}\`]`)
+    console.log(`images: ${images}`)
+    const imagePathKey = `/assets/images/uploadImages/${imageName}`
+    console.log(`imagePathKey: ${imagePathKey}`)
+    const imagePath = images[imagePathKey];
+    console.log(`imagePath: ${imagePath.default}`)
+
+    if (imagePath) {
+        return imagePath.default;
+    }
+    return '/assets/images/default-image.jpg';
 }
 
 // 상품 상세 페이지로 이동하는 함수

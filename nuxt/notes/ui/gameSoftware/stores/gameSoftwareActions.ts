@@ -10,7 +10,7 @@ export const gameSoftwareAction = {
             })
             console.log('Response Data:', res.data)
 
-            this.productList = res.data
+            this.gameSoftwareList = res.data.dataList
         } catch (error) {
             console.log('requestGameSoftwareList() 중 에러:', error)
         }
@@ -28,8 +28,6 @@ export const gameSoftwareAction = {
                 },
             )
             console.log('Response Data:', res.data)
-
-            this.productList = res.data
         } catch (error) {
             console.log('requestCreateGameSoftware() 중 에러:', error)
         }
