@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid class="d-flex justify-center align-center pa-0" :style="{ backgroundImage: `url(${loginBgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }">
+  <v-container fluid class="d-flex justify-center align-center pa-0" 
+  		:style="{ backgroundImage: `url(${loginBgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }">
     <v-row justify="center" align="center" class="fill-height ma-0">
       <v-col cols="12" sm="8" md="6" class="text-center">
         <v-btn class="kakao-login-btn" @click="goToKakaoLogin" block>
@@ -12,7 +13,7 @@
 
 
 <script setup>
-import loginBgImage from '@/assets/images/fixed/login_bg2.webp';
+import loginBgImage from '@/assets/images/fixed/login_bg.webp';
 
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -37,7 +38,7 @@ const kakaoAuthentication = useKakaoAuthenticationStore();
 
 // Google, Kakao, Naver 로그인 함수들
 const goToKakaoLogin = async () => {
-  sessionStorage.setItem("loginType", "KAKAO");
+  // sessionStorage.setItem("loginType", "KAKAO");
   await kakaoAuthentication.requestKakaoLoginToDjango();
 };
 
@@ -95,54 +96,6 @@ const onSubmit = async () => {
 </script>
 
 <style scoped>
-.container {
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  background-color: white;
-  background: url("@/assets/images/fixed/login_bg.webp") no-repeat center center;
-  background-size: cover; /* Ensures the background image covers the whole container */
-  overflow: hidden; /* Prevents scrollbars */
-}
-
-/* .login_logo {
-  height: 20vh;
-  margin-bottom: 3vh;
-  overflow: hidden;
-  background-image: url("@/assets/images/fixed/EDDI_TCG_BI.webp");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-} */
-
-/* 로그인 박스 설정 */
-.login-wrapper {
-  position: relative;
-  z-index: 1;
-  width: 80vh;
-  height: 70vh;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 9vh;
-  padding: 0vh 8vh;
-  display: flex; /* Flexbox 활성화 */
-  justify-content: center; /* 수평 방향 중앙 정렬 */
-  align-items: center; /* 수직 방향 중앙 정렬 */
-  text-align: center;
-}
-
-/* 에러 메시지 박스 설정 */
-.login-error-box {
-  background-color: rgb(255, 0, 0);
-  padding: 10px;
-  margin-bottom: 1px;
-  border-radius: 20px;
-  color: #fff;
-}
-
 /* 로그인 및 회원가입 버튼 설정 */
 .v-btn {
   width: 100%;
@@ -154,7 +107,6 @@ const onSubmit = async () => {
   color: rgb(255, 255, 255);
   word-break: break-word;
 }
-
 
 @media (max-width: 768px) {
   .v-btn {
