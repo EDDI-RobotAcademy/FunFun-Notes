@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     './pandas_basic/nuxt.config.ts',
     './account/nuxt.config.ts',
     './kakaoAuthentication/nuxt.config.ts',
+    './gameSoftware/nuxt.config.ts'
   ],
 
   css: [
@@ -36,6 +37,7 @@ export default defineNuxtConfig({
     '~/pandas_basic/index.ts',
     '~/account/index.ts',
     '~/kakaoAuthentication/index.ts',
+    '~/gameSoftware/index.ts',
   ],
 
   imports: {
