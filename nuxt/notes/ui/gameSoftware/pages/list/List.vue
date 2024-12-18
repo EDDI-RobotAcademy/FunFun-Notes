@@ -4,7 +4,7 @@
     
     <!-- 상품 등록 링크 -->
     <div style="text-align: left; margin: 15px;">
-<!--      <NuxtLink :to="{ name: 'GameSoftwareRegisterPage' }">게임 소프트웨어 등록</NuxtLink>-->
+     <NuxtLink :to="{ name: 'GameSoftwareRegisterPage' }">게임 소프트웨어 등록</NuxtLink>
     </div>
     
     <!-- 상품 목록 -->
@@ -48,10 +48,10 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
-// import { useGameSoftwareStore } from '../../stores/gameSoftwareStore' // Pinia store 가져오기
+import { useGameSoftwareStore } from '../../stores/gameSoftwareStore'
 import { useRouter } from 'vue-router'
 
-// const gameSoftwareStore = useGameSoftwareStore()
+const gameSoftwareStore = useGameSoftwareStore()
 // const gameSoftwareList = computed(() => gameSoftwareStore.list)
 const gameSoftwareList = ref([])
 
@@ -64,16 +64,16 @@ const getGameSoftwareImageUrl = (imageName: string) => {
 }
 
 // 상품 상세 페이지로 이동하는 함수
-const goToGameSoftwareReadPage = (id: string) => {
-  router.push({
-    name: 'GameSoftwareReadPage',
-    params: { id },
-  })
-}
+// const goToGameSoftwareReadPage = (id: string) => {
+//   router.push({
+//     name: 'GameSoftwareReadPage',
+//     params: { id },
+//   })
+// }
 
 // 컴포넌트 마운트 시 상품 목록 요청
 onMounted(() => {
-//   gameSoftwareStore.requestGameSoftwareList()
+  gameSoftwareStore.requestGameSoftwareList()
 })
 </script>
 

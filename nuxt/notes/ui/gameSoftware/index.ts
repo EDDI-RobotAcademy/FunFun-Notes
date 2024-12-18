@@ -12,9 +12,15 @@ export default defineNuxtModule({
 
         nuxt.hook('pages:extend', (pages) => {
             pages.push({
-                name: 'gameSoftwareList',
+                name: 'GameSoftwareList',
                 path: '/game-software/list',
                 file: resolve(themeDir, 'gameSoftware/pages/list/List.vue'),
+            });
+
+            pages.push({
+                name: 'GameSoftwareRegister',
+                path: '/game-software/register',
+                file: resolve(themeDir, 'gameSoftware/pages/register/Register.vue'),
             });
         });
 
