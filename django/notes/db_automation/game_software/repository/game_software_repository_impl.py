@@ -32,7 +32,7 @@ class GameSoftwareRepositoryImpl(GameSoftwareRepository):
     # Coalesce의 경우엔 NULL인 경우 대체값을 반환하도록 구성하는 목적으로 사용
     def list(self, page=1, perPage=12):
         priceSubQuery = GameSoftwarePrice.objects.filter(gameSoftware=OuterRef('pk')).values('price')[:1]
-        imageSubQuery = GameSoftwareImage.objects/filter(gameSoftware=OuterRef('pk')).values('image')[:1]
+        imageSubQuery = GameSoftwareImage.objects.filter(gameSoftware=OuterRef('pk')).values('image')[:1]
 
         gameSoftwareList = GameSoftware.objects.annotate(
             price=Coalesce(Subquery(priceSubQuery), Value(0)),
