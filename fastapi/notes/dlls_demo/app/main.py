@@ -4,12 +4,15 @@ import uvicorn
 import os
 
 from config.cors_config import CorsConfig
+from feature_engineering.controller.feature_engineering_controller import featureEngineeringRouter
 
 load_dotenv()
 
 app = FastAPI()
 
 CorsConfig.middlewareConfig(app)
+
+app.include_router(featureEngineeringRouter)
 
 @app.get("/")
 def first_test():
