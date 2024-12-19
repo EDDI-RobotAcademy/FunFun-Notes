@@ -22,5 +22,9 @@ async def requestFeatureEngineering(
 
     featureEngineeringResponse = await featureEngineeringService.featureEngineering()
         # featureEngineeringRequestForm.tofeatureEngineeringRequest())
+    comparison = featureEngineeringResponse["comparison"].to_dict(orient="records")
 
-    return featureEngineeringResponse
+    return {
+        "mseError": featureEngineeringResponse["mseError"],
+        "comparison": comparison
+    }
