@@ -29,5 +29,7 @@ class FeatureEngineeringServiceImpl(FeatureEngineeringService):
         print(f"mseError: {mseError}, y_prediction: {y_prediction}")
 
         comparison = self.__featureEngineeringRepository.compareResult(y_test, y_prediction)
-        return comparison
-    
+        return {
+            "mseError": mseError,
+            "comparison": comparison
+        }
