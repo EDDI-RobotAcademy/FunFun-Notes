@@ -18,7 +18,7 @@ export const kakaoAuthenticationAction = {
         const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
         try{
             const response = await djangoAxiosInstance.post('/kakao-oauth/redirect-access-token', code)
-            localStorage.setItem("accessToken", response.data.accessToken.access_token)
+            localStorage.setItem("userToken", response.data.userToken)
         } catch(error){
             console.log('Access Token 요청 중 문제 발생:', error)
             throw error

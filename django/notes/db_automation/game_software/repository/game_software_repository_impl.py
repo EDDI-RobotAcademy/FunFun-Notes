@@ -57,16 +57,16 @@ class GameSoftwareRepositoryImpl(GameSoftwareRepository):
         try:
             paiginatedGameDataList = paginator.page(page)
         except PageNotAnInteger:
-            paiginatedGameDataList = paginator(1)
+            paiginatedGameDataList = paginator.page(1)
         except EmptyPage:
             paiginatedGameDataList = []
 
         paginatedGameSoftwareList = [
             {
-                'id': game.getId(),
-                'title': game.getTitle(),
-                'price': game.getPrice(),
-                'image': game.getImage(),
+                'id': game.id,
+                'title': game.title,
+                'price': game.price,
+                'image': game.image,
             }
             for game in paiginatedGameDataList
         ]
@@ -75,4 +75,7 @@ class GameSoftwareRepositoryImpl(GameSoftwareRepository):
 
     def findAll(self):
         return GameSoftware.objects.all()
-    
+
+    def create(self, title):
+        return GameSoftware.objects.create(title=title)
+

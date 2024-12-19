@@ -1,30 +1,25 @@
 <template>
-  <v-container
-    fluid
-    class="d-flex justify-center align-center pa-0"
-    :style="{
-      backgroundImage: `url(${loginBgImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      height: '100vh',
-    }"
-  >
+  <v-container fluid class="d-flex justify-center align-center pa-0" 
+  		:style="{ backgroundImage: `url(${loginBgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }">
     <v-row justify="center" align="center" class="fill-height ma-0">
       <v-col cols="12" sm="8" md="6" class="text-center">
         <v-btn class="kakao-login-btn" @click="goToKakaoLogin" block>
-          <!-- 카카오 로그인 -->
+          <!-- v-btn: 카카오 로그인 버튼 생성 -->
         </v-btn>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
+
 <script setup>
-import loginBgImage from "@/assets/images/fixed/gugu.jpeg";
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
-import { useAccountStore } from "@/stores/accountStore";
-import { useKakaoAuthenticationStore } from "../../../kakaoAuthentication/stores/kakaoAuthenticationStore";
+import loginBgImage from '@/assets/images/fixed/gugu.jpeg';
+
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { useAccountStore } from '@/stores/accountStore';
+import { useKakaoAuthenticationStore } from '../../../kakaoAuthentication/stores/kakaoAuthenticationStore'
+
 
 const router = useRouter();
 
@@ -43,7 +38,7 @@ const kakaoAuthentication = useKakaoAuthenticationStore();
 
 // Google, Kakao, Naver 로그인 함수들
 const goToKakaoLogin = async () => {
-  //sessionStorage.setItem("loginType", "KAKAO");
+  // sessionStorage.setItem("loginType", "KAKAO");
   await kakaoAuthentication.requestKakaoLoginToDjango();
 };
 
@@ -72,18 +67,18 @@ const onSubmit = async () => {
 
     if (response) {
       login_flag.value = true; // 로그인 성공
-      sessionStorage.setItem("email", email.value);
-      sessionStorage.setItem("loginType", "NORMAL");
+      sessionStorage.setItem('email', email.value);
+      sessionStorage.setItem('loginType', 'NORMAL');
 
       if (roleType.data.roleType === "ADMIN") {
         // Admin 처리
-        sessionStorage.removeItem("normalToken");
-        sessionStorage.setItem("adminToken", true);
+        sessionStorage.removeItem('normalToken');
+        sessionStorage.setItem('adminToken', true);
         account.REQUEST_IS_ADMIN_TO_DJANGO(true);
         goToHome();
       } else {
         // Normal 처리
-        sessionStorage.setItem("normalToken", true);
+        sessionStorage.setItem('normalToken', true);
         account.isAuthenticatedNormal = true;
         goToHome();
       }
@@ -97,57 +92,10 @@ const onSubmit = async () => {
     loading.value = false;
   }
 };
+
 </script>
 
 <style scoped>
-.container {
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-sizing: border-box;
-  background-color: white;
-  background: url("@/assets/images/fixed/login_bg.webp") no-repeat center center;
-  background-size: cover; /* Ensures the background image covers the whole container */
-  overflow: hidden; /* Prevents scrollbars */
-}
-
-/* .login_logo {
-  height: 20vh;
-  margin-bottom: 3vh;
-  overflow: hidden;
-  background-image: url("@/assets/images/fixed/EDDI_TCG_BI.webp");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-} */
-
-/* 로그인 박스 설정 */
-.login-wrapper {
-  position: relative;
-  z-index: 1;
-  width: 80vh;
-  height: 70vh;
-  overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.08);
-  border-radius: 9vh;
-  padding: 0vh 8vh;
-  display: flex; /* Flexbox 활성화 */
-  justify-content: center; /* 수평 방향 중앙 정렬 */
-  align-items: center; /* 수직 방향 중앙 정렬 */
-  text-align: center;
-}
-
-/* 에러 메시지 박스 설정 */
-.login-error-box {
-  background-color: rgb(255, 0, 0);
-  padding: 10px;
-  margin-bottom: 1px;
-  border-radius: 20px;
-  color: #fff;
-}
-
 /* 로그인 및 회원가입 버튼 설정 */
 .v-btn {
   width: 100%;
@@ -177,8 +125,9 @@ const onSubmit = async () => {
     height: 13vh;
   }
   .introduction {
-    white-space: pre-wrap;
-  }
+  white-space: pre-wrap;
+}
+
 }
 
 /* Kakao 로그인 버튼 설정 */
@@ -194,7 +143,7 @@ const onSubmit = async () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffea00;
+  background-color: #FFEA00;
   border-radius: 1.4vh;
   cursor: pointer;
 }
@@ -209,6 +158,7 @@ const onSubmit = async () => {
   color: black !important;
   /* 레이블을 검정색으로 설정 */
 }
+
 
 /* 로그인 폼의 텍스트 필드 라벨 색상 설정 */
 :deep(.v-label.v-field-label) {
