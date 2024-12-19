@@ -11,8 +11,8 @@
 	},
 	"include": [
 		"nuxt.config.ts",
-		"pages/**/*.vue",
+      "deprecated_pages/**/*.vue",
 		"components/**/*.vue",
-		"plugins/**/*.ts",
+		"plugins/**/*.ts"
 	],
 }

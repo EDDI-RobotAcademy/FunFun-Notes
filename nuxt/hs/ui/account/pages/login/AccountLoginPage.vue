@@ -13,7 +13,7 @@
 
 
 <script setup>
-import loginBgImage from '@/assets/images/fixed/jjj.webp';
+import loginBgImage from '@/assets/images/fixed/login_home.jpg.avif';
 
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
