@@ -1,15 +1,13 @@
-export interface ProductState {
-    productList: Product[]
-    product: Product | null
-  }
-  
-  export interface Product {
-    productId: number
-    productName: string
-    productPrice: string
-    productDescription: string
-    productImage: string
-    registeredDate: string
-    updatedDate: string
-  }
+export interface GameSoftwareState {
+  gameSoftwareList: GameSoftware[]
+  gameSoftware: GameSoftware | null
+}
+
+export interface GameSoftware {
+  id: number
+  title: string
+  price: string
+  description: string
+  image: string
+}
   
