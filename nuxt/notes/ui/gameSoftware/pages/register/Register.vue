@@ -74,7 +74,7 @@ const onSubmit = async () => {
 
       uploadedFileName.value = gameSoftwareStore.uploadedFileName
 
-      router.push({ name: 'GameSoftwareListPage' })
+      router.push({ name: 'GameSoftwareList' })
     } else {
       console.error('이미지 파일을 선택하세요!')
     }
