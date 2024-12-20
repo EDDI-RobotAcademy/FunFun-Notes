@@ -13,11 +13,11 @@ export const kakaoAuthenticationAction = {
             console.log('requestKakaoOauthRedirectionToDjango() 중 에러:', error)
         }
     },
-    async requestAccessToken(code:string):Promise<void>{
+    async requestAccessToken(code:string): Promise<string | null> {
         const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
-        try{
+        try {
             const response = await djangoAxiosInstance.post('/kakao-oauth/redirect-access-token', code)
-            localStorage.setItem("userToken", response.data.userToken)
+            return response.data.userToken
         } catch(error){
             console.log('Access Token 요청 중 문제 발생:', error)
             throw error

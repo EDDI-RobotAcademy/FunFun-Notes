@@ -32,18 +32,29 @@
 
         <!-- v-if="!isAuthenticated"  -->
         <!-- 로그인 버튼 -->
-        <v-btn text @click="signIn" class="btn-text">
-            <!-- 아이콘 설정 (mdi-login은 로그인 아이콘) -->
-            <v-icon left>mdi-login</v-icon>
-            <span>로그인</span>
-        </v-btn>
+        <template v-if="!kakaoAuthentication.isAuthenticated">
+            <v-btn text @click="signIn" class="btn-text">
+                <!-- 아이콘 설정 (mdi-login은 로그인 아이콘) -->
+                <v-icon left>mdi-login</v-icon>
+                <span>로그인</span>
+            </v-btn>
+        </template>
+
+        <template v-else>
+            <v-btn text @click="signOut" class="btn-text">
+                <v-icon left>mdi-logout</v-icon>
+                <span>로그아웃</span>
+            </v-btn>
+        </template>
     </v-app-bar>
 </template>
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { useKakaoAuthenticationStore } from '~/kakaoAuthentication/stores/kakaoAuthenticationStore';
 
 const router = useRouter()
+const kakaoAuthentication = useKakaoAuthenticationStore();
 
 const goToHome = () => {
   router.push('/')
@@ -62,5 +73,7 @@ const signIn = () => {
 
 const signOut = () => {
   console.log('로그아웃 클릭')
+  kakaoAuthentication.isAuthenticated = false
+  router.push('/')
 }
 </script>
