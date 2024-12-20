@@ -73,6 +73,9 @@ const signIn = () => {
 
 const signOut = () => {
   console.log('로그아웃 클릭')
+  const userToken = localStorage.getItem("userToken")
+  kakaoAuthentication.requestLogout(userToken)
+
   kakaoAuthentication.isAuthenticated = false
   router.push('/')
 }
