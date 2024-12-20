@@ -1,16 +1,16 @@
 import os
 
-from corsheaders.middleware import CorsMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 
 
-class CORSConfig:
+class CorsConfig:
 
     @classmethod
-    def middleware(self,app):
-        origins = os.getenv("CORS_ALLOWED_ORIGINS", "").split("")
+    def middlewareConfig(self, app):
+        origins = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
         app.add_middleware(
-            CorsMiddleware,
-            allow_origins=self.origins,
+            CORSMiddleware,
+            allow_origins=origins,
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
