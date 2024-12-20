@@ -74,7 +74,12 @@ const signIn = () => {
 const signOut = () => {
   console.log('로그아웃 클릭')
   const userToken = localStorage.getItem("userToken")
-  kakaoAuthentication.requestLogout(userToken)
+
+  if (userToken != null) {
+    kakaoAuthentication.requestLogout(userToken)
+  } else {
+    console.log('userToken이 없습니다')
+  }
 
   kakaoAuthentication.isAuthenticated = false
   router.push('/')
