@@ -13,7 +13,7 @@ export const kakaoAuthenticationAction = {
             console.log('requestKakaoOauthRedirectionToDjango() 중 에러:', error)
         }
     },
-    async requestAccessToken(code:string): Promise<string | null> {
+    async requestAccessToken(code: string): Promise<string | null> {
         const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
         try {
             const response = await djangoAxiosInstance.post('/kakao-oauth/redirect-access-token', code)
@@ -23,4 +23,13 @@ export const kakaoAuthenticationAction = {
             throw error
         }
     },
+    async requestLogout(userToken: string): Promise<void> {
+        const { djangoAxiosInstance } = axiosUtility.createAxiosInstances()
+
+        try {
+            await djangoAxiosInstance.post('/auth/logout', userToken)
+        } catch (error) {
+            console.log('requestLogout() 중 에러:', error)
+        }
+    }
 }
