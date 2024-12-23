@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'kakao_authentication',
     'account',
     'account_profile',
+    'game_software',
+    'regression',
 ]
 
 MIDDLEWARE = [
