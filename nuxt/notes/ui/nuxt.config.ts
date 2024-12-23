@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     './account/nuxt.config.ts',
     './kakaoAuthentication/nuxt.config.ts',
     './gameSoftware/nuxt.config.ts',
+    './board/nuxt.config.ts',
   ],
 
   css: [
@@ -40,6 +41,7 @@ export default defineNuxtConfig({
     '~/account/index.ts',
     '~/kakaoAuthentication/index.ts',
     '~/gameSoftware/index.ts',
+    '~/board/index.ts',
   ],
 
   imports: {
