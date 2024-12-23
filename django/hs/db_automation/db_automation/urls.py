@@ -28,4 +28,5 @@ urlpatterns = [
     path("normalize/", include('normalization.urls')),
     path("game-software/", include('game_software.urls')),
     path("regression/", include('regression.urls')),
+    path("authentication/", include('authentication.urls')),
 ]
