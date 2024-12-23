@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class RegressionConfig(AppConfig):
+class NormalizationConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "regression"
+    name = "normalization"

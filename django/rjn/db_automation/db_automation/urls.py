@@ -32,5 +32,7 @@ urlpatterns = [
     path("account/", include('account.urls')),
     path("account-profile/", include('account_profile.urls')),
     path("game-software/", include('game_software.urls')),
-    path("regression/", include('regression.urls')),
+    # path("regression/", include('regression.urls')),
+    path("authentication/", include('authentication.urls')),
+    # path("normalize/", include('normalization.urls')),
 ]
