@@ -25,6 +25,11 @@
             </template>
         </v-menu>
 
+        <v-btn text @click="goToGameSoftwareList" class="btn-text">
+            <v-icon left>mdi-gamepad</v-icon>
+            <span>게임 소프트웨어</span>
+        </v-btn>
+
         <!-- v-if="!isAuthenticated"  -->
         <!-- 로그인 버튼 -->
         <v-btn text @click="signIn" class="btn-text">
@@ -42,6 +47,10 @@ const router = useRouter()
 
 const goToHome = () => {
   router.push('/')
+}
+
+const goToGameSoftwareList = () => {
+    router.push('/game-software/list')
 }
 
 // 기존 Domain/index.ts에 등록한 라우터 URL로 맵핑
