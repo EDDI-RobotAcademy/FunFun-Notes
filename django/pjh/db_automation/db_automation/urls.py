@@ -25,4 +25,6 @@ urlpatterns = [
     path("kakao-oauth/", include('kakao_authentication.urls')),
     path("account/", include('account.urls')),
     path("account-profile/", include('account_profile.urls')),
+    path("game-software/", include('game_software.urls')),
+    # path("regression/", include('regression.urls')),
 ]
