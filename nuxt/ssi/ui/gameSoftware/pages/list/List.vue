@@ -75,8 +75,12 @@ const gameSoftwareList = computed(() => gameSoftwareStore.gameSoftwareList);
 // 라우터 설정
 const router = useRouter()
 
+interface ImageModule {
+  default: string;
+}
+
 // 상품 이미지 URL을 반환하는 함수
-const images = import.meta.glob('@/assets/images/uploadImages/*', { eager: true });
+const images = import.meta.glob('@/assets/images/uploadImages/*', { eager: true }) as Record<string, ImageModule>;
 for (const [key, value] of Object.entries(images)) {
     console.log(`Key: ${key}`);
     console.log(`Value:`, value);
