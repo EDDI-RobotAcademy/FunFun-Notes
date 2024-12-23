@@ -10,3 +10,7 @@ class GameSoftwareService(ABC):
     @abstractmethod
     def createGameSoftware(self, title, price, description, image):
         pass
+
+    @abstractmethod
+    def readGameSoftware(self, id):
+        pass

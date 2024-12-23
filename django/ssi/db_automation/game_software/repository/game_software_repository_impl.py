@@ -30,7 +30,7 @@ class GameSoftwareRepositoryImpl(GameSoftwareRepository):
     # 즉 현재 엔티티 외의 엔티티 값을 필터링하고자 하는 경우 사용함
     # Subquery의 경우엔 특정 조건에 맞는 데이터를 외부 엔티티와 결합할 때 사용
     # Coalesce의 경우엔 NULL인 경우 대체값을 반환하도록 구성하는 목적으로 사용
-    def list(self, page=1, perPage=12):
+    def list(self, page=1, perPage=8):
         # 아무런 옵션이 없으면 1페이지, 12개씩 보여주기
         # GameSoftware의 Price(가격) 정보를 획득하기 위해 구성하였음
         # 실제 GameSoftwarePrice에 gameSoftare에 해당하는 pk 값 중 price 값과 일치되는 것을 뽑아옴
@@ -71,6 +71,9 @@ class GameSoftwareRepositoryImpl(GameSoftwareRepository):
             for game in paiginatedGameDataList
         ]
 
+        print(f"Total items: {len(gameSoftwareList)}")
+        print(f"Page items: {len(paginatedGameSoftwareList)}")
+
         return paginatedGameSoftwareList, paginator.num_pages
 
     def findAll(self):
@@ -79,3 +82,5 @@ class GameSoftwareRepositoryImpl(GameSoftwareRepository):
     def create(self, title):
         return GameSoftware.objects.create(title=title)
 
+    def findById(self, id):
+        return GameSoftware.objects.get(id=id)
