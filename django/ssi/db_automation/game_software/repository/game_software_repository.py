@@ -14,3 +14,7 @@ class GameSoftwareRepository(ABC):
     @abstractmethod
     def create(self, title):
         pass
+
+    @abstractmethod
+    def findById(self, id):
+        pass
