@@ -37,3 +37,24 @@ class GameSoftwareServiceImpl(GameSoftwareService):
             self.__gameSoftwarePriceRepository.create(savedGameSoftware, price)
             self.__gameSoftwareDescriptionRepository.create(savedGameSoftware, description)
             self.__gameSoftwareImageRepository.create(savedGameSoftware, image)
+
+    def readGameSoftware(self, id):
+        with transaction.atomic():
+            foundGameSoftware = self.__gameSoftwareRepository.findById(id)
+            print(f"foundGameSoftware: {foundGameSoftware}")
+            foundGameSoftwarePrice = self.__gameSoftwarePriceRepository.findByGameSoftware(foundGameSoftware)
+            print(f"foundGameSoftwarePrice: {foundGameSoftwarePrice}")
+            foundGameSoftwareImage = self.__gameSoftwareImageRepository.findByGameSoftware(foundGameSoftware)
+            print(f"foundGameSoftwareImage: {foundGameSoftwareImage}")
+            foundGameSoftwareDescription = self.__gameSoftwareDescriptionRepository.findByGameSoftware(foundGameSoftware)
+            print(f"foundGameSoftwareDescription: {foundGameSoftwareDescription}")
+
+            readGameSoftware = {
+                'id': foundGameSoftware.getId(),
+                'title': foundGameSoftware.getTitle(),
+                'price': foundGameSoftwarePrice.getPrice(),
+                'image': foundGameSoftwareImage.getImage(),
+                'description': foundGameSoftwareDescription.getDescription()
+            }
+
+            return readGameSoftware
