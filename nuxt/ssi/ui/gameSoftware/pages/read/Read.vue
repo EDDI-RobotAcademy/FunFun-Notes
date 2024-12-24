@@ -3,7 +3,7 @@
   <v-container>
     <div style="text-align: left; margin: 15px;">
       <!-- 이전 페이지로 돌아가는 링크 -->
-      <NuxtLink :to="{ name: 'HomePage' }">⬅️ 목록으로 돌아가기</NuxtLink>
+      <NuxtLink :to="{ name: 'GameSoftwareList' }">⬅️ 목록으로 돌아가기</NuxtLink>
     </div>
 
     <!-- 로딩 중일 때 스피너 표시 -->
