@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'account',
     'account_profile',
     'game_software',
+    'authentication',
 ]
 
 MIDDLEWARE = [

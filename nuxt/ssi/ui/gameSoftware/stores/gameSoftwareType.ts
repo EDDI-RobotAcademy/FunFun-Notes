@@ -1,6 +1,9 @@
 export interface GameSoftwareState {
   gameSoftwareList: GameSoftware[]
   gameSoftware: GameSoftware | null
+
+  currentPage: Number
+  totalPages: Number
 }
 
 export interface GameSoftware {

@@ -4,11 +4,7 @@
         <v-row>
             <v-col cols="12">
                 <v-img src="@/assets/images/fixed/백지허니.webp" aspect-ratio="1" class="grey lighten-2">
-                        <!-- src="https://images.pexels.com/photos/459225/pexels-photo-459225.jpeg" -->
-                        height="400"
-                        class="rounded-xl"
-                >
-                    <v-row class="fill-height ma-0" align="center" justify="center">
+                    <v-row class="fill-height ma-0" align="right" justify="top">
                         <v-col class="text-center">
                             <v-btn color="primary" large class="mb-4">
                                 Get Started
@@ -18,6 +14,8 @@
                 </v-img>
             </v-col>
         </v-row>
+
+    
 
         <!-- 기능 카드 섹션 -->
         <v-row class="mt-6" align="start">

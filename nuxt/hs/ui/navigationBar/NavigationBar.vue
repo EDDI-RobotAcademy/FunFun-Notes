@@ -25,6 +25,11 @@
             </template>
         </v-menu>
 
+        <v-btn text @click="goToBoardList" class="btn-text">
+            <v-icon left>mdi-notebook-multiple</v-icon>
+            <span>게시판</span>
+        </v-btn>
+
         <v-btn text @click="goToGameSoftwareList" class="btn-text">
             <v-icon left>mdi-gamepad</v-icon>
             <span>게임 소프트웨어</span>
@@ -64,6 +69,11 @@ const goToGameSoftwareList = () => {
     router.push('/game-software/list')
 }
 
+const goToBoardList = () => {
+    router.push('/board/list') // 게시판 페이지로 연결
+}
+
+
 // 기존 Domain/index.ts에 등록한 라우터 URL로 맵핑
 const signIn = () => {
   console.log('로그인 클릭')
@@ -73,6 +83,15 @@ const signIn = () => {
 
 const signOut = () => {
   console.log('로그아웃 클릭')
+  const userToken = localStorage.getItem("userToken")
+
+  if (userToken != null) {
+    kakaoAuthentication.requestLogout(userToken)
+  } else {
+    console.log('userToken이 없습니다')
+  }
+
+  localStorage.removeItem("userToken")
   kakaoAuthentication.isAuthenticated = false
   router.push('/')
 }
