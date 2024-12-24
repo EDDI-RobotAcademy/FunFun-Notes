@@ -8,6 +8,9 @@ class GameSoftware(models.Model):
         db_table = 'game_software'
         app_label = 'game_software'
 
+    def __str__(self):
+        return f"GameSoftware(id={self.id}, title={self.title})"
+
     def getId(self):
         return self.id
 

@@ -1,9 +1,9 @@
 <template>
   <v-container>
     <v-app>
-      <NavigationBar />
+      <NavigationBar/>
       <v-main>
-        <NuxtPage />
+        <NuxtPage/>
       </v-main>
     </v-app>
   </v-container>

@@ -38,12 +38,14 @@ class KakaoOauthController(viewsets.ViewSet):
                 nickname = userInfo.get('properties', {}).get('nickname', '')
                 email = userInfo.get('kakao_account', {}).get('email', '')
 
-                createdAccount = self.accountService.createAccount(email)
-                createdAccountProfile = self.accountProfileService.createAccountProfile(
-                    createdAccount.getId(), nickname
-                )
+                account = self.accountService.checkEmailDuplication(email)
+                if account is None:
+                    account = self.accountService.createAccount(email)
+                    accountProfile = self.accountProfileService.createAccountProfile(
+                        account.getId(), nickname
+                    )
 
-                userToken = self.__createUserTokenWithAccessToken(createdAccount, accessToken)
+                userToken = self.__createUserTokenWithAccessToken(account, accessToken)
 
             return JsonResponse({'userToken': userToken})
 

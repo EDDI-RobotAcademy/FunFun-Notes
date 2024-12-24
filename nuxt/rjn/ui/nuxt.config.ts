@@ -4,6 +4,7 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
   extends: [
+    './home/nuxt.config.ts',
     './pandas_basic/nuxt.config.ts',
     './account/nuxt.config.ts',
     './kakaoAuthentication/nuxt.config.ts',
@@ -34,6 +35,7 @@ export default defineNuxtConfig({
   modules: [
     'vuetify-nuxt-module',
     '@pinia/nuxt',
+    '~/home/index.ts',
     '~/pandas_basic/index.ts',
     '~/account/index.ts',
     '~/kakaoAuthentication/index.ts',

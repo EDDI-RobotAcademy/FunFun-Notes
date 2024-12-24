@@ -17,7 +17,47 @@ class GameSoftwareController(viewsets.ViewSet):
     def requestGameSoftwareList(self, request):
         getRequest = request.GET
         page = int(getRequest.get("page", 1))
-        perPage = int(getRequest.get("perPage", 12))
+        perPage = int(getRequest.get("perPage", 8))
         paginatedGameSoftwareList, totalPages = self.gameSoftwareService.requestList(page, perPage)
 
-        return JsonResponse({"dataList": paginatedGameSoftwareList}, status=status.HTTP_200_OK)
+        return JsonResponse({
+            "dataList": paginatedGameSoftwareList,
+            "totalPages": totalPages
+        }, status=status.HTTP_200_OK)
+
+    def requestGameSoftwareCreate(self, request):
+        postRequest = request.data
+
+        gameSoftwareImage = request.FILES.get('gameSoftwareImage')
+        gameSoftwareTitle = postRequest.get('gameSoftwareTitle')
+        gameSoftwarePrice = postRequest.get('gameSoftwarePrice')
+        gameSoftwareDescription = postRequest.get('gameSoftwareDescription')
+        print(f"gameSoftwareImage: {gameSoftwareImage}, "
+              f"gameSoftwareTitle: {gameSoftwareTitle}, "
+              f"gameSoftwarePrice: {gameSoftwarePrice}, "
+              f"gameSoftwareDescription: {gameSoftwareDescription}")
+
+        if not all([gameSoftwareImage, gameSoftwareTitle, gameSoftwarePrice, gameSoftwareDescription]):
+            return JsonResponse({"error": '모든 내용을 채워주세요!'}, status=status.HTTP_400_BAD_REQUEST)
+
+        savedGameSoftware = self.gameSoftwareService.createGameSoftware(
+            gameSoftwareTitle,
+            gameSoftwarePrice,
+            gameSoftwareDescription,
+            gameSoftwareImage
+        )
+
+        return JsonResponse({"data": savedGameSoftware}, status=status.HTTP_200_OK)
+
+    def requestGameSoftwareRead(self, request, pk=None):
+        try:
+            if not pk:
+                return JsonResponse({"error": "ID를 제공해야 합니다."}, status=400)
+
+            print(f"requestGameSoftwareRead() -> pk: {pk}")
+            readGameSoftware = self.gameSoftwareService.readGameSoftware(pk)
+
+            return JsonResponse(readGameSoftware, status=200)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)

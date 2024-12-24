@@ -12,5 +12,8 @@ class GameSoftwareImage(models.Model):
         db_table = 'game_software_image'
         app_label = 'game_software'
 
+    def __str__(self):
+        return f"GameSoftwareImage(id={self.id}, image={self.image})"
+
     def getImage(self):
         return self.image

@@ -10,3 +10,11 @@ class GameSoftwareRepository(ABC):
     @abstractmethod
     def findAll(self):
         pass
+
+    @abstractmethod
+    def create(self, title):
+        pass
+
+    @abstractmethod
+    def findById(self, id):
+        pass

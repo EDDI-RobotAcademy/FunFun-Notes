@@ -17,7 +17,12 @@ const route = useRoute()
 
 const setRedirectKakaoData = async() => {
     const code = route.query.code
-    await kakaoAuthenticationStore.requestAccessToken({ code });
+    const userToken = await kakaoAuthenticationStore.requestAccessToken({ code });
+
+    localStorage.setItem("userToken", userToken)
+    kakaoAuthenticationStore.isAuthenticated = true
+
+    router.push('/')
 
     // const isEmailDuplication = await kakaoAuthenticationStore.requestKakaoLoginToDjango({ email })
 

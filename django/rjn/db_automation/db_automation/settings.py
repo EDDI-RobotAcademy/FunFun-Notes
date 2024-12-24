@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'account_profile',
     'game_software',
     'regression',
+    'authentication',
 ]
 
 MIDDLEWARE = [

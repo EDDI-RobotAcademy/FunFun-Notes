@@ -5,14 +5,15 @@
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
+		"module": "ESNext",
 		"moduleResolution": "node",
 		"lib": ["ESNext", "DOM"],
-		"types": ["@nuxt/types"],
+		"types": ["@nuxt/types", "vite/client"],
+		"target": "ESNext"
 	},
 	"include": [
 		"nuxt.config.ts",
-		"pages/**/*.vue",
 		"components/**/*.vue",
-		"plugins/**/*.ts",
+		"plugins/**/*.ts"
 	],
 }
