@@ -12,5 +12,8 @@ class GameSoftwarePrice(models.Model):
         db_table = 'game_software_price'
         app_label = 'game_software'
 
+    def __str__(self):
+        return f"GameSoftwarePrice(id={self.id}, price={self.price})"
+
     def getPrice(self):
         return self.price
