@@ -20,3 +20,6 @@ class GameSoftwarePriceRepositoryImpl(GameSoftwarePriceRepository):
 
     def create(self, gameSoftware, price):
         return GameSoftwarePrice.objects.create(gameSoftware=gameSoftware, price=price)
+
+    def findByGameSoftware(self, gameSoftware):
+        return GameSoftwarePrice.objects.get(gameSoftware=gameSoftware)

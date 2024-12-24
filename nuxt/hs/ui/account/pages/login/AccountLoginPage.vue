@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="d-flex justify-center align-center pa-0" 
-  		:style="{ backgroundImage: `url(${loginBgImage})`, backgroundSize: 'cover', backgroundPosition: 'center', height: '100vh' }">
+  		:style="{ backgroundImage: `url(${loginBgImage})`, backgroundSize: 'auto', backgroundPosition: 'center', height: '100vh' }">
     <v-row justify="center" align="center" class="fill-height ma-0">
       <v-col cols="12" sm="8" md="6" class="text-center">
         <v-btn class="kakao-login-btn" @click="goToKakaoLogin" block>
@@ -13,7 +13,7 @@
 
 
 <script setup>
-import loginBgImage from '@/assets/images/fixed/login_home.jpg.avif';
+import loginBgImage from '@/assets/images/fixed/닝닝.webp';
 
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
@@ -134,15 +134,15 @@ const onSubmit = async () => {
 .kakao-login-btn {
   position: relative;
   top: 40vh;
-  width: 200px !important;
-  height: 150px !important; /* Force height change */
+  width: 20px !important;
+  height: 30px !important; /* Force height change */
   background-image: url("@/assets/images/fixed/kakaologin.png");
-  background-size: contain;
+  background-size: auto;
   background-repeat: no-repeat;
   background-position: center;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: right;
+  justify-content: right;
   background-color: #FFEA00;
   border-radius: 1.4vh;
   cursor: pointer;

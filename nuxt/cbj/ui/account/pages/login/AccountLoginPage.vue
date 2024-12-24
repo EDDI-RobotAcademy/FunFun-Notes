@@ -13,7 +13,7 @@
 
 
 <script setup>
-import loginBgImage from '@/assets/images/fixed/artwork-digital-art-evelynn-league-of-legends-league-of-legends-video-games-hd-wallpaper-preview.jpg';
+import loginBgImage from '@/assets/images/fixed/KJBB.png';
 
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';

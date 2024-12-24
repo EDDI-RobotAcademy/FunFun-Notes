@@ -20,3 +20,6 @@ class GameSoftwareDescriptionRepositoryImpl(GameSoftwareDescriptionRepository):
 
     def create(self, gameSoftware, description):
         return GameSoftwareDescription.objects.create(gameSoftware=gameSoftware, description=description)
+
+    def findByGameSoftware(self, gameSoftware):
+        return GameSoftwareDescription.objects.get(gameSoftware=gameSoftware)
