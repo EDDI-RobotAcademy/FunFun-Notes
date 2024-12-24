@@ -35,3 +35,6 @@ class GameSoftwareImageRepositoryImpl(GameSoftwareImageRepository):
             os.fsync(destination.fileno())
 
         return GameSoftwareImage.objects.create(gameSoftware=gameSoftware, image=image)
+
+    def findByGameSoftware(self, gameSoftware):
+        return GameSoftwareImage.objects.get(gameSoftware=gameSoftware)
