@@ -51,3 +51,10 @@ class CartRepositoryImpl(CartRepository):
         except Exception as e:
             print(f"장바구니 조회 중 오류 발생: {e}")
             return None
+
+    def findCartByAccount(self, account, offset, limit):
+        try:
+            return Cart.objects.filter(account=account)[offset:offset + limit]
+        except Exception as e:
+            print(f"장바구니 조회 중 오류 발생: {e}")
+            return []
