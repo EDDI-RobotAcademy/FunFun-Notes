@@ -14,3 +14,7 @@ class CartRepository(ABC):
     @abstractmethod
     def findCartByAccount(self, account, offset, limit):
         pass
+
+    @abstractmethod
+    def deleteById(self, cartId):
+        pass

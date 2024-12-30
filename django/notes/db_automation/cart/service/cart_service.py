@@ -10,3 +10,7 @@ class CartService(ABC):
     @abstractmethod
     def listCart(self, accountId, page, pageSize):
         pass
+
+    @abstractmethod
+    def removeCart(self, accountId, cartId):
+        pass
