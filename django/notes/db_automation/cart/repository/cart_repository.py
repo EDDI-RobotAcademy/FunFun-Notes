@@ -10,3 +10,11 @@ class CartRepository(ABC):
     @abstractmethod
     def findCartByAccountAndGameSoftware(self, account, gameSoftware):
         pass
+
+    @abstractmethod
+    def findCartByAccount(self, account, offset, limit):
+        pass
+
+    @abstractmethod
+    def deleteById(self, cartId):
+        pass
