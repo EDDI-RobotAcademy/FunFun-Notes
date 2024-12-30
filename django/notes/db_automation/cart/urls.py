@@ -14,4 +14,7 @@ urlpatterns = [
     path('list',
          CartController.as_view({ 'post': 'requestListCart' }),
          name='카트 리스트'),
+    path('remove',
+         CartController.as_view({ 'post': 'requestRemoveCart' }),
+         name='카트 리스트'),
 ]

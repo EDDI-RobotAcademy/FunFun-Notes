@@ -34,7 +34,7 @@ class CartController(viewsets.ViewSet):
         userToken = postRequest.get("userToken")
 
         page = postRequest.get("page", 1)
-        pageSize = postRequest.get("pageSize", 10)
+        perPage = postRequest.get("perPage", 10)
 
         if not userToken:
             return JsonResponse({"error": "userToken이 필요합니다", "success": False}, status=status.HTTP_400_BAD_REQUEST)
@@ -42,7 +42,7 @@ class CartController(viewsets.ViewSet):
         try:
             accountId = self.redisCacheService.getValueByKey(userToken)
 
-            cartList, totalItems = self.cartService.listCart(accountId, page, pageSize)
+            cartList, totalItems = self.cartService.listCart(accountId, page, perPage)
             print(f"cartList: {cartList}, totalItems: {totalItems}")
 
             return JsonResponse({
@@ -54,3 +54,22 @@ class CartController(viewsets.ViewSet):
         except Exception as e:
             return JsonResponse({"error": "서버 내부 오류", "success": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    def requestRemoveCart(self, request):
+        postRequest = request.data
+        userToken = postRequest.get("userToken")
+        cartId = postRequest.get("id")
+
+        if not userToken:
+            return JsonResponse({"error": "userToken이 필요합니다", "success": False}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            accountId = self.redisCacheService.getValueByKey(userToken)
+            result = self.cartService.removeCart(accountId, cartId)
+
+            if result["success"]:
+                return JsonResponse(result, status=status.HTTP_200_OK)
+            else:
+                return JsonResponse(result, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return JsonResponse({"error": "서버 내부 오류", "success": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

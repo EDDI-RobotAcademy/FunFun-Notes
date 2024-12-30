@@ -79,8 +79,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { useCartStore } from "~/cart/stores/cartStore"; // cartStore를 import
 
 const selectedItems = ref([]);
 const isCheckoutDialogVisible = ref(false);
@@ -89,6 +90,8 @@ const totalItems = ref(0);
 const currentPage = ref(1);
 const pageSize = ref(10); // 페이지 크기
 const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
+
+const cartStore = useCartStore();  // cartStore 인스턴스
 
 // 계산 속성
 const selectedItemsTotal = computed(() =>
@@ -104,9 +107,17 @@ const updateQuantity = (item) => {
   console.log(`Updating quantity for item ID: ${item.id}, New Quantity: ${item.quantity}`);
 };
 
-const removeItem = (item) => {
-  cartItems.value = cartItems.value.filter((cartItem) => cartItem.id !== item.id);
-  selectedItems.value = selectedItems.value.filter((selectedItem) => selectedItem.id !== item.id);
+const removeItem = async (item) => {
+  const result = await cartStore.requestRemoveCart(item.id);
+
+  if (result.success) {
+    // 요청이 성공하면 로컬 상태에서 해당 항목을 제거
+    cartItems.value = cartItems.value.filter((cartItem) => cartItem.id !== item.id);
+    selectedItems.value = selectedItems.value.filter((selectedItem) => selectedItem.id !== item.id);
+  } else {
+    // 실패한 경우에 대한 처리 (예: 알림 메시지 등)
+    alert(result.error || "카트 삭제에 실패했습니다.");
+  }
 };
 
 const confirmCheckout = () => {
@@ -132,27 +143,42 @@ const proceedToOrder = async () => {
 
 const fetchCartList = async () => {
   try {
-    console.log("Fetching cart list...");
-    // 여기에 실제 API 호출 로직 추가
-    const response = {
-      cartList: [
-        { id: 1, title: "포켓몬스터 레츠고 피카츄!", price: 50000, image: "pocket-monster-pikachu.jpg", quantity: 2 },
-        { id: 2, title: "마리오와 요시의 모험", price: 60000, image: "mario_and_yoshi.jpg", quantity: 1 },
-      ],
-      totalItems: 15,
-      success: true,
-    };
+    const userToken = localStorage.getItem("userToken");
 
-    cartItems.value = response.cartList;
-    totalItems.value = response.totalItems;
-    console.log("Cart items loaded:", cartItems.value);
+    if (!userToken) {
+      console.log("User token is missing.");
+      return;
+    }
+
+    // currentPage와 pageSize가 숫자여야 하므로 객체가 아니라 숫자 값이 전달되어야 함
+    const page = currentPage.value;  // 숫자 값이 전달
+    const pageSizeValue = pageSize.value;  // 숫자 값이 전달
+
+    console.log(`Fetching cart list with page: ${page}, perPage: ${pageSizeValue}, userToken: ${userToken}`);
+
+    // cartStore.requestCartList 호출 시 매개변수가 객체가 아닌 숫자 값이 전달되도록 확인
+    const response = await cartStore.requestCartList({
+      page: page, 
+      perPage: pageSizeValue,  // pageSize값을 명확히 전달
+      userToken: userToken 
+    });
+
+    if (response.success) {
+      cartItems.value = response.cartList;
+      totalItems.value = response.totalItems;
+      console.log("Cart items loaded:", cartItems.value);
+    } else {
+      alert(response.error || "카트 목록을 불러오는 데 실패했습니다.");
+    }
   } catch (error) {
     console.error("Error fetching cart list:", error);
   }
 };
 
-// 컴포넌트 초기화 시 데이터 로드
-fetchCartList();
+onMounted(() => {
+  // onMounted에서 비동기 호출이 완료되기 전에 호출되는 문제를 방지
+  fetchCartList();
+});
 </script>
 
 <style scoped>

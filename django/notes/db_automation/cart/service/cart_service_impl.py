@@ -127,4 +127,27 @@ class CartServiceImpl(CartService):
         except Exception as e:
             print(f"Unexpected error in listCart: {e}")
             raise
+
+    def removeCart(self, accountId, cartId):
+        try:
+            cart = self.__cartRepository.findById(cartId)
+            if cart is None or cart.account.id != accountId:
+                return {
+                    "error": "해당 카트를 찾을 수 없거나 소유자가 일치하지 않습니다.",
+                    "success": False
+                }
+
+            result = self.__cartRepository.deleteById(cartId)
+            if result:
+                return {
+                    "success": True,
+                    "message": "카트 항목이 삭제되었습니다."
+                }
+
+        except Exception as e:
+            print(f"Error in CartService.removeCart: {e}")
+            return {
+                "error": "서버 내부 오류",
+                "success": False
+            }
     
