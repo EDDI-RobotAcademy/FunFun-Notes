@@ -9,7 +9,7 @@
                             <thead>
                             <tr>
                                 <th>Select</th>
-                                <th>Product</th>
+                                <th>Title</th>
                                 <th>Price</th>
                                 <th>Quantity</th>
                                 <th>Total</th>
@@ -73,11 +73,13 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
+import { useGameSoftwareStore } from '~/gameSoftware/stores/gameSoftwareStore';
 import { useCartStore } from "~/cart/stores/cartStore"
 
 const selectedItems = ref([]);
 const isCheckoutDialogVisible = ref(false);
 
+const gameSoftwareStore = useGameSoftwareStore();
 const cartStore = useCartStore();
 const router = useRouter();
 
@@ -86,14 +88,14 @@ const router = useRouter();
 const cartItems = computed(() => cartStore.cartList);
 const cartTotal = computed(() =>
     cartStore.cartList.reduce(
-        (total, item) => total + item.productPrice * item.quantity,
+        (total, item) => total + item.gameSoftwarePrice * item.quantity,
         0
     )
 );
 
 const selectedItemsTotal = computed(() =>
     selectedItems.value.reduce(
-        (total, item) => total + item.productPrice * item.quantity,
+        (total, item) => total + item.gameSoftwarePrice * item.quantity,
         0
     )
 );
@@ -125,7 +127,7 @@ const proceedToOrder = async () => {
         );
         const orderItems = selectedCartItems.map((item) => ({
             cartItemId: item.cartItemId,
-            orderPrice: item.productPrice,
+            orderPrice: item.gameSoftwarePrice,
             quantity: item.quantity,
         }));
 
