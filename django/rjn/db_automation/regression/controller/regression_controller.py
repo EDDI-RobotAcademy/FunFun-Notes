@@ -9,8 +9,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-
-
 # pip install scikit-learn
 
 class RegressionController(viewsets.ViewSet):
@@ -46,7 +44,7 @@ class RegressionController(viewsets.ViewSet):
         # 혼동 행렬
         conf_matrix = confusion_matrix(y_test, y_pred)
         print(f"confusion matrix: {conf_matrix}")
-
+        
         responseData = {
             "accuracy": round(accuracy, 4),
             "confusion_matrix": conf_matrix.tolist()
