@@ -20,7 +20,6 @@ class CartController(viewsets.ViewSet):
 
         try:
             accountId = self.redisCacheService.getValueByKey(userToken)
-            print(f"accountId: {accountId}")
 
             updatedCart = self.cartService.createCart(accountId, cart)
             if updatedCart is not None:
@@ -28,4 +27,49 @@ class CartController(viewsets.ViewSet):
 
         except Exception as e:
             print(f"장바구니 처리 중 오류 발생: {e}")
+            return JsonResponse({"error": "서버 내부 오류", "success": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def requestListCart(self, request):
+        postRequest = request.data
+        userToken = postRequest.get("userToken")
+
+        page = postRequest.get("page", 1)
+        perPage = postRequest.get("perPage", 10)
+
+        if not userToken:
+            return JsonResponse({"error": "userToken이 필요합니다", "success": False}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            accountId = self.redisCacheService.getValueByKey(userToken)
+
+            cartList, totalItems = self.cartService.listCart(accountId, page, perPage)
+            print(f"cartList: {cartList}, totalItems: {totalItems}")
+
+            return JsonResponse({
+                "cartList": cartList,
+                "totalItems": totalItems,
+                "success": True
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return JsonResponse({"error": "서버 내부 오류", "success": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def requestRemoveCart(self, request):
+        postRequest = request.data
+        userToken = postRequest.get("userToken")
+        cartId = postRequest.get("id")
+
+        if not userToken:
+            return JsonResponse({"error": "userToken이 필요합니다", "success": False}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            accountId = self.redisCacheService.getValueByKey(userToken)
+            result = self.cartService.removeCart(accountId, cartId)
+
+            if result["success"]:
+                return JsonResponse(result, status=status.HTTP_200_OK)
+            else:
+                return JsonResponse(result, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
             return JsonResponse({"error": "서버 내부 오류", "success": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
