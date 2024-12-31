@@ -16,5 +16,9 @@ class CartRepository(ABC):
         pass
 
     @abstractmethod
+    def findById(self, cartId):
+        pass
+
+    @abstractmethod
     def deleteById(self, cartId):
         pass

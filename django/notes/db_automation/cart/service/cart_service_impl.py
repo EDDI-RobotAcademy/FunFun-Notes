@@ -131,7 +131,8 @@ class CartServiceImpl(CartService):
     def removeCart(self, accountId, cartId):
         try:
             cart = self.__cartRepository.findById(cartId)
-            if cart is None or cart.account.id != accountId:
+            print(f"cart: {cart}")
+            if cart is None or str(cart.account.id) != str(accountId):
                 return {
                     "error": "해당 카트를 찾을 수 없거나 소유자가 일치하지 않습니다.",
                     "success": False
