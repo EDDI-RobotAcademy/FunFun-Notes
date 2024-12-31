@@ -12,7 +12,7 @@ class CartRepository(ABC):
         pass
 
     @abstractmethod
-    def findCartByAccount(self, account, offset, limit):
+    def findCartByAccount(self, account, page, limit):
         pass
 
     @abstractmethod
