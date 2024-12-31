@@ -175,6 +175,10 @@ const fetchCartList = async () => {
   }
 };
 
+watch(currentPage, (newPage) => {
+  fetchCartList();  // 페이지 변경 시 fetchCartList 호출
+});
+
 onMounted(() => {
   // onMounted에서 비동기 호출이 완료되기 전에 호출되는 문제를 방지
   fetchCartList();
