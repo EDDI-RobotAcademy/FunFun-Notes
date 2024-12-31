@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     './gameSoftware/nuxt.config.ts',
     './board/nuxt.config.ts',
     './cart/nuxt.config.ts',
+    './order/nuxt.config.ts',
   ],
 
   css: [
@@ -44,6 +45,7 @@ export default defineNuxtConfig({
     '~/gameSoftware/index.ts',
     '~/board/index.ts',
     '~/cart/index.ts',
+    '~/order/index.ts',
   ],
 
   imports: {
@@ -54,6 +56,8 @@ export default defineNuxtConfig({
     public: {
       MAIN_API_URL: process.env.VUE_APP_BASE_URL,
       AI_BASE_URL: process.env.VUE_APP_AI_BASE_URL,
+      TOSS_CLIENT_KEY : process.env.TOSS_CLIENT_KEY,
+			TOSS_SECRET_KEY : process.env.TOSS_SECRET_KEY,
     }
   },
 })
