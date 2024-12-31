@@ -59,6 +59,17 @@ class CartRepositoryImpl(CartRepository):
             print(f"장바구니 조회 중 오류 발생: {e}")
             return []
 
+    def findById(self, cartId):
+        try:
+            cart = Cart.objects.get(id=cartId)  # id로 단일 Cart 조회
+            return cart
+        except Cart.DoesNotExist:
+            print(f"id {cartId} 존재하지 않음.")
+            return None
+        except Exception as e:
+            print(f"CartRepository.findById 에러: {e}")
+            return None
+
     def deleteById(self, cartId):
         try:
             cart = Cart.objects.filter(id=cartId).first()
