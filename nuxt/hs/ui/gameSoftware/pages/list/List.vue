@@ -79,7 +79,7 @@
 <script setup lang="ts">
 
 import { ref, computed, onMounted, watch } from 'vue'
-import { useGameSoftwareStore } from '../../stores/gameSoftwareStore'
+import { useGameSoftwareStore } from '/Users/junghyeonseo/lecture/GitHub/SK-Networks-8-Notes/nuxt/hs/ui/gameSoftware/stores/gameSoftwareStore'
 import { useRouter } from 'vue-router'
 import {resolve} from "path";
 
@@ -89,7 +89,6 @@ const gameSoftwareList = computed(() => gameSoftwareStore.gameSoftwareList);
 const totalPages = computed(() => gameSoftwareStore.totalPages);
 const currentPage = ref(1)
 const perPage = 8
-
 
 // 라우터 설정
 const router = useRouter()
@@ -122,11 +121,15 @@ const getGameSoftwareImageUrl = (imageName: string) => {
 
 // 상품 상세 페이지로 이동하는 함수
 const goToGameSoftwareReadPage = (id: string) => {
-   router.push({
-     name: 'GameSoftwareReadPage',
-     params: { id },
-   })
- }
+  router.push({
+    name: 'GameSoftwareRead',
+    params: { id },
+  })
+}
+
+watch (currentPage, (newPage) => {
+  gameSoftwareStore.requestGameSoftwareList(newPage, perPage)
+})
 
 // 컴포넌트 마운트 시 상품 목록 요청
 onMounted(() => {
