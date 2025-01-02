@@ -10,3 +10,7 @@ class KakaoOauthRepository(ABC):
     @abstractmethod
     def getAccessToken(self, code):
         pass
+
+    @abstractmethod
+    def getUserInfo(self, accessToken):
+        pass

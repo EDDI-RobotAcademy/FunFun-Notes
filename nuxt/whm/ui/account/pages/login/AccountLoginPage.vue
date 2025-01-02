@@ -1,7 +1,5 @@
 <template>
   <v-container
-    #
-    띄어쓰기기
     fluid
     class="d-flex justify-center align-center pa-0"
     :style="{
@@ -14,7 +12,6 @@
     <v-row justify="center" align="center" class="fill-height ma-0">
       <v-col cols="12" sm="8" md="6" class="text-center">
         <v-btn class="kakao-login-btn" @click="goToKakaoLogin" block>
-          # 클릭시 goToKakaoLogin 실행행
           <!-- 카카오 로그인 -->
         </v-btn>
       </v-col>
@@ -47,7 +44,7 @@ const kakaoAuthentication = useKakaoAuthenticationStore();
 
 // Google, Kakao, Naver 로그인 함수들
 const goToKakaoLogin = async () => {
-  sessionStorage.setItem("loginType", "KAKAO");
+  // sessionStorage.setItem("loginType", "KAKAO");
   await kakaoAuthentication.requestKakaoLoginToDjango();
 };
 
@@ -143,7 +140,7 @@ const onSubmit = async () => {
   top: 40vh;
   width: 200px !important;
   height: 150px !important; /* Force height change */
-  background-image: url("@/assets/images/fixed/btn_login_kakao.png");
+  background-image: url("@/assets/images/fixed/btn_login_kakao.webp");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
