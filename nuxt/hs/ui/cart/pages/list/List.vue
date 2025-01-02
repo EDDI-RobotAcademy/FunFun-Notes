@@ -137,7 +137,7 @@ const proceedToOrder = async () => {
   }));
 
   router.push({
-    path: '/order/confirm',
+    path: '/payments/confirm',
     query: { items: encodeURIComponent(JSON.stringify(selectedCartItems)) },
   });
 };
