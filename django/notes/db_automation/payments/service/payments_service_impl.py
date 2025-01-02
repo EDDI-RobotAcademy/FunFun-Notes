@@ -1,3 +1,6 @@
+from account.entity.account import Account
+from account.repository.account_repository_impl import AccountRepositoryImpl
+from payments.entity.payments import Payments
 from payments.repository.payments_repository_impl import PaymentsRepositoryImpl
 from payments.service.payments_service import PaymentsService
 
@@ -10,6 +13,7 @@ class PaymentsServiceImpl(PaymentsService):
             cls.__instance = super().__new__(cls)
 
             cls.__instance.__paymentsRepository = PaymentsRepositoryImpl.getInstance()
+            cls.__instance.__accountRepository = AccountRepositoryImpl.getInstance()
 
         return cls.__instance
 
@@ -20,28 +24,41 @@ class PaymentsServiceImpl(PaymentsService):
 
         return cls.__instance
 
-    def process(self, accountId, selectedItems):
+    def process(self, accountId, paymentKey, orderId, amount):
         try:
-            # 결제 요청 데이터 생성
+            print(f"accountId: {accountId}")
+            account = self.__accountRepository.findById(accountId)
+
             paymentRequestData = {
-                "accountId": accountId,
-                "items": selectedItems,
-                "totalAmount": sum(item["price"] * item["quantity"] for item in selectedItems),
+                "paymentKey": paymentKey,
+                "orderId": orderId,
+                "amount": amount,
             }
+            print(f"paymentRequestData: {paymentRequestData}")
 
-            # PaymentsRepository를 통해 외부 결제 API 요청
-            paymentResponse = self.__paymentsRepository.request(paymentRequestData)
+            # 결제 요청을 레포지토리로 넘기고 결과 받기
+            paymentResult = self.__paymentsRepository.request(paymentRequestData)
+            print(f"paymentResult: {paymentResult}")
 
-            # 결제 요청 성공 여부 확인
-            if paymentResponse["success"]:
-                return {
-                    "paymentUrl": paymentResponse["paymentUrl"],
-                    "paymentsId": paymentResponse["paymentsId"],
-                }
+            if paymentResult:
+                # 결제 정보를 DB에 저장
+                payment = Payments(
+                    account=account,
+                    payment_key=paymentKey,
+                    order_id=orderId,
+                    amount=amount,
+                    provider=paymentResult.get('easyPay', {}).get('provider'),
+                    method=paymentResult.get('method'),
+                    paid_at=paymentResult.get('approvedAt'),
+                    receipt_url=paymentResult.get('receipt', {}).get('url'),
+                )
+                self.__paymentsRepository.create(payment)  # 결제 정보 DB에 저장
+
+                return paymentResult
             else:
-                raise Exception(f"결제 실패: {paymentResponse.get('message', '알 수 없는 오류')}")
+                raise Exception("결제 요청 처리 실패")
 
         except Exception as e:
-            print(f"PaymentsServiceImpl.process 오류: {e}")
-            raise
+            print(f"결제 처리 중 오류 발생: {e}")
+            return {"error": "Internal server error", "success": False}, 500
     
