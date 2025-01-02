@@ -36,6 +36,7 @@ export const gameSoftwareAction = {
     },
     async requestGameSoftwareById(id: string): Promise<any> {
         const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+
         try {
             const res = await djangoAxiosInstance.get(`/game-software/read/${id}`);
             console.log('Response Data:', res.data);
