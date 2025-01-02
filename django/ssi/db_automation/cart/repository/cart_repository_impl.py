@@ -1,5 +1,11 @@
+from django.core.paginator import EmptyPage, Paginator
+from django.db.models import Subquery, OuterRef, Value
+from django.db.models.functions import Coalesce
+
 from cart.entity.cart import Cart
 from cart.repository.cart_repository import CartRepository
+from game_software.entity.game_software_image import GameSoftwareImage
+from game_software.entity.game_software_price import GameSoftwarePrice
 
 
 class CartRepositoryImpl(CartRepository):
@@ -52,9 +58,42 @@ class CartRepositoryImpl(CartRepository):
             print(f"장바구니 조회 중 오류 발생: {e}")
             return None
 
-    def findCartByAccount(self, account, offset, limit):
+    def findCartByAccount(self, account, page, limit):
         try:
-            return Cart.objects.filter(account=account)[offset:offset + limit]
+            # Cart 객체 필터링
+            cart_queryset = Cart.objects.filter(account=account)
+
+            # 가격 및 이미지 서브쿼리 먼저 annotate()로 처리
+            annotated_cart_queryset = cart_queryset.annotate(
+                price=Coalesce(
+                    Subquery(
+                        GameSoftwarePrice.objects.filter(
+                            gameSoftware=OuterRef("gameSoftware")
+                        ).values("price")[:1]
+                    ),
+                    Value(0),
+                ),
+                image=Coalesce(
+                    Subquery(
+                        GameSoftwareImage.objects.filter(
+                            gameSoftware=OuterRef("gameSoftware")
+                        ).values("image")[:1]
+                    ),
+                    Value(""),
+                ),
+            )
+
+            # Paginator로 페이지네이션 적용
+            paginator = Paginator(annotated_cart_queryset, limit)  # limit을 페이지 크기로 설정
+
+            try:
+                paginated_cart = paginator.page(page)  # page는 페이지 번호
+            except EmptyPage:
+                # 잘못된 페이지 번호로 접근 시 마지막 페이지 반환
+                paginated_cart = paginator.page(paginator.num_pages)
+
+            return paginated_cart  # 페이지 객체 반환
+
         except Exception as e:
             print(f"장바구니 조회 중 오류 발생: {e}")
             return []

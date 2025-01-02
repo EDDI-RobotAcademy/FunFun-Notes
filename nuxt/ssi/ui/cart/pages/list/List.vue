@@ -91,6 +91,8 @@ const currentPage = ref(1);
 const pageSize = ref(10); // 페이지 크기
 const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
 
+const router = useRouter();
+
 const cartStore = useCartStore();  // cartStore 인스턴스
 
 // 계산 속성
@@ -127,18 +129,17 @@ const confirmCheckout = () => {
 const proceedToOrder = async () => {
   isCheckoutDialogVisible.value = false;
 
-  try {
-    const selectedCartItems = selectedItems.value.map((item) => ({
-      id: item.id,
-      price: item.price,
-      quantity: item.quantity,
-    }));
+  const selectedCartItems = selectedItems.value.map((item) => ({
+    id: item.id,
+    title: item.title,
+    price: item.price,
+    quantity: item.quantity,
+  }));
 
-    console.log("Selected items for order:", selectedCartItems);
-    // 주문 요청 로직 추가
-  } catch (error) {
-    console.error("Order creation failed:", error);
-  }
+  router.push({
+    path: '/payments/confirm',
+    query: { items: encodeURIComponent(JSON.stringify(selectedCartItems)) },
+  });
 };
 
 const fetchCartList = async () => {
@@ -174,6 +175,10 @@ const fetchCartList = async () => {
     console.error("Error fetching cart list:", error);
   }
 };
+
+watch(currentPage, (newPage) => {
+  fetchCartList();  // 페이지 변경 시 fetchCartList 호출
+});
 
 onMounted(() => {
   // onMounted에서 비동기 호출이 완료되기 전에 호출되는 문제를 방지

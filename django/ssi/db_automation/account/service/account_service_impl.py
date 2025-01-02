@@ -31,3 +31,13 @@ class AccountServiceImpl(AccountService):
 
         except ObjectDoesNotExist:
             return None
+
+    def findEmail(self, accountId):
+        try:
+            account = self.__accountRepository.findById(accountId)
+            if account:
+                return account.getEmail()  # account 객체에서 이메일 반환
+            return None  # 이메일이 없으면 None 반환
+
+        except ObjectDoesNotExist:
+            return None
