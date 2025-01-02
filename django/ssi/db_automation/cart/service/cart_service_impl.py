@@ -68,44 +68,12 @@ class CartServiceImpl(CartService):
                 raise ValueError(f"Account with ID {accountId} not found.")
             print(f"Account found: {account}")
 
-            # Offset 및 Limit 계산
-            offset = (page - 1) * pageSize
-            limit = pageSize
-            print(f"Offset: {offset}, Limit: {limit}")
+            # Cart 목록 가져오기 (페이지네이션 적용된 결과)
+            paginatedCartList = self.__cartRepository.findCartByAccount(account, page, pageSize)
+            print(f"Paginated cart list query: {paginatedCartList}")
 
-            # Cart 목록 가져오기
-            cartListQuery = self.__cartRepository.findCartByAccount(account, offset, limit)
-            print(f"Cart list query retrieved: {cartListQuery}")
-
-            # 가격 및 이미지 서브쿼리를 Cart에 맞게 연결
-            annotatedCartList = cartListQuery.annotate(
-                price=Coalesce(
-                    Subquery(
-                        GameSoftwarePrice.objects.filter(
-                            gameSoftware=OuterRef("gameSoftware")
-                        ).values("price")[:1]
-                    ),
-                    Value(0),
-                ),
-                image=Coalesce(
-                    Subquery(
-                        GameSoftwareImage.objects.filter(
-                            gameSoftware=OuterRef("gameSoftware")
-                        ).values("image")[:1]
-                    ),
-                    Value(""),
-                ),
-            )
-            print(f"Annotated cart list: {annotatedCartList}")
-
-            # Paginator로 페이지네이션 적용
-            paginator = Paginator(annotatedCartList, pageSize)
-            try:
-                paginatedCartList = paginator.page(page)
-            except PageNotAnInteger:
-                paginatedCartList = paginator.page(1)
-            except EmptyPage:
-                paginatedCartList = []
+            # 전체 아이템 수 계산
+            total_items = paginatedCartList.paginator.count  # Paginator에서 count 값을 사용
 
             # 필요한 데이터만 추출
             cartDataList = [
@@ -119,10 +87,10 @@ class CartServiceImpl(CartService):
                 for cart in paginatedCartList
             ]
 
-            print(f"Total items: {paginator.count}")
+            print(f"Total items: {total_items}")
             print(f"Page items: {len(cartDataList)}")
 
-            return cartDataList, paginator.num_pages
+            return cartDataList, total_items  # total_items를 반환
 
         except Exception as e:
             print(f"Unexpected error in listCart: {e}")
