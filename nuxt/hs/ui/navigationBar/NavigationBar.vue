@@ -39,6 +39,7 @@
             <v-icon left>mdi-cart-outline</v-icon>
             <span>카트</span>
         </v-btn>
+
         <!-- 로그인 버튼 -->
         <template v-if="!kakaoAuthentication.isAuthenticated">
             <v-btn text @click="signIn" class="btn-text">
@@ -86,7 +87,6 @@ const signIn = () => {
   console.log('로그인 클릭')
   router.push('/account/login')
 }
-
 
 const signOut = () => {
   console.log('로그아웃 클릭')
