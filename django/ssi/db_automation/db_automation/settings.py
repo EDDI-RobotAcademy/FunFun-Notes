@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'game_software',
     'authentication',
     'cart',
+    #'order',
 ]
 
 MIDDLEWARE = [
