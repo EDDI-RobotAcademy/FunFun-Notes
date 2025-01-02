@@ -24,3 +24,22 @@ class AuthenticationController(viewsets.ViewSet):
                 return JsonResponse({"error": "코드 내부 에러"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return JsonResponse({"error": "userToken이 필요합니다"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def requestUserTokenValidation(self, request):
+        postRequest = request.data
+        userToken = postRequest.get("userToken")
+
+        if not userToken:
+            return JsonResponse({"valid": False, "error": "userToken이 필요합니다"},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            accountId = self.redisCacheService.getValueByKey(userToken)
+            if not accountId:
+                return JsonResponse({"valid": False}, status=status.HTTP_200_OK)
+
+            return JsonResponse({"valid": True}, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return JsonResponse({"valid": False, "error": "코드 내부 에러"},
+                                status=status.HTTP_500_INTERNAL_SERVER_ERROR)
