@@ -14,4 +14,7 @@ urlpatterns = [
     path('create',
          GameSoftwareController.as_view({ 'post': 'requestGameSoftwareCreate' }),
          name='게임 소프트웨어 등록 요청'),
+    path('read/<int:pk>',
+         GameSoftwareController.as_view({ 'get': 'requestGameSoftwareRead' }),
+         name='게임 소프트웨어 읽기 요청'),
 ]

@@ -5,7 +5,7 @@ from car.service.car_service import CarService
 from crawl.repository.crawl_repository_impl import CrawlRepositoryImpl
 
 import re
-import pandas as pd
+# import pandas as pd
 
 
 class CarServiceImpl(CarService):
