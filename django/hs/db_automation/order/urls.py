@@ -1,10 +1,7 @@
-from django.shortcuts import render
-
-# Create your views here.
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
-
+from order.controller.order_controller import OrderController
 
 router = DefaultRouter()
 router.register(r"order", OrderController, basename='order')

@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     './gameSoftware/nuxt.config.ts',
     './board/nuxt.config.ts',
     './cart/nuxt.config.ts',
-    './order/nuxt.config.ts',
+    './payments/nuxt.config.ts',
   ],
 
   css: [
@@ -45,7 +45,7 @@ export default defineNuxtConfig({
     '~/gameSoftware/index.ts',
     '~/board/index.ts',
     '~/cart/index.ts',
-    '~/order/index.ts',
+    '~/payments/index.ts',
   ],
 
   imports: {
