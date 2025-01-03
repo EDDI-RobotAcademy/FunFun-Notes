@@ -43,15 +43,27 @@ class PaymentsController(viewsets.ViewSet):
             if paymentResult is not None and isinstance(paymentResult, dict):
                 # 결제 성공 시 결제 URL과 ID 반환
                 paymentUrl = paymentResult.get("receipt", {}).get("url", None)  # receipt URL을 받아옴
-                paymentsId = paymentResult.get("paymentKey", None)  # paymentKey를 결제 ID로 사용
+                paymentKey = paymentResult.get("paymentKey", None)  # paymentKey를 결제 KEY로 사용
+                approvedAt = paymentResult.get("approvedAt")
+                orderName = paymentResult.get("orderName")
+                orderId = paymentResult.get("orderId")
+                method = paymentResult.get("method")
+                paymentAmount = paymentResult.get("easyPay", {}).get("amount")
+                currency = paymentResult.get("currency", "KRW")
 
-                if paymentUrl and paymentsId:
+                if paymentUrl and paymentKey:
+                    amountWithCurrency = f"{paymentAmount} {currency}"
+
                     return JsonResponse(
                         {
                             "success": True,
                             "message": "결제가 성공적으로 처리되었습니다.",
-                            "paymentUrl": paymentUrl,  # 결제 URL
-                            "paymentsId": paymentsId,  # 결제 ID
+                            # "paymentUrl": paymentUrl,  # 결제 URL
+                            # "paymentKey": paymentKey,  # 결제 KEY
+                            "approvedAt": approvedAt,  # 결제 시간
+                            "orderName": orderName,  # 구매 항목
+                            "method": method,  # 결제 방법
+                            "amountWithCurrency": amountWithCurrency,
                         },
                         status=status.HTTP_200_OK,
                     )
