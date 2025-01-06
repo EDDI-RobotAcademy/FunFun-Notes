@@ -1,5 +1,8 @@
+from django.db import transaction
+
 from account.entity.account import Account
 from account.repository.account_repository_impl import AccountRepositoryImpl
+from order.repository.order_repository_impl import OrderRepositoryImpl
 from payments.entity.payments import Payments
 from payments.repository.payments_repository_impl import PaymentsRepositoryImpl
 from payments.service.payments_service import PaymentsService
@@ -14,6 +17,7 @@ class PaymentsServiceImpl(PaymentsService):
 
             cls.__instance.__paymentsRepository = PaymentsRepositoryImpl.getInstance()
             cls.__instance.__accountRepository = AccountRepositoryImpl.getInstance()
+            cls.__instance.__orderRepository = OrderRepositoryImpl.getInstance()
 
         return cls.__instance
 
@@ -41,18 +45,26 @@ class PaymentsServiceImpl(PaymentsService):
             print(f"paymentResult: {paymentResult}")
 
             if paymentResult:
-                # 결제 정보를 DB에 저장
-                payment = Payments(
-                    account=account,
-                    payment_key=paymentKey,
-                    order_id=orderId,
-                    amount=amount,
-                    provider=paymentResult.get('easyPay', {}).get('provider'),
-                    method=paymentResult.get('method'),
-                    paid_at=paymentResult.get('approvedAt'),
-                    receipt_url=paymentResult.get('receipt', {}).get('url'),
-                )
-                self.__paymentsRepository.create(payment)  # 결제 정보 DB에 저장
+                # 트랜잭션 처리
+                with transaction.atomic():
+                    # 결제 정보를 DB에 저장
+                    payment = Payments(
+                        account=account,
+                        payment_key=paymentKey,
+                        order_id=orderId,
+                        amount=amount,
+                        provider=paymentResult.get('easyPay', {}).get('provider'),
+                        method=paymentResult.get('method'),
+                        paid_at=paymentResult.get('approvedAt'),
+                        receipt_url=paymentResult.get('receipt', {}).get('url'),
+                    )
+                    self.__paymentsRepository.create(payment)  # 결제 정보 DB에 저장
+
+                    # 결제 성공 시, 주문 상태 업데이트
+                    order = self.__orderRepository.findById(orderId)
+                    if order:
+                        order.status = "COMPLETED"  # 주문 상태를 완료로 변경
+                        self.__orderRepository.save(order)  # 주문 업데이트
 
                 return paymentResult
             else:
