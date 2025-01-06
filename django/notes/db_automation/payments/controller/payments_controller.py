@@ -30,15 +30,16 @@ class PaymentsController(viewsets.ViewSet):
             paymentKey = postRequest.get("paymentKey")
             orderId = postRequest.get("orderId")
             amount = postRequest.get("amount")
+            orderInfoId = postRequest.get("orderInfoId")
 
-            if not paymentKey or not orderId or not amount:
+            if not paymentKey or not orderId or not amount or not orderInfoId:
                 return JsonResponse(
                     {"error": "paymentKey, orderId, amount는 필수입니다.", "success": False},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
             # 결제 처리
-            paymentResult = self.paymentsService.process(accountId, paymentKey, orderId, amount)
+            paymentResult = self.paymentsService.process(accountId, paymentKey, orderId, amount, orderInfoId)
 
             if paymentResult is not None and isinstance(paymentResult, dict):
                 # 결제 성공 시 결제 URL과 ID 반환

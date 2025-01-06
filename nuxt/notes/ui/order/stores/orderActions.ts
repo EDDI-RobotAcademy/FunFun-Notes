@@ -10,10 +10,12 @@ export const orderAction = {
     try {
       // 주문 생성 요청
       console.log(`requestCreateOrder(): ${JSON.stringify(orderData)}`)
-      const response = await djangoAxiosInstance.post("/order/create", { items, total, userToken });
+      const response = await djangoAxiosInstance.post("/orders/create", { items, total, userToken });
 
       // 요청 성공 여부 확인
       if (response.data.success) {
+        console.log(`requestCreateOrder(): ${response}`)
+        this.setOrderInfoId(response.data.orderId);
         return {
           success: true,
           orderId: response.data.orderId, // 서버에서 반환한 주문 ID
@@ -31,5 +33,17 @@ export const orderAction = {
         error: "서버와 통신 중 오류가 발생했습니다.",
       };
     }
+  },
+  setOrderInfoId(orderId: string) {
+    this.orderInfoId = orderId
+  },
+
+  // 주문 ID 클리어
+  clearOrderInfoId() {
+    this.orderInfoId = null
+  },
+
+  getOrderInfoId() {
+    return this.orderInfoId;
   },
 }

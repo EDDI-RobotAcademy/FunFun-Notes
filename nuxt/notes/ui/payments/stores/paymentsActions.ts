@@ -14,12 +14,18 @@ export const paymentsAction = {
         throw new Error("User token is required to process the payment.");
       }
 
+      const orderInfoId = requestForm.orderInfoId;
+      if (!orderInfoId) {
+        throw new Error("Order Info ID is required to process the payment.");
+      }
+
       // 결제 요청
       const response = await djangoAxiosInstance.post("/payments/process", {
         paymentKey: requestForm.paymentKey,
         orderId: requestForm.orderId,
         amount: requestForm.amount,
         userToken, // 유저 토큰 전달
+        orderInfoId, // 추가된 주문 정보 ID 전달
       });
 
       // 요청 성공 여부 확인
