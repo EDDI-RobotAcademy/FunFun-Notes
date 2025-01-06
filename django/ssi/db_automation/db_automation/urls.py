@@ -33,4 +33,6 @@ urlpatterns = [
     #path("normalize/", include('normalization.urls')),
     path("game-software/", include('game_software.urls')),
     path("authentication/", include('authentication.urls')),
+    path("cart/", include ('cart.urls')),
+    #path("order/", include('order.urls')),
 ]
