@@ -1,4 +1,5 @@
-from order.repository.order_repository import OrderRepository
+from orders.entity.orders import Orders
+from orders.repository.order_repository import OrderRepository
 
 
 class OrderRepositoryImpl(OrderRepository):
@@ -17,5 +18,12 @@ class OrderRepositoryImpl(OrderRepository):
 
         return cls.__instance
 
-    def save(self, order):
-        return order.save()
+    def save(self, orders):
+        orders.save()
+        return orders
+
+    def findById(self, orderId):
+        try:
+            return Orders.objects.get(id=orderId)
+        except Orders.DoesNotExist:
+            return None

@@ -159,9 +159,16 @@ const proceedToOrder = async () => {
 
     if (response.success) {
       // 주문 생성 성공: 결제 페이지로 이동
+      // router.push({
+      //   path: "/payments/confirm",
+      //   query: { orderId: response.orderId },
+      // });
       router.push({
-        path: "/payments/confirm",
-        query: { orderId: response.orderId },
+        path: '/payments/confirm',
+        query: {
+            orderId: response.orderId,
+            items: encodeURIComponent(JSON.stringify(selectedCartItems))
+        },
       });
     } else {
       // 주문 생성 실패: 사용자에게 알림

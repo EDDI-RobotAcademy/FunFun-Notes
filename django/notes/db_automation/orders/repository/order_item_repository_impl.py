@@ -1,5 +1,5 @@
-from order.entity.order_items import OrderItems
-from order.repository.order_item_repository import OrderItemRepository
+from orders.entity.orders_items import OrdersItems
+from orders.repository.order_item_repository import OrderItemRepository
 
 
 class OrderItemRepositoryImpl(OrderItemRepository):
@@ -20,9 +20,10 @@ class OrderItemRepositoryImpl(OrderItemRepository):
 
     def bulkCreate(self, orderItemList):
         for orderItem in orderItemList:
-            if not orderItem.order:
+            print(f"bulkCreate() orderItem: {orderItem}")
+            if not orderItem.orders:
                 raise Exception(f"Order item with ID {orderItem.id} has no associated order.")
             print(
-                f"Order ID: {orderItem.order.id}, Game Software: {orderItem.game_software.id}, Quantity: {orderItem.quantity}, Price: {orderItem.price}")
+                f"Order ID: {orderItem.orders.id}, Game Software: {orderItem.game_software.id}, Quantity: {orderItem.quantity}, Price: {orderItem.price}")
 
-        OrderItems.objects.bulk_create(orderItemList)
+        OrdersItems.objects.bulk_create(orderItemList)

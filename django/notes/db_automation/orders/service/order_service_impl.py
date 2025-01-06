@@ -4,12 +4,13 @@ from account.repository.account_repository_impl import AccountRepositoryImpl
 from cart.repository.cart_repository_impl import CartRepositoryImpl
 from game_software.repository.game_software_price_repository_impl import GameSoftwarePriceRepositoryImpl
 from game_software.repository.game_software_repository_impl import GameSoftwareRepositoryImpl
-from order.entity.orders import Order
-from order.entity.order_items import OrderItems
-from order.entity.order_status import OrderStatus
-from order.repository.order_item_repository_impl import OrderItemRepositoryImpl
-from order.repository.order_repository_impl import OrderRepositoryImpl
-from order.service.order_service import OrderService
+
+from orders.entity.orders import Orders
+from orders.entity.orders_items import OrdersItems
+from orders.entity.orders_status import OrdersStatus
+from orders.repository.order_item_repository_impl import OrderItemRepositoryImpl
+from orders.repository.order_repository_impl import OrderRepositoryImpl
+from orders.service.order_service import OrderService
 
 
 class OrderServiceImpl(OrderService):
@@ -50,13 +51,13 @@ class OrderServiceImpl(OrderService):
         if not items or not isinstance(items, list):
             raise Exception("유효하지 않은 주문 항목입니다.")
 
-        orders = Order(
+        orders = Orders(
             account=account,
             total_amount=total,
-            status=OrderStatus.PENDING,
+            status=OrdersStatus.PENDING,
         )
         orders = self.__orderRepository.save(orders)
-        print(f"order 생성")
+        print(f"order 생성: {orders}")
 
         orderItemList = []
 
@@ -64,27 +65,22 @@ class OrderServiceImpl(OrderService):
             cartItem = self.__cartRepository.findById(item["id"])
             if not cartItem:
                 raise Exception(f"Cart item ID {item['id']} 존재하지 않음.")
-            if item["quantity"] <= 0:
-                raise Exception(f"Cart item ID {item['id']}의 수량이 유효하지 않음.")
 
-            # 5. 게임 소프트웨어 가격 확인
             gameSoftware = cartItem.getGameSoftware()
             if not gameSoftware:
                 raise Exception(f"Game software with ID {gameSoftware.getId()} 존재하지 않음.")
 
             gameSoftwarePrice = self.__gameSoftwarePriceRepository.findByGameSoftware(gameSoftware)
 
-            # 6. 주문 항목 객체 생성
-            orderItem = OrderItems(
-                orders=orders,
+            orderItem = OrdersItems(
+                orders=orders,  # orders가 올바르게 연결되었는지 확인
                 game_software=gameSoftware,
                 quantity=item["quantity"],
-                price=gameSoftwarePrice.getPrice() * item["quantity"],  # 총 가격은 게임 소프트웨어의 가격과 수량의 곱
+                price=gameSoftwarePrice.getPrice() * item["quantity"],
             )
             orderItemList.append(orderItem)
-            print(f"orderItemList: {orderItemList}")
-            
-            print(f"orderItem 생성")
+
+        print(f"orderItemList: {orderItemList}")
 
         if orderItemList:
             self.__orderItemRepository.bulkCreate(orderItemList)
