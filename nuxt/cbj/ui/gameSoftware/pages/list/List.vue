@@ -15,7 +15,7 @@
     <!-- Data Server에 리스트를 요청하여 개수가 0보다 큰지 확인 -->
     <v-row v-if="gameSoftwareList.length > 0">
       <!-- 1개라도 존재한다면 리스트에서 요소를 하나씩 빼서 gameSoftware로 취급, index는 몇 번째인지 알림 -->
-      <v-col v-for="(gameSoftware, index) in gameSoftwareList" :key="index" sm="6">
+      <v-col v-for="(gameSoftware, index) in gameSoftwareList" :key="index" sm="3">
         <!-- card 형태의 구성으로 이미지 정보를 출력
              클릭 시 read 동작을 Data Server에 요청함 -->
         <v-card @click="goToGameSoftwareReadPage(gameSoftware.id)">
@@ -46,11 +46,25 @@
       </v-col>
     </v-row>
 
+    <v-row>
+      <v-col cols="12" class="text-center">
+        <v-pagination
+          v-model="currentPage"
+          :length="totalPages"
+          :total-visible="5"
+          :prev-icon="'mdi-chevron-left'"
+          :next-icon="'mdi-chevron-right'"
+          :first-icon="'mdi-chevron-double-left'"
+          :last-icon="'mdi-chevron-double-right'"/>
+        <p>현재 페이지: {{ currentPage }}</p>
+      </v-col>
+    </v-row>
+
     <!-- 이미지 배너 -->
     <!-- 마리오 -->
     <v-row>
       <v-col cols="12" class="text-center">
-        <v-img src="@/assets/images/fixed/Ivern.webp" aspect-ratio="1" class="grey lighten-2">
+        <v-img src="@/assets/images/fixed/KEED.png" aspect-ratio="1" class="grey lighten-2">
           <template v-slot:placeholder>
             <v-row class="fill-height ma-0" align="center" justify="center">
               <v-progress-circular indeterminate color="grey lighten-5"/>
@@ -64,13 +78,17 @@
 
 <script setup lang="ts">
 
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useGameSoftwareStore } from '../../stores/gameSoftwareStore'
 import { useRouter } from 'vue-router'
 import {resolve} from "path";
 
 const gameSoftwareStore = useGameSoftwareStore()
 const gameSoftwareList = computed(() => gameSoftwareStore.gameSoftwareList);
+
+const totalPages = computed(() => gameSoftwareStore.totalPages);
+const currentPage = ref(1)
+const perPage = 8
 
 // 라우터 설정
 const router = useRouter()
@@ -102,12 +120,16 @@ const getGameSoftwareImageUrl = (imageName: string) => {
 }
 
 // 상품 상세 페이지로 이동하는 함수
-// const goToGameSoftwareReadPage = (id: string) => {
-//   router.push({
-//     name: 'GameSoftwareReadPage',
-//     params: { id },
-//   })
-// }
+const goToGameSoftwareReadPage = (id: string) => {
+  router.push({
+    name: 'GameSoftwareRead',
+    params: { id },
+  })
+}
+
+watch (currentPage, (newPage) => {
+  gameSoftwareStore.requestGameSoftwareList(newPage, perPage)
+})
 
 // 컴포넌트 마운트 시 상품 목록 요청
 onMounted(() => {

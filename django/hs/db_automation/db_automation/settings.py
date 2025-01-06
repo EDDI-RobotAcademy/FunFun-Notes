@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'game_software',
     'regression',
     'authentication',
+    'cart',
 ]
 
 MIDDLEWARE = [
