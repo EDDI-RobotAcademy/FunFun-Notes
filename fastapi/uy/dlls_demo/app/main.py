@@ -7,7 +7,11 @@ import uvicorn
 import os
 
 from config.cors_config import CorsConfig
+from ensemble_method.controller.ensemble_method_controller import ensembleMethodRouter
 from feature_engineering.controller.feature_engineering_controller import featureEngineeringRouter
+from kmeans.controller.kmeans_controller import kMeansRouter
+from mnist.controller.mnist_controller import mnistRouter
+from model_regulation.controller.model_regulation_controller import modelRegulationRouter
 
 load_dotenv()
 # .env 파일에 정의된 환경변수(HOST, FASTAPI_PORT 등)를 불러옴
@@ -18,6 +22,10 @@ CorsConfig.middlewareConfig(app)
 
 # 라우터 추가
 app.include_router(featureEngineeringRouter)
+app.include_router(ensembleMethodRouter)
+app.include_router(kMeansRouter)
+app.include_router(mnistRouter)
+app.include_router(modelRegulationRouter)
 # featureEngineeringRouter는 feature_engineering 모듈의 컨트롤러 파일에 정의된 라우터임
 # 이 라우터에 등록된 API 등록 포인트들이 FastAPI에 추가됩니다.
 
