@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     './cart/nuxt.config.ts',
     './order/nuxt.config.ts',
     './payments/nuxt.config.ts',
+    './board/nuxt.config.ts',
   ],
 
   css: [
@@ -48,6 +49,7 @@ export default defineNuxtConfig({
     '~/cart/index.ts',
     '~/order/index.ts',
     '~/payments/index.ts',
+    '~/board/index.ts',
   ],
 
   imports: {
