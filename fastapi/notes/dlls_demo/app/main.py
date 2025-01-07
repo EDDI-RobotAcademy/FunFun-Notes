@@ -11,6 +11,7 @@ from hyper_parameter.controller.hyper_parameter_controller import hyperParameter
 from kmeans.controller.kmeans_controller import kMeansRouter
 from mnist.controller.mnist_controller import mnistRouter
 from model_regulation.controller.model_regulation_controller import modelRegulationRouter
+from principal_component_analysis.controller.pca_controller import principalComponentAnalysisRouter
 
 load_dotenv()
 
@@ -27,6 +28,7 @@ app.include_router(mnistRouter)
 app.include_router(modelRegulationRouter)
 app.include_router(gradientDescentRouter)
 app.include_router(hyperParameterRouter)
+app.include_router(principalComponentAnalysisRouter)
 
 # HOST는 모두에 열려 있고
 # FASTAPI_PORT를 통해서 이 서비스가 구동되는 포트 번호를 지정
