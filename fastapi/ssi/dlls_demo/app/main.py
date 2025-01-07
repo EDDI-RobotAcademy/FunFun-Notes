@@ -9,6 +9,8 @@ from feature_engineering.controller.feature_engineering_controller import featur
 from kmeans.controller.kmeans_controller import kMeansRouter
 from mnist.controller.mnist_controller import mnistRouter
 from model_regulation.controller.model_regulation_controller import modelRegulationRouter
+from hyper_parameter.controller.hyper_parameter_controller import hyperParameterRouter
+from gradient_descent.controller.gradient_descent_controller import gradientDescentRouter
 
 load_dotenv()
 
@@ -21,6 +23,8 @@ app.include_router(ensembleMethodRouter)
 app.include_router(kMeansRouter)
 app.include_router(mnistRouter)
 app.include_router(modelRegulationRouter)
+app.include_router(gradientDescentRouter)
+app.include_router(hyperParameterRouter)
 
 if __name__ == "__main__":
     uvicorn.run(app, host=os.getenv('HOST'), port=int(os.getenv('FASTAPI_PORT')))
