@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_extensions",
+    "rest_framework",
     'pandas_basic',
     'excel_basic',
     'kakao_authentication',
@@ -52,6 +53,10 @@ INSTALLED_APPS = [
     'regression',
     'authentication',
     'cart',
+    'payments',
+    'orders',
+    'board',
+
 ]
 
 MIDDLEWARE = [
@@ -192,4 +197,9 @@ CACHES = {
             'SOCKET_CONNECT_TIMEOUT': 5,  # Redis 서버와의 연결 시도 제한 시간을 설정합니다.
         }
     }
+}
+
+TOSS_PAYMENTS = {
+    'TOSS_PAYMENTS_BASE_URL': os.getenv('TOSS_PAYMENTS_BASE_URL'),
+    'TOSS_PAYMENTS_SECRET_KEY': os.getenv('TOSS_PAYMENTS_SECRET_KEY'),
 }

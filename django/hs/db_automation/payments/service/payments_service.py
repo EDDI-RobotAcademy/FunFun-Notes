@@ -4,5 +4,5 @@ from abc import ABC, abstractmethod
 class PaymentsService(ABC):
 
     @abstractmethod
-    def process(self):
+    def process(self, accountId, paymentKey, orderId, amount):
         pass
