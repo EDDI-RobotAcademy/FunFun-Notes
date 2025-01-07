@@ -5,5 +5,7 @@ export const orderState = () => ({
     order: null as Order | null,
 
     currentPage: 1,
-    totalPages: 0
-  })
+    totalPages: 0,
+
+    orderInfoId: null,
+})
