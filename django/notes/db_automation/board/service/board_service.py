@@ -10,3 +10,11 @@ class BoardService(ABC):
     @abstractmethod
     def requestCreate(self, title, content, accountId):
         pass
+
+    @abstractmethod
+    def requestRead(self, boardId):
+        pass
+
+    @abstractmethod
+    def requestDelete(self, boardId, accountId):
+        pass

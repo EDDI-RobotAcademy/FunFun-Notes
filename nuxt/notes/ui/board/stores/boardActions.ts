@@ -55,7 +55,7 @@ export const boardAction = {
     async requestReadBoard(boardId) {
         try {
             const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
-            const res = await djangoAxiosInstance.get(`/board/${boardId}`);
+            const res = await djangoAxiosInstance.get(`/board/read/${boardId}`);
             console.log(`res: ${JSON.stringify(res)}`)
             this.board = res.data;
         } catch (error) {
@@ -66,7 +66,7 @@ export const boardAction = {
     async requestModifyBoard(boardId, boardDetails) {
         try {
             const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
-            const response = await djangoAxiosInstance.put(`/board/${boardId}`, {
+            const response = await djangoAxiosInstance.put(`/board/modify/${boardId}`, {
                 title: boardDetails.title,
                 content: boardDetails.content,
                 userToken: boardDetails.userToken,  // userToken 포함
@@ -79,10 +79,12 @@ export const boardAction = {
             throw error; // 에러를 다시 던져서 상위 컴포넌트에서 처리하도록 함
         }
     },
-    async requestDeleteBoard(boardId) {
+    async requestDeleteBoard(boardId, userToken) {
         try {
             const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
-            const response = await djangoAxiosInstance.delete(`/board/${boardId}`);
+            const response = await djangoAxiosInstance.delete(`/board/delete/${boardId}`, {
+                data: { userToken }
+            });
             console.log("게시글 삭제 성공:", response.data);
         } catch (error) {
             console.error("게시글 삭제 요청 중 에러 발생:", error);

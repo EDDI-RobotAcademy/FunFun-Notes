@@ -72,4 +72,65 @@ class BoardServiceImpl(BoardService):
             "writerNickname": savedBoard.writer.nickname,
             "createDate": savedBoard.create_date.strftime("%Y-%m-%d %H:%M"),
         }
-    
+
+    def requestRead(self, boardId):
+        board = self.__boardRepository.findById(boardId)
+        if board:
+            return {
+                "boardId": board.id,
+                "title": board.title,
+                "content": board.content,
+                "createDate": board.create_date.strftime("%Y-%m-%d %H:%M"),
+                "nickname": board.writer.nickname
+            }
+        return None
+
+    def requestModify(self, boardId, title, content, accountId):
+        try:
+            account = self.__accountRepository.findById(accountId)
+            accountProfile = self.__accountProfileRepository.findByAccount(account)
+            # 게시글 조회
+            board = self.__boardRepository.findById(boardId)
+
+            # 게시글 작성자와 요청한 사용자가 동일한지 확인
+            if board.writer.id != accountProfile.id:
+                raise ValueError("You are not authorized to modify this board.")
+
+            # 제목과 내용 업데이트
+            board.title = title
+            board.content = content
+
+            # 게시글 저장 (수정)
+            updatedBoard = self.__boardRepository.save(board)
+
+            # 수정된 게시글 반환
+            return {
+                "boardId": updatedBoard.id,
+                "title": updatedBoard.title,
+                "content": updatedBoard.content,
+                "writerNickname": updatedBoard.writer.nickname,  # 작성자의 닉네임
+                "createDate": updatedBoard.create_date.strftime("%Y-%m-%d %H:%M"),
+            }
+
+        except Board.DoesNotExist:
+            raise ValueError(f"Board with ID {boardId} does not exist.")
+        except Exception as e:
+            raise Exception(f"Error while modifying the board: {str(e)}")
+
+    def requestDelete(self, boardId, accountId):
+        try:
+            account = self.__accountRepository.findById(accountId)
+            accountProfile = self.__accountProfileRepository.findByAccount(account)
+
+            board = self.__boardRepository.findById(boardId)
+            if not board:
+                raise ValueError(f"Board with ID {boardId} does not exist.")
+
+            if board.writer.id != accountProfile.id:
+                raise ValueError("You are not authorized to modify this board.")
+
+            # 게시글 삭제 요청
+            success = self.__boardRepository.deleteById(boardId)
+            return success
+        except Exception as e:
+            raise Exception(f"게시글 삭제 중 오류 발생: {str(e)}")
