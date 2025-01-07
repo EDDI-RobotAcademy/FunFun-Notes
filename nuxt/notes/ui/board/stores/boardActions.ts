@@ -12,10 +12,11 @@ export const boardAction = {
             console.log("Response Data:", res.data);
 
             // 서버 응답 데이터 구조 확인 후 필요한 값만 추출
-            const { boardList, totalItems, totalPages } = res.data;
+            const { dataList, totalItems, totalPages } = res.data;
+            console.log(`boardList: ${dataList}, totalItems: ${totalItems}, totalPages: ${totalPages}`)
 
             // 데이터 설정
-            this.boardList = boardList || [];        // boardList가 없으면 빈 배열
+            this.boardList = dataList || [];        // boardList가 없으면 빈 배열
             this.totalPages = totalPages || 0;      // totalPages가 없으면 0
             this.totalItems = totalItems || 0;      // totalItems가 없으면 0
             this.currentPage = page;                // 현재 페이지는 요청한 page로 설정

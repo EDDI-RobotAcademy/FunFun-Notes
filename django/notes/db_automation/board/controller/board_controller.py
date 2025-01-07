@@ -29,6 +29,7 @@ class BoardController(viewsets.ViewSet):
 
     def requestBoardCreate(self, request):
         postRequest = request.data
+        print(f"postRequest: {postRequest}")
 
         title = postRequest.get("title")
         content = postRequest.get("content")
