@@ -1,7 +1,7 @@
 from django.db import models
+
 from account.entity.role_type import RoleType
 
-# Create your models here.
 
 class AccountRoleType(models.Model):
     roleType = models.CharField(max_length=64, choices=RoleType.choices, default=RoleType.NORMAL)
