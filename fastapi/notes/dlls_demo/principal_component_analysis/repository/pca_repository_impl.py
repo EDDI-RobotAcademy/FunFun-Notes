@@ -47,6 +47,8 @@ class PrincipalComponentAnalysisRepositoryImpl(PrincipalComponentAnalysisReposit
     def createMultiVariateNormalDistribution(self, mean, covariance, numberOfPoints):
         return np.random.multivariate_normal(mean, covariance, numberOfPoints)
 
+    # 다변량 정규 분포 데이터를 담은 배열 <<< createdMultiVariateData
+    # feature_1, feature_2, ... feature_n 형태로 만들어짐
     def createDataFrame(self, createdMultiVariateData, numberOfFeatures):
         return pd.DataFrame(
             createdMultiVariateData,
