@@ -29,6 +29,7 @@ class BoardController(viewsets.ViewSet):
 
     def requestBoardCreate(self, request):
         postRequest = request.data
+        print(f"postRequest: {postRequest}")
 
         title = postRequest.get("title")
         content = postRequest.get("content")
@@ -40,15 +41,59 @@ class BoardController(viewsets.ViewSet):
 
         return JsonResponse({"data": savedBoard}, status=status.HTTP_200_OK)
 
-    # def requestGameSoftwareRead(self, request, pk=None):
-    #     try:
-    #         if not pk:
-    #             return JsonResponse({"error": "ID를 제공해야 합니다."}, status=400)
-    #
-    #         print(f"requestGameSoftwareRead() -> pk: {pk}")
-    #         readGameSoftware = self.gameSoftwareService.readGameSoftware(pk)
-    #
-    #         return JsonResponse(readGameSoftware, status=200)
-    #
-    #     except Exception as e:
-    #         return JsonResponse({"error": str(e)}, status=500)
+    def requestBoardRead(self, request, pk=None):
+        try:
+            if not pk:
+                return JsonResponse({"error": "ID를 제공해야 합니다."}, status=400)
+
+            print(f"requestGameSoftwareRead() -> pk: {pk}")
+            readBoard = self.boardService.requestRead(pk)
+
+            return JsonResponse(readBoard, status=200)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    def requestBoardModify(self, request, pk=None):
+        try:
+            postRequest = request.data
+            print(f"postRequest: {postRequest}")
+
+            title = postRequest.get("title")
+            content = postRequest.get("content")
+
+            # 필수 항목 체크
+            if not title or not content:
+                return JsonResponse({"error": "Title and content are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+            userToken = postRequest.get("userToken")
+            accountId = self.redisCacheService.getValueByKey(userToken)
+
+            # 게시글 수정 요청 처리
+            updatedBoard = self.boardService.requestModify(pk, title, content, accountId)
+
+            return JsonResponse(updatedBoard, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def requestBoardDelete(self, request, pk=None):
+        try:
+            postRequest = request.data
+            print(f"postRequest: {postRequest}")
+
+            userToken = postRequest.get("userToken")
+            accountId = self.redisCacheService.getValueByKey(userToken)
+            if not accountId:
+                return JsonResponse({"error": "유저 토큰이 유효하지 않음"}, status=status.HTTP_400_BAD_REQUEST)
+
+            # 게시글 삭제 처리
+            success = self.boardService.requestDelete(pk, accountId)
+
+            if success:
+                return JsonResponse({"message": "게시글이 삭제되었습니다."}, status=status.HTTP_200_OK)
+            else:
+                return JsonResponse({"error": "게시글 삭제 실패"}, status=status.HTTP_400_BAD_REQUEST)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
