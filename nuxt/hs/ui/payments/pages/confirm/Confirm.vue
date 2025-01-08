@@ -69,7 +69,7 @@ import { useRuntimeConfig } from "nuxt/app";
 import { nanoid } from "nanoid";
 import { useRoute, useRouter } from "vue-router";
 import { useAccountStore } from "~/account/stores/accountStore";
-import { usePaymentStore } from "~/payments/stores/paymentsStore"
+import { usePaymentStore } from "~/payments/stores/paymentsStore";
 
 // 변수 선언
 const config = useRuntimeConfig();
