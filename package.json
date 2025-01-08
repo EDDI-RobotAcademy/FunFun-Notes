@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "@tosspayments/payment-widget-sdk": "^0.12.0",
-    "nanoid": "^5.0.9"
-  }
-}

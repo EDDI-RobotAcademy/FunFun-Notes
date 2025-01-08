@@ -14,27 +14,33 @@
       <v-card-text>
         <v-row>
           <v-col cols="6"><b>결제금액:</b></v-col>
-          <v-col cols="6" class="text-right">{{ jsonData.amount }}원</v-col>
+          <v-col cols="6" class="text-right">{{ jsonData.amountWithCurrency }}</v-col>
         </v-row>
         <v-row>
-          <v-col cols="6"><b>주문번호:</b></v-col>
-          <v-col cols="6" class="text-right">{{ jsonData.orderId }}</v-col>
+          <v-col cols="6"><b>결제 시간:</b></v-col>
+          <v-col cols="6" class="text-right">{{ formattedApprovedAt }}</v-col>
         </v-row>
         <v-row>
-          <v-col cols="6"><b>Payment Key:</b></v-col>
-          <v-col cols="6" class="text-right">{{ jsonData.paymentKey }}</v-col>
+          <v-col cols="6"><b>주문 항목:</b></v-col>
+          <v-col cols="6" class="text-right">{{ jsonData.orderName }}</v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="6"><b>결제 방법:</b></v-col>
+          <v-col cols="6" class="text-right">{{ jsonData.method }}</v-col>
         </v-row>
       </v-card-text>
       <v-card-actions>
         <v-btn color="primary" @click="redirectToDocs">연동 문서</v-btn>
         <v-btn color="secondary" @click="redirectToSupport">실시간 문의</v-btn>
+        <!-- 홈으로 돌아가는 확인 버튼 추가 -->
+        <v-btn color="success" @click="redirectToHome">확인</v-btn>
       </v-card-actions>
     </v-card>
   </v-container>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { usePaymentStore } from "~/payments/stores/paymentsStore";
 
@@ -45,6 +51,26 @@ const paymentStore = usePaymentStore();
 const confirmed = ref(false);
 const jsonData = ref(null);
 const isProcessing = ref(true); // 로딩 상태 초기화
+
+// 날짜 포맷팅 함수
+function formatDate(dateString) {
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false, // 24시간 형식
+  };
+
+  const date = new Date(dateString);
+  return date.toLocaleString('ko-KR', options); // 한국어 형식으로 출력
+}
+
+const formattedApprovedAt = computed(() => {
+  return jsonData.value ? formatDate(jsonData.value.approvedAt) : '';
+});
 
 async function confirmPayment() {
   try {
@@ -88,6 +114,11 @@ function redirectToDocs() {
 
 function redirectToSupport() {
   window.location.href = "https://discord.gg/A4fRFXQhRu";
+}
+
+// 홈으로 돌아가는 함수
+function redirectToHome() {
+  router.push('/'); // 홈 페이지로 리디렉션
 }
 
 onMounted(() => {
