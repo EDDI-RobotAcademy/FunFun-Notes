@@ -706,8 +706,10 @@ const _inlineRuntimeConfig = {
     }
   },
   "public": {
-    "MAIN_API_URL": "http://localhost:8000",
-    "AI_BASE_URL": ""
+    "MAIN_API_URL": "",
+    "AI_BASE_URL": "",
+    "TOSS_CLIENT_KEY": "",
+    "TOSS_SECRET_KEY": ""
   }
 };
 const envOptions = {

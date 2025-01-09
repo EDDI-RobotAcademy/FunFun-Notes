@@ -1,7 +1,7 @@
 from django.db import models
+
 from account.entity.account_role_type import AccountRoleType
 
-# Create your models here.
 
 class Account(models.Model):
     id = models.AutoField(primary_key=True)
@@ -14,3 +14,6 @@ class Account(models.Model):
 
     def getId(self):
         return self.id
+
+    def getEmail(self):
+        return self.email
