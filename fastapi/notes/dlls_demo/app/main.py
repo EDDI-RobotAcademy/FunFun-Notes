@@ -7,6 +7,7 @@ from config.cors_config import CorsConfig
 from convolution_neural_network.controller.cnn_controller import convolutionNeuralNetworkRouter
 from ensemble_method.controller.ensemble_method_controller import ensembleMethodRouter
 from feature_engineering.controller.feature_engineering_controller import featureEngineeringRouter
+from game_software_analysis.controller.game_software_analysis_controller import gameSoftwareAnalysisRouter
 from gradient_descent.controller.gradient_descent_controller import gradientDescentRouter
 from hyper_parameter.controller.hyper_parameter_controller import hyperParameterRouter
 from kmeans.controller.kmeans_controller import kMeansRouter
@@ -31,6 +32,7 @@ app.include_router(gradientDescentRouter)
 app.include_router(hyperParameterRouter)
 app.include_router(principalComponentAnalysisRouter)
 app.include_router(convolutionNeuralNetworkRouter)
+app.include_router(gameSoftwareAnalysisRouter)
 
 # HOST는 모두에 열려 있고
 # FASTAPI_PORT를 통해서 이 서비스가 구동되는 포트 번호를 지정
