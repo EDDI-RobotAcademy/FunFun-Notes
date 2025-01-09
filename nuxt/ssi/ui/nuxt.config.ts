@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     './order/nuxt.config.ts',
     './payments/nuxt.config.ts',
     './board/nuxt.config.ts',
+    './dataAnalysis/nuxt.config.ts',
   ],
 
   css: [
@@ -50,6 +51,7 @@ export default defineNuxtConfig({
     '~/order/index.ts',
     '~/payments/index.ts',
     '~/board/index.ts',
+    '~/dataAnalysis/index.ts',
   ],
 
   imports: {
