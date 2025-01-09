@@ -35,6 +35,11 @@
             <span>게임 소프트웨어</span>
         </v-btn>
 
+        <v-btn text @click="goToDataAnalysis" class="btn-text">
+            <v-icon left>mdi-chart-line"></v-icon>
+            <span>데이터 분석</span>
+        </v-btn>
+
         <v-btn text @click="goToCart" class="btn-text">
             <v-icon left>mdi-cart-outline</v-icon>
             <span>카트</span>
@@ -81,6 +86,10 @@ const goToBoardList = () => {
 const goToCart = () => {
     router.push('/cart/list'); // 카트 페이지로 이동
 };
+
+const goToDataAnalysis = () => {
+    router.push('/data/analysis')
+}
 
 // 기존 Domain/index.ts에 등록한 라우터 URL로 맵핑
 const signIn = () => {
