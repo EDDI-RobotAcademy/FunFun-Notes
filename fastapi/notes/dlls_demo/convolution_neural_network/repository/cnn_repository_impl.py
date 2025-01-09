@@ -1,7 +1,7 @@
 import io
 
 import numpy as np
-from keras.src.preprocessing.image import ImageDataGenerator
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
 from convolution_neural_network.repository.cnn_repository import ConvolutionNeuralNetworkRepository
@@ -25,13 +25,8 @@ class ConvolutionNeuralNetworkRepositoryImpl(ConvolutionNeuralNetworkRepository)
         filteredImageList = imageList[filterMask]
         filteredLabelList = labelList[filterMask]
 
-        # print(f"filteredImageList: {filteredImageList}, length: {len(filteredImageList)}")
-        # print(f"filteredLabelList: {filteredLabelList}, length: {len(filteredLabelList)}")
-
         for index, classIndex in enumerate(targetClassList):
             filteredLabelList[filteredLabelList == classIndex] = index
-
-        # print(f"filteredLabelList: {filteredLabelList}, length: {len(filteredLabelList)}")
 
         return filteredImageList, filteredLabelList
 
