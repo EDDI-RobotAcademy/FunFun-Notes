@@ -43,10 +43,12 @@
 import { ref, onMounted, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { usePaymentStore } from "~/payments/stores/paymentsStore";
+import { useOrderStore } from "~/order/stores/orderStore";
 
 const route = useRoute();
 const router = useRouter();
 const paymentStore = usePaymentStore();
+const orderStore = useOrderStore()
 
 const confirmed = ref(false);
 const jsonData = ref(null);
@@ -81,11 +83,20 @@ async function confirmPayment() {
       return;
     }
 
+    // const orderInfoId = orderStore.getOrderInfoId();  // Pinia store에서 orderInfoId 가져오기
+    const orderInfoId = localStorage.getItem("oid")
+    if (!orderInfoId) {
+      console.error("Order Info ID is missing");
+      router.push("/payment/fail?message=Order Info ID is missing");
+      return;
+    }
+
     const requestForm = {
       paymentKey: route.query.paymentKey,
       orderId: route.query.orderId,
       amount: route.query.amount, // URL에서 전달된 amount 값 사용
-      userToken
+      userToken,
+      orderInfoId
     };
 
     console.log("Request Form:", requestForm);  // 여기서 데이터를 제대로 받고 있는지 로그로 확인
@@ -96,6 +107,8 @@ async function confirmPayment() {
       // 응답 받은 데이터(jsonData)에 URL 파라미터로 받은 값을 추가.
       confirmed.value = true;
       jsonData.value = { ...data, amount: route.query.amount }; // amount를 포함하여 jsonData에 추가
+
+      localStorage.removeItem("oid");
     } else {
       console.error("Payment confirmation failed:", message);  // 오류 발생 시
       router.push(`/payment/fail?message=${message}`);
