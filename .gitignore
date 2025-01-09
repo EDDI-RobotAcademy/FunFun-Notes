@@ -971,3 +971,6 @@ fabric.properties
 
 # exclude .pem
 .pem
+
+# exclude .h5
+*.h5
