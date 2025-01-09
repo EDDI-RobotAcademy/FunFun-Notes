@@ -27,4 +27,7 @@ urlpatterns = [
     path("account-profile/", include('account_profile.urls')),
     #path("normalize/", include('normalization.urls')),
     path("game-software/", include('game_software.urls')),
+    path("cart/", include('cart.urls')),
+    path("payments/", include('payments.urls')),
+    path("orders/", include('orders.urls')),
 ]
