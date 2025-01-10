@@ -22,7 +22,10 @@ export default defineNuxtConfig({
   ],
 
   build: {
-    transpile: ['vuetify']
+    transpile: [
+      'vuetify',
+      'vue-toastification'
+    ]
   },
 
   vite: {
@@ -39,7 +42,7 @@ export default defineNuxtConfig({
 
   modules: [
     'vuetify-nuxt-module',
-    '@pinia/nuxt',
+    '@pinia/nuxt', 
     '~/home/index.ts',
     '~/pandas_basic/index.ts',
     '~/account/index.ts',
