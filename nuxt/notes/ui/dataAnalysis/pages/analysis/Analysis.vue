@@ -24,11 +24,28 @@
         </v-btn>
       </v-card-actions>
       <v-divider class="my-4"></v-divider>
-      <!-- 이미지가 있는 경우 표시 -->
+
+      <!-- Average Purchase Cost Graph -->
       <v-img
-        v-if="imageURL"
-        :src="imageURL"
-        alt="Analysis Graph"
+        v-if="averagePurchaseCostImage"
+        :src="averagePurchaseCostImage"
+        alt="Average Purchase Cost Graph"
+        max-height="500"
+        contain
+      />
+      <!-- Top Revenue Graph -->
+      <v-img
+        v-if="topRevenueImage"
+        :src="topRevenueImage"
+        alt="Top Revenue Graph"
+        max-height="500"
+        contain
+      />
+      <!-- 4분위수 Graph -->
+      <v-img
+        v-if="quartileImage"
+        :src="quartileImage"
+        alt="Quartile Graph"
         max-height="500"
         contain
       />
@@ -51,7 +68,9 @@ export default {
   data() {
     return {
       selectedFile: null, // 선택한 파일
-      imageURL: null, // 표시할 이미지 URL
+      averagePurchaseCostImage: null, // 평균 구매 비용 그래프 이미지
+      topRevenueImage: null, // 최고 매출 그래프 이미지
+      quartileImage: null, // 4분위수
       snackbar: false, // Snackbar 표시 여부
       snackbarMessage: "", // Snackbar 메시지
       snackbarColor: "", // Snackbar 색상
@@ -67,8 +86,17 @@ export default {
         return;
       }
       try {
-        const imageURL = await dataAnalysisStore.requestDataAnalysis(this.selectedFile); // Pinia 액션 호출
-        this.imageURL = imageURL; // 이미지 URL 저장
+        const { 
+          averagePurchaseCostImageBase64, 
+          topRevenueImageBase64,
+          quartileImageBase64
+        } = await dataAnalysisStore.requestDataAnalysis(this.selectedFile);
+
+        // Base64 데이터에 접두사 추가
+        this.averagePurchaseCostImage = `data:image/png;base64,${averagePurchaseCostImageBase64}`;
+        this.topRevenueImage = `data:image/png;base64,${topRevenueImageBase64}`;
+        this.quartileImage = `data:image/png;base64,${quartileImageBase64}`;
+
         this.snackbarMessage = "File uploaded successfully!";
         this.snackbarColor = "success";
         this.snackbar = true;
