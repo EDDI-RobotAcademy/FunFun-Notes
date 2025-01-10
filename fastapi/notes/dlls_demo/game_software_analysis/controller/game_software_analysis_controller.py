@@ -40,7 +40,7 @@ async def requestGameSoftwareAnalysis(file: UploadFile = File(...),
 
         # 그래프가 존재하면 이미지 파일을 클라이언트로 전송
         if os.path.exists(graphImagePath):
-            return FileResponse(graphImagePath)
+            return FileResponse(graphImagePath, headers={"X-Response-Type": "image"})
 
         return JSONResponse(content=gameSoftwareAnalysisResponse)
 

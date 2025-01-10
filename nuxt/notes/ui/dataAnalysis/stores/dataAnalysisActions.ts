@@ -16,13 +16,24 @@ export const dataAnalysisAction = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        responseType: "blob",
       });
 
-      alert("File uploaded successfully!");
-      console.log(response.data);
+      console.log(`response.data: ${response.data}`)
+      console.log(`JSON.stringify(response.data): ${JSON.stringify(response.data)}`)
+
+      if (response.headers["content-type"].startsWith("image/")) {
+        console.log('condition satisfy')
+        const imageURL = URL.createObjectURL(response.data);
+        console.log(`Generated image URL: ${imageURL}`);
+        return imageURL;
+      } else {
+        throw new Error("Unexpected response type");
+      }
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("File upload failed.");
+      throw error
     }
   },
 }
