@@ -217,3 +217,51 @@ class GameSoftwareAnalysisRepositoryImpl(GameSoftwareAnalysisRepository):
 
         print(f"Graph saved to: {graphPath}")
         return graphPath
+
+    def plotHeatmap(self, data: pd.DataFrame):
+        print(f"plotHeatmap() data:\n{data}")
+        # 연령대별 게임 타이틀의 총 구매 금액 데이터 준비
+        heatmapData = (
+            data.groupby(['age_group', 'game_software_title'])['total_price']
+            .sum()  # 연령대별 게임 타이틀의 총 구매 금액 합계 계산
+            .unstack()  # 행: 연령대, 열: 게임 타이틀로 변환
+        )
+        print(f"plotHeatmap() heatmapData:\n{heatmapData}")
+
+        # NaN 값을 0으로 대체
+        heatmapData.fillna(0, inplace=True)
+
+        # 정확한 한글 폰트 경로 설정
+        fontPath = "/usr/share/fonts/truetype/nanum/NanumGothic.ttf"  # 실제 폰트 경로 확인
+        fontProp = font_manager.FontProperties(fname=fontPath)
+
+        # matplotlib 기본 폰트 설정
+        plt.rcParams['font.family'] = fontProp.get_name()
+        plt.rcParams['axes.unicode_minus'] = False
+
+        # 히트맵 시각화
+        plt.figure(figsize=(12, 8))  # 그래프 크기 설정
+        sns.heatmap(
+            heatmapData,
+            cmap="YlGnBu",  # 색상 팔레트 지정
+            annot=True,  # 셀 안에 값 표시
+            fmt=".0f",  # 값 형식 지정 (정수로 표시)
+            linewidths=0.5,  # 셀 간 경계선 설정
+            cbar_kws={'label': '총 구매 금액'},  # 컬러바 레이블 설정
+        )
+
+        # 제목 및 축 레이블 설정
+        plt.title('연령대와 게임 타이틀별 총 구매 금액 히트맵', fontsize=16)
+        plt.xlabel('게임 소프트웨어', fontsize=12)
+        plt.ylabel('연령대', fontsize=12)
+
+        # x축 레이블 가운데 정렬 및 회전
+        plt.xticks(rotation=45, ha='center')
+
+        # 그래프 이미지를 파일로 저장
+        graphPath = os.path.join(os.getcwd(), "resource", "age_group_game_heatmap.png")
+        plt.savefig(graphPath, bbox_inches='tight')  # bbox_inches='tight'로 레이아웃이 잘리는 문제 방지
+        plt.close()
+
+        print(f"Graph saved to: {graphPath}")
+        return graphPath
