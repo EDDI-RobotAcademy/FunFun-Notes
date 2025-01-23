@@ -16,24 +16,41 @@ export const dataAnalysisAction = {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-        responseType: "blob",
       });
 
       console.log(`response.data: ${response.data}`)
-      console.log(`JSON.stringify(response.data): ${JSON.stringify(response.data)}`)
 
-      if (response.headers["content-type"].startsWith("image/")) {
-        console.log('condition satisfy')
-        const imageURL = URL.createObjectURL(response.data);
-        console.log(`Generated image URL: ${imageURL}`);
-        return imageURL;
-      } else {
-        throw new Error("Unexpected response type");
+      const { 
+        averagePurchaseCostImageBase64, 
+        topRevenueImageBase64, 
+        quartileImageBase64,
+        heatmapImageBase64,
+      } = response.data;
+
+      // 데이터 유효성 확인
+      if (!averagePurchaseCostImageBase64 || !topRevenueImageBase64 || !quartileImageBase64 || !heatmapImageBase64) {
+        throw new Error("Base64 data is missing from the response.");
       }
+
+      console.log('requestDataAnalysis() return data')
+
+      return { 
+        averagePurchaseCostImageBase64, 
+        topRevenueImageBase64,
+        quartileImageBase64,  // 4분위수 그래프 추가
+        heatmapImageBase64,
+      };
     } catch (error) {
       console.error("Error uploading file:", error);
       alert("File upload failed.");
       throw error
     }
+  },
+
+  base64ToBlob(base64, mimeType) {
+    const byteCharacters = atob(base64);
+    const byteNumbers = new Array(byteCharacters.length).map((_, i) => byteCharacters.charCodeAt(i));
+    const byteArray = new Uint8Array(byteNumbers);
+    return new Blob([byteArray], { type: mimeType });
   },
 }

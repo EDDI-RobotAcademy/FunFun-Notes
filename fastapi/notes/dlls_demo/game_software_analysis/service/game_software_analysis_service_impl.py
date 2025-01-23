@@ -1,3 +1,5 @@
+import base64
+
 import pandas as pd
 
 from game_software_analysis.repository.game_software_analysis_repository_impl import GameSoftwareAnalysisRepositoryImpl
@@ -16,8 +18,32 @@ class GameSoftwareAnalysisServiceImpl(GameSoftwareAnalysisService):
 
         # 연령대별 분석 수행
         analysisResult = self.__gameSoftwareAnalysisRepository.analyzeAgeGroupData(data)
+        gaveragePurchaseCostImagePath = self.__gameSoftwareAnalysisRepository.plotAveragePurchaseCost(analysisResult)
+        topRevenueImagePath = self.__gameSoftwareAnalysisRepository.plotTopRevenueGame(data)
 
-        graphImagePath = self.__gameSoftwareAnalysisRepository.plot_average_purchase_cost(analysisResult)
+        # 4분위수 그래프 생성
+        # quartileImagePath = self.__gameSoftwareAnalysisRepository.plotQuartileVisualization(analysisResult,
+        #                                                                                     'average_purchase_cost')
+        quartileImagePath = self.__gameSoftwareAnalysisRepository.plotQuartileVisualization(analysisResult)
+
+        averagePurchaseCostImageBase64 = self.convertImageToBase64(gaveragePurchaseCostImagePath)
+        topRevenueImageBase64 = self.convertImageToBase64(topRevenueImagePath)
+        quartileImageBase64 = self.convertImageToBase64(quartileImagePath)
 
         # 결과 및 그래프 경로 반환
-        return {"analysisResult": analysisResult.to_dict(orient='records'), "graphImagePath": graphImagePath}
+        return {
+            "averagePurchaseCostImageBase64": averagePurchaseCostImageBase64,
+            "topRevenueImageBase64": topRevenueImageBase64,
+            "quartileImageBase64": quartileImageBase64
+        }
+
+    def convertImageToBase64(self, imagePath: str) -> str:
+        print(f"imagePath: {imagePath}")
+        """이미지 파일을 Base64로 변환하는 함수"""
+        try:
+            with open(imagePath, "rb") as imgFile:
+                return base64.b64encode(imgFile.read()).decode("utf-8")
+
+        except Exception as e:
+            print(f"Error encoding image: {e}")
+            return None
