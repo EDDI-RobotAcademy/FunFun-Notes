@@ -26,15 +26,20 @@ class GameSoftwareAnalysisServiceImpl(GameSoftwareAnalysisService):
         #                                                                                     'average_purchase_cost')
         quartileImagePath = self.__gameSoftwareAnalysisRepository.plotQuartileVisualization(analysisResult)
 
+        # 히트맵 생성
+        heatmapImagePath = self.__gameSoftwareAnalysisRepository.plotHeatmap(data)
+
         averagePurchaseCostImageBase64 = self.convertImageToBase64(gaveragePurchaseCostImagePath)
         topRevenueImageBase64 = self.convertImageToBase64(topRevenueImagePath)
         quartileImageBase64 = self.convertImageToBase64(quartileImagePath)
+        heatmapImageBase64 = self.convertImageToBase64(heatmapImagePath)
 
         # 결과 및 그래프 경로 반환
         return {
             "averagePurchaseCostImageBase64": averagePurchaseCostImageBase64,
             "topRevenueImageBase64": topRevenueImageBase64,
-            "quartileImageBase64": quartileImageBase64
+            "quartileImageBase64": quartileImageBase64,
+            "heatmapImageBase64": heatmapImageBase64
         }
 
     def convertImageToBase64(self, imagePath: str) -> str:
