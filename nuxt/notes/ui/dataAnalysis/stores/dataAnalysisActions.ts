@@ -20,10 +20,15 @@ export const dataAnalysisAction = {
 
       console.log(`response.data: ${response.data}`)
 
-      const { averagePurchaseCostImageBase64, topRevenueImageBase64, quartileImageBase64 } = response.data;
+      const { 
+        averagePurchaseCostImageBase64, 
+        topRevenueImageBase64, 
+        quartileImageBase64,
+        heatmapImageBase64,
+      } = response.data;
 
       // 데이터 유효성 확인
-      if (!averagePurchaseCostImageBase64 || !topRevenueImageBase64 || !quartileImageBase64) {
+      if (!averagePurchaseCostImageBase64 || !topRevenueImageBase64 || !quartileImageBase64 || !heatmapImageBase64) {
         throw new Error("Base64 data is missing from the response.");
       }
 
@@ -33,6 +38,7 @@ export const dataAnalysisAction = {
         averagePurchaseCostImageBase64, 
         topRevenueImageBase64,
         quartileImageBase64,  // 4분위수 그래프 추가
+        heatmapImageBase64,
       };
     } catch (error) {
       console.error("Error uploading file:", error);

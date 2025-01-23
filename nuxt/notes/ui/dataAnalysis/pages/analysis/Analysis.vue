@@ -49,6 +49,14 @@
         max-height="500"
         contain
       />
+      <!-- Heatmap Graph -->
+      <v-img
+        v-if="heatmapImage"
+        :src="heatmapImage"
+        alt="Heatmap Graph"
+        max-height="500"
+        contain
+      />
     </v-card>
 
     <!-- Snackbar -->
@@ -71,6 +79,7 @@ export default {
       averagePurchaseCostImage: null, // 평균 구매 비용 그래프 이미지
       topRevenueImage: null, // 최고 매출 그래프 이미지
       quartileImage: null, // 4분위수
+      heatmapImage: null, // 히트맵 그래프 이미지
       snackbar: false, // Snackbar 표시 여부
       snackbarMessage: "", // Snackbar 메시지
       snackbarColor: "", // Snackbar 색상
@@ -89,13 +98,15 @@ export default {
         const { 
           averagePurchaseCostImageBase64, 
           topRevenueImageBase64,
-          quartileImageBase64
+          quartileImageBase64,
+          heatmapImageBase64
         } = await dataAnalysisStore.requestDataAnalysis(this.selectedFile);
 
         // Base64 데이터에 접두사 추가
         this.averagePurchaseCostImage = `data:image/png;base64,${averagePurchaseCostImageBase64}`;
         this.topRevenueImage = `data:image/png;base64,${topRevenueImageBase64}`;
         this.quartileImage = `data:image/png;base64,${quartileImageBase64}`;
+        this.heatmapImage = `data:image/png;base64,${heatmapImageBase64}`;
 
         this.snackbarMessage = "File uploaded successfully!";
         this.snackbarColor = "success";
