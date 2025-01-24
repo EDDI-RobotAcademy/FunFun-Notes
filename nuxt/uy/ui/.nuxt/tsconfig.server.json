@@ -35,6 +35,9 @@
       "nitropack/types": [
         "../node_modules/nitropack/types"
       ],
+      "nitropack/runtime": [
+        "../node_modules/nitropack/runtime"
+      ],
       "nitropack": [
         "../node_modules/nitropack"
       ],
@@ -70,6 +73,9 @@
       ],
       "nuxt": [
         "../node_modules/nuxt"
+      ],
+      "vite/client": [
+        "../node_modules/vite/client"
       ],
       "~": [
         "./.."
@@ -149,6 +155,10 @@
     "../cart/node_modules",
     "../order/node_modules",
     "../payments/node_modules",
+    "../node_modules/vuetify-nuxt-module/node_modules",
+    "../node_modules/@pinia/nuxt/node_modules",
+    "../node_modules/@nuxt/devtools/node_modules",
+    "../node_modules/@nuxt/telemetry/node_modules",
     "../dist"
   ]
 }
