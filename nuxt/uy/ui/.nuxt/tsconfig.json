@@ -5,6 +5,9 @@
       "nitropack/types": [
         "../node_modules/nitropack/types"
       ],
+      "nitropack/runtime": [
+        "../node_modules/nitropack/runtime"
+      ],
       "nitropack": [
         "../node_modules/nitropack"
       ],
@@ -40,6 +43,9 @@
       ],
       "nuxt": [
         "../node_modules/nuxt"
+      ],
+      "vite/client": [
+        "../node_modules/vite/client"
       ],
       "~": [
         ".."
@@ -80,12 +86,6 @@
       "public/*": [
         "../public/*"
       ],
-      "#build": [
-        "."
-      ],
-      "#build/*": [
-        "./*"
-      ],
       "#app": [
         "../node_modules/nuxt/dist/app"
       ],
@@ -102,10 +102,16 @@
         "./imports"
       ],
       "#app-manifest": [
-        "./manifest/meta/dev"
+        "./manifest/meta/fc41d415-97db-43b8-a67c-396aec2d39af.json"
       ],
       "#components": [
         "./components"
+      ],
+      "#build": [
+        "."
+      ],
+      "#build/*": [
+        "./*"
       ]
     },
     "esModuleInterop": true,
@@ -182,6 +188,10 @@
     "../cart/node_modules",
     "../order/node_modules",
     "../payments/node_modules",
+    "../node_modules/vuetify-nuxt-module/node_modules",
+    "../node_modules/@pinia/nuxt/node_modules",
+    "../node_modules/@nuxt/devtools/node_modules",
+    "../node_modules/@nuxt/telemetry/node_modules",
     "../node_modules/vuetify-nuxt-module/runtime/server",
     "../node_modules/vuetify-nuxt-module/dist/runtime/server",
     "../node_modules/@pinia/nuxt/runtime/server",
