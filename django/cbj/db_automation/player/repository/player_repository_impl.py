@@ -28,4 +28,3 @@ class PlayerRepositoryImpl(PlayerRepository):
         return Player.objects.get(id=id)
 
 
-    

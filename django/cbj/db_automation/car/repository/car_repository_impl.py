@@ -51,4 +51,3 @@ class CarRepositoryImpl(CarRepository):
             print(f"Car with ID {carData['id']} does not exist in the database.")
         except Exception as e:
             print(f"An error occurred while saving the car data: {e}")
-

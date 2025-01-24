@@ -7,7 +7,6 @@ from dice.serializer.dice_serializer import DiceSerializer
 from dice.service.dice_service_impl import DiceServiceImpl
 
 
-# Create your views here.
 class DiceController(viewsets.ViewSet):
     diceService = DiceServiceImpl.getInstance()
 

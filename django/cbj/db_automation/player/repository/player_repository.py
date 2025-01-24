@@ -10,4 +10,3 @@ class PlayerRepository(ABC):
     @abstractmethod
     def findById(self, id):
         pass
-    
