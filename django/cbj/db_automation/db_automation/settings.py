@@ -60,6 +60,9 @@ INSTALLED_APPS = [
     'regression',
     'authentication',
     'cart',
+    'payments',
+    'orders',
+    'board',
 ]
 
 MIDDLEWARE = [
