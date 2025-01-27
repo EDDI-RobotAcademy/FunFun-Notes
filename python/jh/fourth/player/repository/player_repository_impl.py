@@ -1,7 +1,7 @@
 
 
 from player.entity.player import Player
-from player.repository.player_repositoy import PlayerRepository
+from player.repository.player_repository import PlayerRepository
 
 
 class PlayerRepositoryImpl(PlayerRepository):
@@ -33,6 +33,7 @@ class PlayerRepositoryImpl(PlayerRepository):
     def createName(self):
         playerName = self.__processUserInput()
         player = Player(playerName)
+
         self.__playerNameList.append(player)
 
 

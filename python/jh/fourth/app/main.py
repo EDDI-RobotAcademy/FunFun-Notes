@@ -1,9 +1,10 @@
+from dice.repository.dice_repository_impl import DiceRepositoryImpl
+from game.service.game_service_impl import GameServiceImpl
+from player.repository.player_repository_impl import PlayerRepositoryImpl
+
 # 두 명의 플레이어가 게임을 즐길 것이고
 # 주사위를 굴려서 주사위 합이 큰 사람이 이길 것이다.
 # 이러한 게임을 만들 것이다.
-
-from game.service.game_service_impl import GameServiceImpl
-from player.repository.player_repositoy_impl import PlayerRepositoryImpl
 
 playerRepository = PlayerRepositoryImpl.getInstance()
 playerRepository.createName()
@@ -13,8 +14,6 @@ playerList = playerRepository.getPlayerNameList()
 
 for player in playerList:
     print(player)
-
-
 
 # 아래와 같이 우리가 '무엇' 을 할 것인지 먼저 적는 것이 DDD를 잘하기 위한 첫 번째 조건
 # Repository는 행위(액션) 이었고 좀 더 정확하게 기술적 세부사항을 다룹니다.

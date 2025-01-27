@@ -1,9 +1,8 @@
 from game.entity.game import Game
-from game.repository.game_repositoy import GameRepository
+from game.repository.game_repository import GameRepository
 
 
 class GameRepositoryImpl(GameRepository):
-
     __instance = None
 
     __gameList = []
@@ -30,8 +29,18 @@ class GameRepositoryImpl(GameRepository):
         game = self.__gameList[0]
         gameMapInfo = game.getGameMap()
 
+        # # Dictionary의 key 값 다 뽑기
+        # gameMapKeyList = gameMapInfo.keys()
+        # # Dictionary의 value 값 다 뽑기
+        # gameMapValueList = gameMapInfo.values()
+        # # Dictionary의 key, value 값 다 뽑기
+        # keyValueList = list(gameMapInfo.items())
+        # print(f"gameMapKeyList: {gameMapKeyList}")
+        # print(f"gameMapValueList: {gameMapValueList}")
+        # print(f"keyValueList: {keyValueList}")
+
         for player, dice in gameMapInfo.items():
-            #print(f"{player}, dice: {dice}")
+            #print(f"{player}, dice: {dice}") #  얘도 결과 동일
             print(f"{player}, dice: {dice.getDiceNumber()}")
 
         # 람다 방식은 자체적으로 리스트나 어떤 반복적인 요소에서 개별적인 요소를 쪼개서 진행됩니다.
@@ -50,4 +59,4 @@ class GameRepositoryImpl(GameRepository):
             print("무승부 입니다!")
             return
 
-        print(f"winner: {winner}")
+        print(f"Winner: {winner}")
