@@ -7,7 +7,7 @@ from dice.repository.dice_repository import DiceRepository
 class DiceRepositoryImpl(DiceRepository):
     __instance = None
 
-    __diceList = []
+    __diceList = [] # 주사위 객체 리스트
 
     MIN = 1
     MAX = 6
@@ -43,5 +43,5 @@ class DiceRepositoryImpl(DiceRepository):
     def acquireDiceList(self):
         return self.__diceList
 
-    # def findById(self, id):
+
 

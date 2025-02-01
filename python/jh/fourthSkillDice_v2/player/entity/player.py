@@ -1,7 +1,7 @@
 class Player:
     __counter = 1
 
-    def __int__(self, playerName):
+    def __init__(self, playerName):
         self.__playerName = playerName
         self.__id = Player.__counter
         self.__diceIdList = []
@@ -18,3 +18,4 @@ class Player:
 
     def getDiceIdList(self):
         return self.__diceIdList
+

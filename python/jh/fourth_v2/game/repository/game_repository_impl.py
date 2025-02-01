@@ -33,7 +33,7 @@ class GameRepositoryImpl(GameRepository):
             self.__gameMapInfo.update(gameMapInfo)
 
         for player, dice in self.__gameMapInfo.items():
-            print(f"{player}, dice: {dice.getDiceNumber()}")
+            print(f"{player}, dice: {dice}")
 
 
         winner = max(self.__gameMapInfo, key=lambda player: self.__gameMapInfo[player].getDiceNumber())
