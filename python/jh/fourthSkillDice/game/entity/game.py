@@ -11,15 +11,19 @@ class Game:
         return self.__playerDiceGameMap
 
     def setPlayerIndexListToMap(self, playerIndexList, diceIdList):
+                                        # 딕셔너리 컴프리핸션 구조 {key: value for key, value in 반복 가능 객체}
+                                        # index를 key로,  diceId를 요소로 갖는 리스트를 value 로 가짐
         self.__playerDiceGameMap = { index: [diceId] for index, diceId in zip(playerIndexList, diceIdList) }
         print(f"self.__playerDiceGameMap: {self.__playerDiceGameMap}")
 
     def updatePlayerIndexListToMap(self, playerIndexList, diceIdList):
         for index, diceId in zip(playerIndexList, diceIdList):
             if index in self.__playerDiceGameMap:
+                     # __playerDiceGameMap[index]는 diceId 리스트를 참조
                 self.__playerDiceGameMap[index].append(diceId)
+                    # 위의 if문이 참이면 다시 반복으로 넘어감
                 continue
-
+            # if 문이 거짓일 경우, index를 key로 가지는 valuedls 리스트에 diceId를 할당
             self.__playerDiceGameMap[index] = [diceId]
 
         print(f"self.__playerDiceGameMap: {self.__playerDiceGameMap}")

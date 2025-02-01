@@ -1,16 +1,12 @@
-import random
-
 from player.entity.player import Player
 from player.repository.player_repository import PlayerRepository
 
 
 class PlayerRepositoryImpl(PlayerRepository):
+
     __instance = None
+    __playerList = [] # player 객체가 둘어감
 
-    __playerList = []
-
-    MIN = 0
-    MAX = 2
 
     def __new__(cls):
         if cls.__instance is None:

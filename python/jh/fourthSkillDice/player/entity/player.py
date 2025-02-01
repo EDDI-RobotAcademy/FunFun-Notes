@@ -1,5 +1,5 @@
 class Player:
-    __counter = 1
+    __counter = 1 #  Player가 호출되어 객체를 만들때마다 자동으로 +1씩 더해진다
 
     def __init__(self, playerName):
         self.__playerName = playerName
