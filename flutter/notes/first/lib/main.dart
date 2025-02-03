@@ -7,7 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
-import 'home/presentation/ui/HomePage.dart';
+import 'home/presentation/ui/home_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
