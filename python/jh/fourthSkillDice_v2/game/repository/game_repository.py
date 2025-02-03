@@ -18,18 +18,3 @@ class GameRepository(ABC):
     def deletePlayer(self, tagetPlayerId):
         pass
 
-    # @abstractmethod
-    # def create(self):
-    #     pass
-    #
-    # @abstractmethod
-    # def setPlayerIndextListToMap(self):
-    #     pass
-    #
-    # @abstractmethod
-    # def updatePlayerDiceGameMap(self):
-    #     pass
-    #
-    # @abstractmethod
-    # def deletePlayer(self):
-    #     pass
