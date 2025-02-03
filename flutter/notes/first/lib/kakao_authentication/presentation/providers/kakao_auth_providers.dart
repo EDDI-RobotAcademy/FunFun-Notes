@@ -27,6 +27,7 @@ class KakaoAuthProvider with ChangeNotifier {
     notifyListeners();
 
     try {
+      print("Kakao loginUseCase.execute()");
       _accessToken = await loginUseCase.execute();
       print("AccessToken obtained: $_accessToken");
     } catch (e) {
