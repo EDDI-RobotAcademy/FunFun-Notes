@@ -18,3 +18,8 @@ class GameRepository(ABC):
     @abstractmethod
     def deletePlayer(self, tagetPlayerId):
         pass
+
+        # 이렇게 하면 에러 남
+    # @abstractmethod
+    # def setPlayerIndextListToMap(self):
+    #     pass
