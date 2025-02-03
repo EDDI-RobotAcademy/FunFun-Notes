@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../kakao_authentication/kakao_auth_module.dart';
 import 'app_bar_action.dart';
 
 class CustomAppBar extends StatelessWidget {
@@ -24,12 +25,12 @@ class CustomAppBar extends StatelessWidget {
               icon: Icons.login,
               tooltip: 'Login',
               onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => KakaoAuthModule.provideKakaoLoginPage()
-                //   ),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => KakaoAuthModule.provideKakaoLoginPage()
+                  ),
+                );
               },
             )
           ],
