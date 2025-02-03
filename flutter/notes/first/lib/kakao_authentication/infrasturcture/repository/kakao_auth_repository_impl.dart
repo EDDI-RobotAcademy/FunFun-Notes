@@ -11,6 +11,7 @@ class KakaoAuthRepositoryImpl implements KakaoAuthRepository {
   // async는 비동기 처리를 지원함 (FastAPI에서 주로 봤었음)
   @override
   Future<String> login() async {
+    print("KakaoAuthRepositoryImpl login()");
     return await remoteDataSource.loginWithKakao();
   }
 }
