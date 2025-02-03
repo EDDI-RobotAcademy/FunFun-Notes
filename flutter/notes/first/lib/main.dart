@@ -1,3 +1,4 @@
+import 'package:first/home/home_module.dart';
 import 'package:first/kakao_authentication/domain/usecase/login_usecase_impl.dart';
 import 'package:first/kakao_authentication/infrasturcture/data_sources/kakao_auth_remote_data_source.dart';
 import 'package:first/kakao_authentication/infrasturcture/repository/kakao_auth_repository.dart';
@@ -53,7 +54,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: HomePage(),
+        home: HomeModule.provideHomePage(),
       )
     );
   }
