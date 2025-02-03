@@ -26,8 +26,8 @@ class CrawlRepositoryImpl(CrawlRepository):
 
     def _initialize(self):
         if not hasattr(self, 'driver'):
-        # 크롤링을 위한 Chrome 드라이버 구성 
-        #     self.driver = webdriver.Chrome(ChromeDriverManager().install())
+            # 크롤링을 위한 Chrome 드라이버 구성
+            #     self.driver = webdriver.Chrome(ChromeDriverManager().install())
             self.base_url = "https://tago.kr/model/index.htm"
 
     def crawl(self):
@@ -84,4 +84,3 @@ class CrawlRepositoryImpl(CrawlRepository):
         except Exception as e:
             print(f"Error getting text for xpath {xpath}: {str(e)}")
             return "값 추출 못함"
-    
