@@ -22,4 +22,16 @@ class KakaoAuthRemoteDataSource {
       throw Exception("Kakao 로그인 실패!");
     }
   }
+
+  // 카카오 API에서 사용자 정보를 가져오는 메서드
+  Future<User> fetchUserInfoFromKakao() async {
+    try {
+      final user = await UserApi.instance.me();
+      print('User info: $user');
+      return user;
+    } catch (error) {
+      print('Error fetching user info: $error');
+      throw Exception('Failed to fetch user info from Kakao');
+    }
+  }
 }

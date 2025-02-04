@@ -9,6 +9,7 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
 import 'home/presentation/ui/home_page.dart';
+import 'kakao_authentication/domain/usecase/fetch_user_info_usecase_impl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,6 +47,10 @@ class MyApp extends StatelessWidget {
         ProxyProvider<KakaoAuthRepository, LoginUseCaseImpl>(
           update: (_, repository, __) =>
             LoginUseCaseImpl(repository)
+        ),
+        ProxyProvider<KakaoAuthRepository, FetchUserInfoUseCaseImpl>(
+          update: (_, repository, __) =>
+            FetchUserInfoUseCaseImpl(repository),
         ),
       ],
       child: MaterialApp(
