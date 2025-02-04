@@ -1,4 +1,5 @@
 import 'package:first/kakao_authentication/infrasturcture/data_sources/kakao_auth_remote_data_source.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 import 'kakao_auth_repository.dart';
 
@@ -13,5 +14,10 @@ class KakaoAuthRepositoryImpl implements KakaoAuthRepository {
   Future<String> login() async {
     print("KakaoAuthRepositoryImpl login()");
     return await remoteDataSource.loginWithKakao();
+  }
+
+  @override
+  Future<User> fetchUserInfo() async {
+    return await remoteDataSource.fetchUserInfoFromKakao();
   }
 }
