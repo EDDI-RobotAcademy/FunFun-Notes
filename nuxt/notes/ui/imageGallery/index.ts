@@ -12,9 +12,17 @@ export default defineNuxtModule({
 
         nuxt.hook('pages:extend', (pages) => {
             pages.push({
-                name: 'ImageGallery',
+                name: 'ImageGalleryList',
                 path: '/image-gallery/list',
                 file: resolve(themeDir, 'imageGallery/pages/list/List.vue'),
+            });
+        });
+
+        nuxt.hook('pages:extend', (pages) => {
+            pages.push({
+                name: 'ImageGalleryRegister',
+                path: '/image-gallery/register',
+                file: resolve(themeDir, 'imageGallery/pages/register/Register.vue'),
             });
         });
 
