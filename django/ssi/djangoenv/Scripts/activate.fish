@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV 'C:\Users\Dowoo\Desktop\SK_AI\SK-Networks-8-Notes\django\ssi\djangoenv'
+set -gx VIRTUAL_ENV 'C:\Users\son\Desktop\SK_AI\SK-Networks-8-Notes\django\ssi\djangoenv'
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"Scripts $PATH
