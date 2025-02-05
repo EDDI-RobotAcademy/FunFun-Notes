@@ -28,13 +28,14 @@ class KakaoLoginPage extends StatelessWidget {
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "로그인 실패!",
-                        style: TextStyle(fontSize: 20),
+                      ElevatedButton(
+                        onPressed: provider.isLoading ? null : () => provider.login(),
+                        child: Text("카카오 로그인")
                       )
                     ]),
               );
-            })
+            }),
+        title: 'Kakao Login'
       )
     );
   }
