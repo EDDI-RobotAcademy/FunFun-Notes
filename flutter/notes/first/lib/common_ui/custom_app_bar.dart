@@ -32,6 +32,18 @@ class CustomAppBar extends StatelessWidget {
                   ),
                 );
               },
+            ),
+            AppBarAction(
+              icon: Icons.chat_bubble,
+              tooltip: 'Simple Chat',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SimpleChatModule.provideSimpleChatPage()
+                  ),
+                );
+              },
             )
           ],
         ),
