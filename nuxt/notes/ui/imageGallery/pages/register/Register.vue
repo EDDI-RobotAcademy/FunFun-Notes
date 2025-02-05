@@ -68,15 +68,6 @@ const uploadImage = async () => {
     return;
   }
 
-  // const s3Client = new S3Client({
-  //   region: config.public.AWS_REGION,
-  //   credentials: {
-  //     accessKeyId: config.public.AWS_ACCESS_KEY_ID,
-  //     secretAccessKey: config.public.AWS_SECRET_ACCESS_KEY,
-  //   },
-  //   // forcePathStyle: true,
-  // });
-
   const s3Client = createAwsS3Instance()
 
   const fileKey = `image_gallery/${file.name}`;

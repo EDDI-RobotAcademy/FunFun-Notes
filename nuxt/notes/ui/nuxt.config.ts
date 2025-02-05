@@ -15,23 +15,27 @@ export default defineNuxtConfig({
     './payments/nuxt.config.ts',
     './dataAnalysis/nuxt.config.ts',
     './imageGallery/nuxt.config.ts',
+    './blogPost/nuxt.config.ts',
   ],
 
   css: [
     'vuetify/styles',
     '@mdi/font/css/materialdesignicons.min.css',
+    'quill/dist/quill.snow.css',
   ],
 
   build: {
     transpile: [
       'vuetify',
-      'vue-toastification'
+      'vue-toastification',
     ]
   },
 
   vite: {
     ssr: {
-      noExternal: ['vuetify'],
+      noExternal: [
+        'vuetify',
+      ],
     },
   },
 
@@ -55,6 +59,7 @@ export default defineNuxtConfig({
     '~/payments/index.ts',
     '~/dataAnalysis/index.ts',
     '~/imageGallery/index.ts',
+    '~/blogPost/index.ts',
   ],
 
   imports: {
