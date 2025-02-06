@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     './order/nuxt.config.ts',
     './payments/nuxt.config.ts',
     './dataAnalysis/nuxt.config.ts',
+    './imageGallery/nuxt.config.ts',
   ],
 
   css: [
@@ -53,6 +54,7 @@ export default defineNuxtConfig({
     '~/order/index.ts',
     '~/payments/index.ts',
     '~/dataAnalysis/index.ts',
+    '~/imageGallery/index.ts',
   ],
 
   imports: {
@@ -65,6 +67,10 @@ export default defineNuxtConfig({
       AI_BASE_URL: process.env.VUE_APP_AI_BASE_URL,
       TOSS_CLIENT_KEY : process.env.TOSS_CLIENT_KEY,
       TOSS_SECRET_KEY : process.env.TOSS_SECRET_KEY,
+      AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
+      AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY,
+      AWS_REGION: process.env.AWS_REGION,
+      AWS_BUCKET_NAME: process.env.AWS_BUCKET_NAME,
     }
   },
 })
