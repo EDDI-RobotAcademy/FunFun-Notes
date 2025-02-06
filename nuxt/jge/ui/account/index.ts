@@ -15,7 +15,7 @@ export default defineNuxtModule({
 				{
 					name: "AccountLoginPage",
 					path: '/account/login',
-					file: resolve(themeDir, "account/pages/login/AccountLoginPage.vue"), //어카운트로그인페이지뷰 경로, url 들어오면 어떤 화면 그려질지 결정됨
+					file: resolve(themeDir, "account/pages/login/AccountLoginPage.vue"),
 				},
 			);
 		});

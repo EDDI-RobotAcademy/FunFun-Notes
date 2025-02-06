@@ -3,7 +3,7 @@ import { orderState } from "./orderState";
 import { orderAction } from "./orderActions";
 
 
-export const useCartStore = defineStore('cartStore', {
+export const useOrderStore = defineStore('orderStore', {
     state: orderState,
     actions: orderAction,
 })
