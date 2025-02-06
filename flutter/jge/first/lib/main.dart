@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/services.dart';
+import 'package:crypto/crypto.dart';
+import 'package:convert/convert.dart';
+
 import 'package:first/home/home_module.dart';
 import 'package:first/kakao_authentication/domain/usecase/login_usecase_impl.dart';
 import 'package:first/kakao_authentication/infrasturcture/data_sources/kakao_auth_remote_data_source.dart';
@@ -9,6 +16,8 @@ import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
 import 'home/presentation/ui/home_page.dart';
+import 'kakao_authentication/domain/usecase/fetch_user_info_usecase_impl.dart';
+import 'kakao_authentication/domain/usecase/request_user_token_usecase_impl.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,6 +56,14 @@ class MyApp extends StatelessWidget {
               update: (_, repository, __) =>
                   LoginUseCaseImpl(repository)
           ),
+          ProxyProvider<KakaoAuthRepository, FetchUserInfoUseCaseImpl>(
+            update: (_, repository, __) =>
+                FetchUserInfoUseCaseImpl(repository),
+          ),
+          ProxyProvider<KakaoAuthRepository, RequestUserTokenUseCaseImpl>(
+            update: (_, repository, __) =>
+                RequestUserTokenUseCaseImpl(repository),
+          ),
         ],
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -59,3 +76,4 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
