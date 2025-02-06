@@ -35,3 +35,6 @@ class ImageGalleryServiceImpl(ImageGalleryService):
         ]
 
         return paginatedFilteringImageGalleryList, totalItems, totalPages
+
+    def requestCreate(self, title, image_url):
+        self.__imageGalleryRepository.save(title, image_url)
