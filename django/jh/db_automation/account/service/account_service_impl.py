@@ -23,10 +23,12 @@ class AccountServiceImpl(AccountService):
         return cls.__instance
 
     def createAccount(self, email):
+        print("AAA0")
         return self.__accountRepository.save(email)
 
     def checkEmailDuplication(self, email):
         try:
+            print("AAA1")
             return self.__accountRepository.findByEmail(email)
 
         except ObjectDoesNotExist:
@@ -34,6 +36,7 @@ class AccountServiceImpl(AccountService):
 
     def findEmail(self, accountId):
         try:
+            print("AAA2")
             account = self.__accountRepository.findById(accountId)
             if account:
                 return account.getEmail()  # account 객체에서 이메일 반환
