@@ -41,7 +41,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, watchEffect } from 'vue';
 import { useRouter } from 'vue-router';
 import { useBlogPostStore } from '~/stores/blogPostStore'; // Pinia store
 
@@ -56,8 +56,13 @@ const currentPage = computed({
 const totalPages = computed(() => blogPostStore.totalPages);
 
 const goToRegister = () => {
-  router.push('/blog-post/register'); // 블로그 글 작성 페이지로 이동
+  router.push('/blog-post/register');
 };
+
+// 페이지 변경 감지하여 리스트 업데이트
+watchEffect(() => {
+  blogPostStore.requestPostList({ page: currentPage.value, perPage: 10 });
+});
 
 onMounted(async () => {
   await blogPostStore.requestPostList({ page: currentPage.value, perPage: 10 });
