@@ -27,4 +27,22 @@ export const imageGalleryAction = {
         this.currentPage = 1;
     }
   },
+
+  async requestRegisterImage(payload) {
+    const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+
+    const { title, imageUrl } = payload;
+
+    try {
+      const response = await djangoAxiosInstance.post("/image-gallery/create", {
+        title,
+        image_url: imageUrl, // 이미지를 저장할 URL
+      });
+
+      console.log("✅ 이미지 등록 성공", response.data);
+    } catch (error) {
+      console.error("❌ 이미지 등록 실패:", error);
+      throw new Error("이미지 등록 실패");
+    }
+  }
 }
