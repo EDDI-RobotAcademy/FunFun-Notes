@@ -1,3 +1,4 @@
+import 'package:first/board/board_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -27,8 +28,20 @@ class CustomAppBar extends StatelessWidget {
       children: [
         AppBar(
           title: Text(title),
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.lightBlue,
           actions: [
+            AppBarAction(
+              icon: Icons.list_alt,
+              tooltip: '게시물 리스트',
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BoardModule.provideBoardListPage(),
+                  ),
+                );
+              }
+            ),
             AppBarAction(
               icon: Icons.login,
               tooltip: 'Login',
