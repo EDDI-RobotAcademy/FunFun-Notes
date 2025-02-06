@@ -109,10 +109,10 @@ onMounted(async () => {
       amount.value = totalAmount.value;
     } catch (error) {
       console.error("Error parsing query items:", error);
-      router.push("/cart"); // 데이터가 잘못되었을 경우 카트로 이동
+      router.push("/cart/list"); // 데이터가 잘못되었을 경우 카트로 이동
     }
   } else {
-    router.push("/cart"); // 데이터가 없으면 카트로 이동
+    router.push("/cart/list"); // 데이터가 없으면 카트로 이동
   }
 
   // 결제 위젯 초기화
@@ -131,6 +131,9 @@ const requestPayment = async () => {
 
   try {
     const customerEmail = await accountStore.requestEmail(userToken.value); // 고객 이메일
+
+    const orderInfoId = route.query.orderId
+    localStorage.setItem("oid", orderInfoId)
 
     if (paymentWidget.value) {
       await paymentWidget.value.requestPayment({
