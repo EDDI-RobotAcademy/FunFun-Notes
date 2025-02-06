@@ -28,6 +28,7 @@ export default defineNuxtConfig({
     transpile: [
       'vuetify',
       'vue-toastification',
+      // "@vueup/vue-quill", "quill-delta"
     ]
   },
 
