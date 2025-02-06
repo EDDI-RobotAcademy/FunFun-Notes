@@ -31,13 +31,23 @@ export const blogPostAction = {
   async requestRegisterPost(payload) {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
 
-    const { title, imageUrl } = payload;
+    const { title, content } = payload;
+    const userToken = localStorage.getItem("userToken"); // ✅ userToken 가져오기
+
+    if (!userToken) {
+      console.error("❌ 사용자 토큰이 없습니다.");
+      throw new Error("로그인이 필요합니다.");
+    }
 
     try {
-      const response = await djangoAxiosInstance.post("/blog-post/create", {
-        title,
-        image_url: imageUrl, // 이미지를 저장할 URL
-      });
+      const response = await djangoAxiosInstance.post(
+        "/blog-post/create",
+        {
+          title,
+          content, // ✅ S3에 저장된 HTML 콘텐츠를 서버로 전송
+          userToken
+        }
+      );
 
       console.log("✅ 포스트 등록 성공", response.data);
     } catch (error) {
