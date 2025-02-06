@@ -14,6 +14,19 @@ class BlogPostController(viewsets.ViewSet):
     blogPostService = BlogPostServiceImpl.getInstance()
     redisCacheService = RedisCacheServiceImpl.getInstance()
 
+    def requestBlogPostList(self, request):
+        getRequest = request.GET
+        page = int(getRequest.get("page", 1))
+        perPage = int(getRequest.get("perPage", 8))
+        paginatedBlogPostList, totalItems, totalPages = self.blogPostService.requestList(page, perPage)
+
+        # JSON 응답 생성
+        return JsonResponse({
+            "dataList": paginatedBlogPostList,  # 게시글 정보 목록
+            "totalItems": totalItems,  # 전체 게시글 수
+            "totalPages": totalPages  # 전체 페이지 수
+        }, status=status.HTTP_200_OK)
+
     def requestCreateBlogPost(self, request):
         postRequest = request.data
         print("📥 받은 데이터:", postRequest)

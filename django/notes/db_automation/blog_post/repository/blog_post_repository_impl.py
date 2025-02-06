@@ -16,6 +16,13 @@ class BlogPostRepositoryImpl(BlogPostRepository):
             cls.__instance = cls()
         return cls.__instance
 
+    def list(self, page, perPage):
+        offset = (page - 1) * perPage
+        blogPostList = BlogPost.objects.all().order_by('-create_date')[offset:offset + perPage]
+        totalItems = BlogPost.objects.count()
+
+        return blogPostList, totalItems
+
     def save(self, blog_post: BlogPost) -> BlogPost:
         blog_post.save()
         return blog_post
