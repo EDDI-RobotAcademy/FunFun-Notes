@@ -1,30 +1,49 @@
 import * as axiosUtility from "../../utility/axiosInstance"
 
 export const orderAction = {
-  async requestCreateOrder(selectedCartItems, userToken) {
+  async requestCreateOrder(orderData) {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
 
-    // 요청 데이터 준비
-    const requestForm = {
-      items: selectedCartItems, // 선택된 장바구니 항목들
-      userToken: userToken, // 사용자 인증 토큰
-    };
+    const { items, total, userToken } = orderData
+    console.log(`requestCreateOrder(): ${items}, ${total}, ${userToken}`)
 
     try {
       // 주문 생성 요청
-      const response = await djangoAxiosInstance.post("/order/create", requestForm);
+      console.log(`requestCreateOrder(): ${JSON.stringify(orderData)}`)
+      const response = await djangoAxiosInstance.post("/orders/create", { items, total, userToken });
 
       // 요청 성공 여부 확인
       if (response.data.success) {
-        console.log("주문 성공:", response.data);
-        return { success: true, orderId: response.data.orderId };
+        console.log(`requestCreateOrder(): ${response}`)
+        this.setOrderInfoId(response.data.orderId);
+        return {
+          success: true,
+          orderId: response.data.orderId, // 서버에서 반환한 주문 ID
+        };
       } else {
-        console.error("주문 실패:", response.data.message);
-        return { success: false, message: response.data.message };
+        return {
+          success: false,
+          error: response.data.message || "주문 생성에 실패했습니다.",
+        };
       }
     } catch (error) {
-      console.error("주문 생성 중 오류 발생:", error);
-      return { success: false, message: "서버 오류로 인해 주문 생성에 실패했습니다." };
+      console.error("Error in requestCreateOrder:", error);
+      return {
+        success: false,
+        error: "서버와 통신 중 오류가 발생했습니다.",
+      };
     }
+  },
+  setOrderInfoId(orderId: string) {
+    this.orderInfoId = orderId
+  },
+
+  // 주문 ID 클리어
+  clearOrderInfoId() {
+    this.orderInfoId = null
+  },
+
+  getOrderInfoId() {
+    return this.orderInfoId;
   },
 }
