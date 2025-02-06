@@ -35,4 +35,5 @@ urlpatterns = [
     path("regression/", include('regression.urls')),
     path("authentication/", include('authentication.urls')),
     path("cart/", include('cart.urls')),
+    path("image-gallery/", include('image_gallery.urls')),
 ]
