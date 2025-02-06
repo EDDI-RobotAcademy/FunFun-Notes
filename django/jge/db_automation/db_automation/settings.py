@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'regression',
     'authentication',
     'cart',
+    'board',
     'image_gallery',
 ]
 
