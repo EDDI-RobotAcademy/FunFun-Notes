@@ -66,6 +66,7 @@ def generate_orders_data():
 
         # 총액 업데이트
         order.total_amount = total_amount
+        order.status = "COMPLETED"
         order.save()
 
 

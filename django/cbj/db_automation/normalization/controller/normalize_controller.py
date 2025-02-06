@@ -5,8 +5,6 @@ from rest_framework.status import HTTP_200_OK
 
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
-
-
 # pip install scikit-learn
 
 class NormalizeController(viewsets.ViewSet):
