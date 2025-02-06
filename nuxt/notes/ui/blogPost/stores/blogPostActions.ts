@@ -30,26 +30,24 @@ export const blogPostAction = {
 
   async requestRegisterPost(payload) {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
-
-    const { title, content } = payload;
-    const userToken = localStorage.getItem("userToken"); // ✅ userToken 가져오기
+    const { title, content } = payload; // ✅ content가 파일명인지 확인
+    const userToken = localStorage.getItem("userToken");
 
     if (!userToken) {
       console.error("❌ 사용자 토큰이 없습니다.");
       throw new Error("로그인이 필요합니다.");
     }
 
-    try {
-      const response = await djangoAxiosInstance.post(
-        "/blog-post/create",
-        {
-          title,
-          content, // ✅ S3에 저장된 HTML 콘텐츠를 서버로 전송
-          userToken
-        }
-      );
+    console.log("🚀 Registering Post: ", { title, content });
 
-      console.log("✅ 포스트 등록 성공", response.data);
+    try {
+      const response = await djangoAxiosInstance.post("/blog-post/create", {
+        title,
+        content, // ✅ "title-uuid.html"이 전달되는지 확인
+        userToken,
+      });
+
+      console.log("✅ 포스트 등록 성공:", response.data);
     } catch (error) {
       console.error("❌ 포스트 등록 실패:", error);
       throw new Error("포스트 등록 실패");

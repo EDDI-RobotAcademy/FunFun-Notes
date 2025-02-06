@@ -25,6 +25,23 @@ class BlogPostServiceImpl(BlogPostService):
 
         return cls.__instance
 
+    def requestList(self, page, perPage):
+        paginatedBlogPostList, totalItems = self.__blogPostRepository.list(page, perPage)
+
+        totalPages = (totalItems + perPage - 1) // perPage
+
+        paginatedFilteringBlogPostList = [
+            {
+                "id": blogPost.id,
+                "title": blogPost.title,
+                "nickname": blogPost.writer.nickname,  # writer 객체의 nickname 가져오기
+                "createDate": blogPost.create_date.strftime("%Y-%m-%d %H:%M"),
+            }
+            for blogPost in paginatedBlogPostList
+        ]
+
+        return paginatedFilteringBlogPostList, totalItems, totalPages
+
     def requestCreate(self, title, content, accountId):
         if not title or not content:
             raise ValueError("Title and content are required fields.")
