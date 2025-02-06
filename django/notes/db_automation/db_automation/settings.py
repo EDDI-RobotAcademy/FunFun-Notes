@@ -63,6 +63,7 @@ INSTALLED_APPS = [
     'payments',
     'orders',
     'board',
+    'image_gallery',
 ]
 
 MIDDLEWARE = [
