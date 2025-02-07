@@ -1,7 +1,7 @@
 import 'package:first/board/domain/usecases/list/response/board_list_response.dart';
 
 import '../../../infrasturctures/repository/board_repository.dart';
-import 'ListBoardUseCase.dart';
+import 'list_board_use_case.dart';
 
 class ListBoardUseCaseImpl implements ListBoardUseCase {
   final BoardRepository boardRepository;
