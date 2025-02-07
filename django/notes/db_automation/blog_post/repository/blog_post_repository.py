@@ -12,3 +12,7 @@ class BlogPostRepository(ABC):
     @abstractmethod
     def save(self, blog_post: BlogPost) -> BlogPost:
         pass
+
+    @abstractmethod
+    def findById(self, boardId):
+        pass

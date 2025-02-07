@@ -10,3 +10,7 @@ class BlogPostService(ABC):
     @abstractmethod
     def requestCreate(self, title, content, accountId):
         pass
+
+    @abstractmethod
+    def requestRead(self, id):
+        pass

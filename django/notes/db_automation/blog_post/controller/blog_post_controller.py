@@ -53,3 +53,16 @@ class BlogPostController(viewsets.ViewSet):
         savedBlogPost = self.blogPostService.requestCreate(title, content, accountId)
 
         return JsonResponse({"data": savedBlogPost}, status=status.HTTP_200_OK)
+
+    def requestBoardRead(self, request, pk=None):
+        try:
+            if not pk:
+                return JsonResponse({"error": "ID를 제공해야 합니다."}, status=400)
+
+            print(f"requestGameSoftwareRead() -> pk: {pk}")
+            readBlogPost = self.blogPostService.requestRead(pk)
+
+            return JsonResponse(readBlogPost, status=200)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)

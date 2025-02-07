@@ -52,5 +52,19 @@ export const blogPostAction = {
       console.error("❌ 포스트 등록 실패:", error);
       throw new Error("포스트 등록 실패");
     }
+  },
+
+  async requestReadPost(postId) {
+    const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+
+    try {
+      const res = await djangoAxiosInstance.get(`/blog-post/read/${postId}`);
+      console.log("✅ 게시글 상세 조회 성공:", res.data);
+
+      return res.data;
+    } catch (error) {
+      console.error("❌ requestReadPost() 중 에러:", error);
+      throw new Error("게시글 불러오기 실패");
+    }
   }
 }
