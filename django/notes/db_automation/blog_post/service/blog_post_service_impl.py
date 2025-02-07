@@ -67,8 +67,21 @@ class BlogPostServiceImpl(BlogPostService):
 
         # 5. 응답 데이터 구조화
         return {
-            "boardId": savedBlogPost.id,
+            "id": savedBlogPost.id,
             "title": savedBlogPost.title,
             "writerNickname": savedBlogPost.writer.nickname,
             "createDate": savedBlogPost.create_date.strftime("%Y-%m-%d %H:%M"),
         }
+
+    def requestRead(self, id):
+        blogPost = self.__blogPostRepository.findById(id)
+        if blogPost:
+            return {
+                "id": blogPost.id,
+                "title": blogPost.title,
+                "content": blogPost.content,
+                "createDate": blogPost.create_date.strftime("%Y-%m-%d %H:%M"),
+                "nickname": blogPost.writer.nickname
+            }
+
+        return None

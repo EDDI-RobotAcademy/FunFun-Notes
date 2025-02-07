@@ -26,3 +26,9 @@ class BlogPostRepositoryImpl(BlogPostRepository):
     def save(self, blog_post: BlogPost) -> BlogPost:
         blog_post.save()
         return blog_post
+
+    def findById(self, boardId):
+        try:
+            return BlogPost.objects.get(id=boardId)
+        except BlogPost.DoesNotExist:
+            return None
