@@ -26,3 +26,7 @@ class ImageGalleryRepositoryImpl(ImageGalleryRepository):
         totalItems = ImageGallery.objects.count()
 
         return imageGallery, totalItems
+
+    def save(self, title, image_url):
+        ImageGallery.objects.create(title=title, image_url=image_url)
+
