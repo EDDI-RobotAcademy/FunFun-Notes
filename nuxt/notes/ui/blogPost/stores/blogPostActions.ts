@@ -30,19 +30,41 @@ export const blogPostAction = {
 
   async requestRegisterPost(payload) {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+    const { title, content } = payload; // ✅ content가 파일명인지 확인
+    const userToken = localStorage.getItem("userToken");
 
-    const { title, imageUrl } = payload;
+    if (!userToken) {
+      console.error("❌ 사용자 토큰이 없습니다.");
+      throw new Error("로그인이 필요합니다.");
+    }
+
+    console.log("🚀 Registering Post: ", { title, content });
 
     try {
       const response = await djangoAxiosInstance.post("/blog-post/create", {
         title,
-        image_url: imageUrl, // 이미지를 저장할 URL
+        content, // ✅ "title-uuid.html"이 전달되는지 확인
+        userToken,
       });
 
-      console.log("✅ 포스트 등록 성공", response.data);
+      console.log("✅ 포스트 등록 성공:", response.data);
     } catch (error) {
       console.error("❌ 포스트 등록 실패:", error);
       throw new Error("포스트 등록 실패");
+    }
+  },
+
+  async requestReadPost(postId) {
+    const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+
+    try {
+      const res = await djangoAxiosInstance.get(`/blog-post/read/${postId}`);
+      console.log("✅ 게시글 상세 조회 성공:", res.data);
+
+      return res.data;
+    } catch (error) {
+      console.error("❌ requestReadPost() 중 에러:", error);
+      throw new Error("게시글 불러오기 실패");
     }
   }
 }
