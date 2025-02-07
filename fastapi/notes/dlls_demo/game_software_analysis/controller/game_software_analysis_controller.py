@@ -34,14 +34,7 @@ async def requestGameSoftwareAnalysis(file: UploadFile = File(...),
 
     try:
         gameSoftwareAnalysisResponse = await gameSoftwareAnalysisService.requestAnalysis(filePath)
-
-        # 그래프 이미지 파일 경로
-        graphImagePath = os.path.join(currentDirectory, "resource", "age_group_purchase_cost.png")
-
-        # 그래프가 존재하면 이미지 파일을 클라이언트로 전송
-        if os.path.exists(graphImagePath):
-            return FileResponse(graphImagePath, headers={"X-Response-Type": "image"})
-
+        # print(f"gameSoftwareAnalysisResponse: {gameSoftwareAnalysisResponse}")
         return JSONResponse(content=gameSoftwareAnalysisResponse)
 
     except Exception as e:

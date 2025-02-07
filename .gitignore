@@ -131,7 +131,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -974,3 +973,13 @@ fabric.properties
 
 # exclude .h5
 *.h5
+
+# exclude .xlsx, .csv
+*.xlsx
+*.csv
+
+# exclude .jpg, jpeg, png, webp
+*.jpg
+*.jpeg
+*.png
+*.webp

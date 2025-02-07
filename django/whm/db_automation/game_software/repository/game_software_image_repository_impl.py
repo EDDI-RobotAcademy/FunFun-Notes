@@ -22,7 +22,7 @@ class GameSoftwareImageRepositoryImpl(GameSoftwareImageRepository):
 
     def create(self, gameSoftware, image):
         print(f"current working directory: {os.getcwd()}")
-        uploadDirectory = os.path.join('../../../nuxt/notes/ui/assets/images/uploadImages')
+        uploadDirectory = os.path.join('../../../nuxt/whm/ui/assets/images/uploadImages')
         if not os.path.exists(uploadDirectory):
             os.makedirs(uploadDirectory)
 
