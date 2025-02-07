@@ -12,9 +12,9 @@ export default defineNuxtModule({
 
         nuxt.hook('pages:extend', (pages) => {
             pages.push({
-                name: 'OrderConfirm',
-                path: '/order/confirm',
-                file: resolve(themeDir, 'order/pages/confirm/Confirm.vue'),
+                name: 'OrderList',
+                path: '/order/list',
+                file: resolve(themeDir, 'order/pages/list/List.vue'),
             });
         });
 
