@@ -42,6 +42,32 @@ class BoardRemoteDataSource {
     }
   }
 
+  Future<Board> create(String title, String content, String userToken) async {
+    final url = Uri.parse('$baseUrl/board/create');
+    final response = await http.post(
+      url,
+      body: {
+        'title': title,
+        'content': content,
+        'userToken': userToken,
+      }
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      return Board(
+        id: data['data']['boardId'] ?? 0,
+        title: data['data']['title'] ?? 'Untitled',
+        content: data['data']['content'] ?? '',
+        nickname: data['data']['writerNickname'] ?? 'Anonymouse',
+        createDate: data['data']['createDate'] ?? 'Unknown',
+      );
+    } else {
+      throw Exception("게시물 생성 실패");
+    }
+  }
+
   int parseInt(dynamic value) {
     if (value is String) {
       return int.tryParse(value) ?? 0;
