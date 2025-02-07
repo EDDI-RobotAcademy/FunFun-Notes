@@ -1,5 +1,6 @@
 import 'package:first/board/presentation/providers/board_create_provider.dart';
 import 'package:first/board/presentation/providers/board_list_provider.dart';
+import 'package:first/board/presentation/ui/board_create_page.dart';
 import 'package:first/board/presentation/ui/board_list_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -23,6 +24,7 @@ class BoardModule {
   static List<SingleChildWidget> provideCommonProviders () {
     return [
       Provider(create: (_) => listBoardUseCase),
+      Provider(create: (_) => createBoardUseCase),
     ];
   }
 
@@ -47,7 +49,8 @@ class BoardModule {
           create: (_) =>
             BoardCreateProvider(createBoardUseCase: createBoardUseCase)
         )
-      ]
+      ],
+      child: BoardCreatePage(),
     );
   }
 }
