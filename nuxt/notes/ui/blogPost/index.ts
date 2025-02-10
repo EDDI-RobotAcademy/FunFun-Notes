@@ -28,6 +28,12 @@ export default defineNuxtModule({
                 path: '/blog-post/read/:id',
                 file: resolve(themeDir, 'blogPost/pages/read/Read.vue'),
             });
+
+            pages.push({
+                name: 'blogPostUpdate',
+                path: '/blog-post/update/:id',
+                file: resolve(themeDir, 'blogPost/pages/update/Update.vue'),
+            });
         });
 
         nuxt.hook('imports:dirs', (dirs) => {

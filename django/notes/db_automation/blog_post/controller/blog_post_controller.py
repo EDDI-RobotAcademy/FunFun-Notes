@@ -54,7 +54,7 @@ class BlogPostController(viewsets.ViewSet):
 
         return JsonResponse({"data": savedBlogPost}, status=status.HTTP_200_OK)
 
-    def requestBoardRead(self, request, pk=None):
+    def requestReadBlogPost(self, request, pk=None):
         try:
             if not pk:
                 return JsonResponse({"error": "ID를 제공해야 합니다."}, status=400)
