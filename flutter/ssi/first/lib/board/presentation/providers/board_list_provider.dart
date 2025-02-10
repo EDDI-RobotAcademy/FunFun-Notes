@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 import '../../domain/entity/board.dart';
-import '../../domain/usecases/list/ListBoardUseCase.dart';
+import '../../domain/usecases/list/list_board_use_case.dart';
 
 class BoardListProvider with ChangeNotifier {
   final ListBoardUseCase listBoardUseCase;
