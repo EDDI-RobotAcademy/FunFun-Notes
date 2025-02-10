@@ -1,9 +1,8 @@
 import 'dart:convert';
 
 import 'package:first/board/domain/entity/board.dart';
+import 'package:first/board/domain/usecases/list/response/board_list_response.dart';
 import 'package:http/http.dart' as http;
-
-import '../../domain/usecases/list/response/board_list_response.dart';
 
 class BoardRemoteDataSource {
   final String baseUrl;
@@ -40,6 +39,45 @@ class BoardRemoteDataSource {
       );
     } else {
       throw Exception('게시물 리스트 조회 실패');
+    }
+  }
+
+  Future<Board> create(String title, String content, String userToken) async {
+    final url = Uri.parse('$baseUrl/board/create');
+    final response = await http.post(
+        url,
+        body: {
+          'title': title,
+          'content': content,
+          'userToken': userToken,
+        }
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      return Board(
+        id: data['data']['boardId'] ?? 0,
+        title: data['data']['title'] ?? 'Untitled',
+        content: data['data']['content'] ?? '',
+        nickname: data['data']['writerNickname'] ?? 'Anonymouse',
+        createDate: data['data']['createDate'] ?? 'Unknown',
+      );
+    } else {
+      throw Exception("게시물 생성 실패");
+    }
+  }
+
+  Future<Board?> fetchBoard(int boardId) async {
+    try {
+      final response = await http.get(Uri.parse('$baseUrl/board/read/$boardId'));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        return Board.fromJson(data);
+      }
+    } catch (e) {
+      return null;
     }
   }
 
