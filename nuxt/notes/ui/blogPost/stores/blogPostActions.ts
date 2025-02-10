@@ -61,6 +61,8 @@ export const blogPostAction = {
       const res = await djangoAxiosInstance.get(`/blog-post/read/${postId}`);
       console.log("✅ 게시글 상세 조회 성공:", res.data);
 
+      this.blogPost = res.data;
+      this.blogPostContent = res.data.content
       return res.data;
     } catch (error) {
       console.error("❌ requestReadPost() 중 에러:", error);

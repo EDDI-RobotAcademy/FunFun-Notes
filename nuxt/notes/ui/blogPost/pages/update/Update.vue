@@ -15,8 +15,10 @@
                         />
                     </div>
 
-                    <v-btn color="primary" class="mt-3" @click="submitPost">저장</v-btn>
-                    <v-btn color="secondary" class="mt-3" @click="goBack">취소</v-btn>
+                    <v-card-actions class="justify-end">
+                        <v-btn color="primary" class="mt-3" @click="submitPost">저장</v-btn>
+                        <v-btn color="secondary" class="mt-3" @click="goBack">취소</v-btn>
+                    </v-card-actions>
                 </v-card-text>
             </v-card>
         </v-container>
@@ -54,22 +56,33 @@ onMounted(async () => {
     QuillEditor.value = LoadedQuillEditor;
     console.log("Mounted: QuillEditor loaded successfully.");
 
-    // Fetch the post data for editing
     const postId = route.params.id;
-    if (postId) {
+    const statePost = history.state.post;  // ✅ 전달된 데이터 확인
+
+    if (statePost) {
+        console.log("Already has post data")
+        // ✅ Read에서 받은 데이터 사용 (S3 요청 X)
+        title.value = statePost.title;
+        content.value = statePost.content;
+        nextTick(() => {
+            const quillInstance = quillEditorRef.value?.getQuill();
+            if (quillInstance) {
+                quillInstance.root.innerHTML = content.value;
+            }
+        });
+    } else if (postId) {
+        console.log("Need to acquire post data")
+        // ❌ 만약 state 데이터가 없으면 (새로고침 등), S3에서 가져옴
         const data = await blogPostStore.requestReadPost(postId);
         if (data) {
             title.value = data.title;
-            // Fetch content from S3
             const url = await getSignedUrlFromS3(`blog-post/${data.content}`);
             const response = await fetch(url);
             content.value = await response.text();
-
-            // Ensure that QuillEditor is initialized and set the content
             nextTick(() => {
                 const quillInstance = quillEditorRef.value?.getQuill();
                 if (quillInstance) {
-                    quillInstance.root.innerHTML = content.value;  // Directly set the HTML content
+                    quillInstance.root.innerHTML = content.value;
                 }
             });
         }
@@ -135,13 +148,16 @@ const submitPost = async () => {
         console.log("📄 압축된 HTML:", compressedHTML);
 
         try {
-            const filename = await uploadToS3(compressedHTML, title.value);
-            console.log("✅ File uploaded successfully, key:", filename);
+            // 기존 파일명 사용하여 덮어쓰기
+            const filename = content.value;  // 기존 S3 파일명을 그대로 사용
+            console.log("📝 S3 Upload Params:", filename);
 
+            await uploadToS3(compressedHTML, filename);  // 업로드 시 기존 파일명 사용
+
+            // 게시글 수정 요청
             await blogPostStore.requestUpdatePost({
                 id: route.params.id,
                 title: title.value,
-                content: filename
             });
 
             alert("블로그 포스트가 수정되었습니다!");
