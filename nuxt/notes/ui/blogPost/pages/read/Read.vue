@@ -51,6 +51,8 @@ const fetchPostDetail = async () => {
                 const url = await getSignedUrlFromS3(`blog-post/${data.content}`);
                 const response = await fetch(url);
                 postContent.value = await response.text();
+
+                blogPostStore.blogPostContent = postContent.value;
             }
         }
     } catch (error) {
@@ -65,7 +67,10 @@ const goBack = () => {
 const goUpdate = () => {
     const postId = route.params.id;
     if (postId) {
-        router.push(`/blog-post/update/${postId}`);
+        router.push({
+            path: `/blog-post/update/${postId}`,
+            state: { post: post.value }  // ✅ 현재 포스트 데이터 전달
+        });
     }
 };
 
