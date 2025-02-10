@@ -68,5 +68,30 @@ export const blogPostAction = {
       console.error("❌ requestReadPost() 중 에러:", error);
       throw new Error("게시글 불러오기 실패");
     }
+  },
+
+  async requestUpdatePost(payload) {
+    const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+    const { id, title } = payload;  // ✅ content는 제외
+    const userToken = localStorage.getItem("userToken");
+
+    if (!userToken) {
+      console.error("❌ 사용자 토큰이 없습니다.");
+      throw new Error("로그인이 필요합니다.");
+    }
+
+    console.log("🚀 Updating Post: ", { id, title });
+
+    try {
+      const response = await djangoAxiosInstance.put(`/blog-post/update/${id}`, {
+        title,
+        userToken,
+      });
+
+      console.log("✅ 포스트 수정 성공:", response.data);
+    } catch (error) {
+      console.error("❌ 포스트 수정 실패:", error);
+      throw new Error("포스트 수정 실패");
+    }
   }
 }
