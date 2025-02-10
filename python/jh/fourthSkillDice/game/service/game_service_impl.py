@@ -153,7 +153,7 @@ class GameServiceImpl(GameService):
         playerDiceGameMap = game.getPlayerDiceGameMap()
 
         playerDiceSum = {}
-
+           # 플레이어 아이디, 플레이어의 diceId 리스트
         for playerId, diceIdList in playerDiceGameMap.items():
             diceSum = 0
 
@@ -180,6 +180,7 @@ class GameServiceImpl(GameService):
 
         if secondDiceNumber == DiceSkill.DEATH_SHOT.value:
             self.__deathShot()
+
           # __applySkill()을 위한 조건을 검사하는 함수 -> diceId가 두개 아상이어야 함
     def applySkill(self):
         gamePlayerCount = self.__gameRepository.getGamePlayerCount()
@@ -191,7 +192,7 @@ class GameServiceImpl(GameService):
 
             if indexedPlayerDiceIdListLength < 2:
                 continue
-                        # diceId가 두개인 애들만 반복문을 넘어옴
+                        # diceId가 두개인 애들만 반복문을 넘어옴(스킬 적용된 애들)
             indexedPlayerSecondDiceId = indexedPlayerDiceIdList[1] # 0부터 카운트 돼서 1은 2번째 dice
             secondDice = self.__diceRepository.findById(indexedPlayerSecondDiceId)
 
@@ -217,12 +218,15 @@ class GameServiceImpl(GameService):
 
 
         maxDiceSum = max(playerDiceSum.values())
+        # 리스트 컴프리핸션 사용
+        maxDicePlayerList = [playerId for playerId, diceSum in playerDiceSum.items()
+                             if diceSum == maxDiceSum]
+
+        # 반복문 사용
         # maxDicePlayerIdList = []
         # for playerId, diceSum in playerDiceSum.items():
         #     if diceSum == maxDiceSum:
         #         maxDicePlayerIdList.append(playerId)
-        maxDicePlayerList = [playerId for playerId, diceSum in playerDiceSum.items()
-                             if diceSum == maxDiceSum]
         
         if len(maxDicePlayerList) > 1:
             print("무승부")
