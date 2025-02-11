@@ -1,7 +1,7 @@
 import 'package:first/board/domain/usecases/list/response/board_list_response.dart';
 
-import '../../../infrasturctures/repository/board_repository.dart';
-import 'ListBoardUseCase.dart';
+import '../../../infrastructure/repository/board_repository.dart';
+import 'list_board_usecase.dart';
 
 class ListBoardUseCaseImpl implements ListBoardUseCase {
   final BoardRepository boardRepository;
@@ -10,9 +10,9 @@ class ListBoardUseCaseImpl implements ListBoardUseCase {
 
   @override
   Future<BoardListResponse> call(int page, int perPage) async {
-    try {
+    try{
       final BoardListResponse response =
-        await boardRepository.listBoard(page, perPage);
+          await boardRepository.listBoard(page, perPage);
 
       return response;
     } catch (e) {

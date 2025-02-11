@@ -1,6 +1,6 @@
 import 'package:first/board/domain/entity/board.dart';
 import 'package:first/board/domain/usecases/list/response/board_list_response.dart';
-import '../../../infrastructure/repository/board_repository.dart';
+import '../../../infrasturctures/repository/board_repository.dart';
 import 'create_board_use_case.dart';
 
 class CreateBoardUseCaseImpl implements CreateBoardUseCase {

@@ -1,5 +1,5 @@
 import 'package:first/board/domain/entity/board.dart';
-import 'package:first/board/domain/usecases/read/read_board_use_case.dart';
+import 'package:first/board/domain/usecases/read/read_board_usecase.dart';
 import 'package:first/board/infrastructure/repository/board_repository.dart';
 
 class ReadBoardUseCaseImpl implements ReadBoardUseCase {
