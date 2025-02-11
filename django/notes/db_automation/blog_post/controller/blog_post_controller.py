@@ -66,3 +66,25 @@ class BlogPostController(viewsets.ViewSet):
 
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
+
+    def requestUpdateBlogPost(self, request, pk=None):
+        try:
+            postRequest = request.data
+            print(f"postRequest: {postRequest}")
+
+            title = postRequest.get("title")
+
+            # 필수 항목 체크
+            if not title:
+                return JsonResponse({"error": "Title are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+            userToken = postRequest.get("userToken")
+            accountId = self.redisCacheService.getValueByKey(userToken)
+
+            # 게시글 수정 요청 처리
+            updatedBoard = self.blogPostService.requestUpdate(pk, title, accountId)
+
+            return JsonResponse(updatedBoard, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
