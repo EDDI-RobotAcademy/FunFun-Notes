@@ -29,7 +29,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useBlogPostStore } from '~/stores/blogPostStore';
-import { getSignedUrlFromS3 } from '~/utility/awsS3Instance'; // S3에서 가져오기
+import { getSignedUrlFromS3, deleteFileFromS3 } from '~/utility/awsS3Instance';
 
 const route = useRoute();
 const router = useRouter();
@@ -71,6 +71,27 @@ const goUpdate = () => {
             path: `/blog-post/update/${postId}`,
             state: { post: post.value }  // ✅ 현재 포스트 데이터 전달
         });
+    }
+};
+
+const deletePost = async () => {
+    const postId = route.params.id;
+    if (!postId) return;
+
+    if (!confirm("정말 삭제하시겠습니까?")) return;
+
+    try {
+        await blogPostStore.requestDeletePost(postId);
+
+        if (post.value?.content) {
+            await deleteFileFromS3(`blog-post/${post.value.content}`);
+        }
+
+        alert("게시글이 삭제되었습니다.");
+        router.push("/blog-post/list");
+    } catch (error) {
+        console.error("게시글 삭제에 실패했습니다.", error);
+        alert("게시글 삭제에 실패했습니다.");
     }
 };
 
