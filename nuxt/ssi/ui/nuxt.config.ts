@@ -14,7 +14,7 @@ export default defineNuxtConfig({
     './order/nuxt.config.ts',
     './payments/nuxt.config.ts',
     './dataAnalysis/nuxt.config.ts',
-    //'./imageGallery/nuxt.config.ts',
+    './imageGallery/nuxt.config.ts',
     './blogPost/nuxt.config.ts',
   ],
 
@@ -59,7 +59,7 @@ export default defineNuxtConfig({
     '~/order/index.ts',
     '~/payments/index.ts',
     '~/dataAnalysis/index.ts',
-    //'~/imageGallery/index.ts',
+    '~/imageGallery/index.ts',
     '~/blogPost/index.ts',
   ],
 

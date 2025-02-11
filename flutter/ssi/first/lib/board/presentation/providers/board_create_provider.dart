@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../domain/entity/board.dart';
-import '../../domain/usecases/create/create_board_use_case.dart';
+import '../../domain/usecases/create/create_board_usecase.dart';
 
 class BoardCreateProvider with ChangeNotifier {
   final CreateBoardUseCase createBoardUseCase;
