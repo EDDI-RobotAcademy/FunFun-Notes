@@ -12,7 +12,7 @@ urlpatterns = [
          BlogPostController.as_view({ 'get': 'requestBlogPostList' }),
          name='블로그 포스트 항목 요청'),
     path('create',
-         BlogPostController.as_view({ 'post': 'requestCreate' }),
+         BlogPostController.as_view({ 'post': 'requestCreateBlogPost' }),
          name='블로그 포스트 등록 요청'),
     path('read/<int:pk>',
          BlogPostController.as_view({ 'get': 'requestReadBlogPost' }),
