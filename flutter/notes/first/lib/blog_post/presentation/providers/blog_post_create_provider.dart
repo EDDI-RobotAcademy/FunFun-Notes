@@ -4,10 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
-import 'package:flutter_aws_s3_client/flutter_aws_s3_client.dart';
-import 'package:path_provider/path_provider.dart';
-
+import '../../../utility/aws_s3_utility.dart';
 import '../../domain/entity/blog_post.dart';
+import '../../domain/usecases/create/create_blog_post_use_case.dart';
 
 class BlogPostCreateProvider with ChangeNotifier {
   final CreateBlogPostUseCase createBlogPostUseCase;
@@ -44,5 +43,16 @@ class BlogPostCreateProvider with ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  /// Delta JSON -> HTML 변환
+  String convertDeltaToHtml(List<dynamic> deltaJson) {
+    final converter = QuillDeltaToHtmlConverter(List.castFrom(deltaJson));
+    return converter.convert();
+  }
+
+  /// HTML을 S3에 업로드
+  Future<String?> uploadToS3(String htmlContent) async {
+    return await AwsS3Utility.uploadHtmlContent(htmlContent);
   }
 }

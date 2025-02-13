@@ -83,17 +83,17 @@ class _BlogPostListPageState extends State<BlogPostListPage> {
                   right: 16,
                   child: FloatingActionButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) =>
-                      //             BlogPostModule.provideBlogPostCreatePage()))
-                      //     .then((_) {
-                      //   final blogPostListProvider =
-                      //   Provider.of<BlogPostListProvider>(context,
-                      //       listen: false);
-                      //   blogPostListProvider.listBlogPosts(1, 6);
-                      // });
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  BlogPostModule.provideBlogPostCreatePage()))
+                          .then((_) {
+                        final blogPostListProvider =
+                        Provider.of<BlogPostListProvider>(context,
+                            listen: false);
+                        blogPostListProvider.listBlogPosts(1, 6);
+                      });
                     },
                     child: Icon(Icons.add),
                     tooltip: '블로그 게시물 생성',
