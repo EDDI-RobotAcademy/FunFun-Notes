@@ -1,4 +1,5 @@
 import os
+# import sys
 from pathlib import Path
 
 from django.conf.global_settings import CSRF_TRUSTED_ORIGINS
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     # 'car',
     # 'car_registration',
     # 'car_business_pricing',
-    # 'pandas_basic',
+    'pandas_basic',
     'excel_basic',
     'kakao_authentication',
     'account',
@@ -52,6 +53,8 @@ INSTALLED_APPS = [
     'payments',
     'orders',
     'board',
+    'image_gallery',
+    'blog_post',
 ]
 
 MIDDLEWARE = [
@@ -67,7 +70,7 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',')
 CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', '').split(',')
-
+# print('CSRF_TRUSTED_ORIGINS:', CSRF_TRUSTED_ORIGINS, file=sys.stderr)
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOW_METHODS = [

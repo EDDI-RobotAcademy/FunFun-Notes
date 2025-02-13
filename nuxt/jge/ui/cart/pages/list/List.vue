@@ -82,6 +82,7 @@
 import { ref, computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useCartStore } from "~/cart/stores/cartStore"; // cartStore를 import
+import { useOrderStore } from "~/order/stores/orderStore";
 
 const selectedItems = ref([]);
 const isCheckoutDialogVisible = ref(false);
@@ -94,6 +95,7 @@ const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
 const router = useRouter();
 
 const cartStore = useCartStore();  // cartStore 인스턴스
+const orderStore = useOrderStore();
 
 // 계산 속성
 const selectedItemsTotal = computed(() =>
@@ -136,10 +138,46 @@ const proceedToOrder = async () => {
     quantity: item.quantity,
   }));
 
-  router.push({
-    path: '/order/confirm',
-    query: { items: encodeURIComponent(JSON.stringify(selectedCartItems)) },
-  });
+  const userToken = localStorage.getItem("userToken");
+
+  if (!userToken) {
+    alert("로그인이 필요합니다. 다시 로그인해주세요.");
+    return;
+  }
+
+  // router.push({
+  //   path: '/payments/confirm',
+  //   query: { items: encodeURIComponent(JSON.stringify(selectedCartItems)) },
+  // });
+
+  try {
+    const response = await orderStore.requestCreateOrder({
+      items: selectedCartItems,
+      total: selectedItemsTotal.value,
+      userToken: userToken,
+    });
+
+    if (response.success) {
+      // 주문 생성 성공: 결제 페이지로 이동
+      // router.push({
+      //   path: "/payments/confirm",
+      //   query: { orderId: response.orderId },
+      // });
+      router.push({
+        path: '/payments/confirm',
+        query: {
+            orderId: response.orderId,
+            items: encodeURIComponent(JSON.stringify(selectedCartItems))
+        },
+      });
+    } else {
+      // 주문 생성 실패: 사용자에게 알림
+      alert(response.error || "주문 생성에 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("Error creating order:", error);
+    alert("주문 처리 중 오류가 발생했습니다.");
+  }
 };
 
 const fetchCartList = async () => {
