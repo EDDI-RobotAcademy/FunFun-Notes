@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 from account.repository.account_repository_impl import AccountRepositoryImpl
 from account.service.account_service import AccountService
 
@@ -22,4 +24,12 @@ class AccountServiceImpl(AccountService):
 
     def createAccount(self, email):
         return self.__accountRepository.save(email)
+
+    def checkEmailDuplication(self, email):
+        try:
+            return self.__accountRepository.findByEmail(email)
+
+        except ObjectDoesNotExist:
+            return None
+
     

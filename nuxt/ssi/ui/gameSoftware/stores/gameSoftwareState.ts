@@ -1,6 +1,9 @@
-import { Product } from "./gameSoftwareType";
+import { GameSoftware } from "./gameSoftwareType";
 
 export const gameSoftwareState = () => ({
-    productList: [] as Product[],
-    product: null as Product | null,
-})
+    gameSoftwareList: [] as GameSoftware[],
+    gameSoftware: null as GameSoftware | null,
+
+    currentPage: 1,
+    totalPages: 0
+  })

@@ -22,6 +22,12 @@ export default defineNuxtModule({
                 path: '/game-software/register',
                 file: resolve(themeDir, 'gameSoftware/pages/register/Register.vue'),
             });
+
+            pages.push({
+                name: 'GameSoftwareRead',
+                path: '/game-software/read/:id',
+                file: resolve(themeDir, 'gameSoftware/pages/read/Read.vue'),
+            });
         });
 
         nuxt.hook('imports:dirs', (dirs) => {

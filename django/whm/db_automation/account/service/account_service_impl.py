@@ -1,3 +1,5 @@
+from django.core.exceptions import ObjectDoesNotExist
+
 from account.repository.account_repository_impl import AccountRepositoryImpl
 from account.service.account_service import AccountService
 
@@ -21,8 +23,21 @@ class AccountServiceImpl(AccountService):
         return cls.__instance
 
     def createAccount(self, email):
-        savedAccount = self.__accountRepository.save(email)
-        if savedAccount is not None:
-            return True
+        return self.__accountRepository.save(email)
 
-        return False
+    def checkEmailDuplication(self, email):
+        try:
+            return self.__accountRepository.findByEmail(email)
+
+        except ObjectDoesNotExist:
+            return None
+
+    def findEmail(self, accountId):
+        try:
+            account = self.__accountRepository.findById(accountId)
+            if account:
+                return account.getEmail()  # account 객체에서 이메일 반환
+            return None  # 이메일이 없으면 None 반환
+
+        except ObjectDoesNotExist:
+            return None
