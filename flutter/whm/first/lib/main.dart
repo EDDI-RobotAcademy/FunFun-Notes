@@ -40,8 +40,8 @@ class MyApp extends StatelessWidget {
               create: (_) => KakaoAuthRemoteDataSource(baseUrl)
           ),
           ProxyProvider<KakaoAuthRemoteDataSource, KakaoAuthRepository>(
-            update: (_, remoteDataSource, __) =>
-                KakaoAuthRepositoryImpl(remoteDataSource),
+            update: (_, remoteDataSrouce, __) =>
+                KakaoAuthRepositoryImpl(remoteDataSrouce),
           ),
           ProxyProvider<KakaoAuthRepository, LoginUseCaseImpl>(
               update: (_, repository, __) =>

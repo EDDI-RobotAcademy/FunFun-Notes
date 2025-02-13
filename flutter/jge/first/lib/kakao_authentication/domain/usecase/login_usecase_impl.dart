@@ -1,5 +1,4 @@
-import 'package:first/kakao_authentication/infrasturcture/repository/kakao_auth_repository.dart';
-
+import '../../infrasturcture/repository/kakao_auth_repository.dart';
 import 'login_usecase.dart';
 
 class LoginUseCaseImpl implements LoginUseCase {
@@ -9,6 +8,7 @@ class LoginUseCaseImpl implements LoginUseCase {
 
   @override
   Future<String> execute() async {
+    print("LoginUseCaseImpl execute()");
     return await repository.login();
   }
 }
