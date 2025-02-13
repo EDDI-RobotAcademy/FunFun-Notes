@@ -34,4 +34,3 @@ class ExcelBasicRepositoryImpl(ExcelBasicRepository):
 
     def list(self):
         return ExcelBasicEmployee.objects.all()
-    

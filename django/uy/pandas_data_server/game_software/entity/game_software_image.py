@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 from game_software.entity.game_software import GameSoftware
 
 
@@ -12,6 +11,9 @@ class GameSoftwareImage(models.Model):
     class Meta:
         db_table = 'game_software_image'
         app_label = 'game_software'
+
+    def __str__(self):
+        return f"GameSoftwareImage(id={self.id}, image={self.image})"
 
     def getImage(self):
         return self.image

@@ -1,5 +1,4 @@
 // 서버에 요청을 보내는 도메인
-
 import axios, { type AxiosInstance } from "axios";
 import { useRuntimeConfig } from "nuxt/app";
 export let djangoAxiosInstance: AxiosInstance | null = null;

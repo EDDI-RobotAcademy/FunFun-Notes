@@ -30,4 +30,12 @@ urlpatterns = [
     path("excel-basic/", include('excel_basic.urls')),
     path("kakao-oauth/", include('kakao_authentication.urls')),
     path("account/", include('account.urls')),
+    path("account-profile/", include('account_profile.urls')),
+    path("game-software/", include('game_software.urls')),
+    path("regression/", include('regression.urls')),
+    path("authentication/", include('authentication.urls')),
+    path("cart/", include('cart.urls')),
+    path("payments/", include('payments.urls')),
+    path("orders/", include('orders.urls')),
+    path("board/", include('board.urls')),
 ]
