@@ -31,7 +31,7 @@ class BlogPostModule {
     ];
   }
 
-  static Widget provideBlogPostCreatePage() {
+  static Widget provideBlogPostListPage() {
     return MultiProvider(
       providers: [
         ...provideCommonProviders(),
