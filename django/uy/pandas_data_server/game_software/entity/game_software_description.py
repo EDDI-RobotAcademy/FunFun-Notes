@@ -1,6 +1,5 @@
 from django.db import models
 
-# Create your models here.
 from game_software.entity.game_software import GameSoftware
 
 
@@ -12,3 +11,9 @@ class GameSoftwareDescription(models.Model):
     class Meta:
         db_table = 'game_software_description'
         app_label = 'game_software'
+
+    def __str__(self):
+        return f"GameSoftwareDescription(id={self.id}, description={self.description})"
+
+    def getDescription(self):
+        return self.description

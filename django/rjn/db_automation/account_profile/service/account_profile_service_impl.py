@@ -23,9 +23,13 @@ class AccountProfileServiceImpl(AccountProfileService):
         return cls.__instance
 
     def createAccountProfile(self, accountId, nickname):
+        if not nickname:
+            nickname = "temporary"
+
         account = self.__accountRepository.findById(accountId)
         savedAccountProfile = self.__accountProfileRepository.save(account, nickname)
         if savedAccountProfile is not None:
             return True
 
         return False
+    

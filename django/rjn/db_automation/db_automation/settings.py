@@ -45,19 +45,25 @@ INSTALLED_APPS = [
     "django_extensions",
     "corsheaders",
     "rest_framework",
-    # 'game',
-    # 'player',
-    # 'dice',
-    # 'car',
-    # 'car_registration',
-    # 'car_business_pricing',
-    # 'pandas_basic',
-    # 'excel_basic',
+    'game',
+    'player',
+    'dice',
+    'car',
+    'car_registration',
+    'car_business_pricing',
+    'pandas_basic',
+    'excel_basic',
     'kakao_authentication',
     'account',
     'account_profile',
     'game_software',
     'regression',
+    'authentication',
+    'cart',
+    'payments',
+    'orders',
+    'board',
+    'image_gallery',
 ]
 
 MIDDLEWARE = [
@@ -103,6 +109,11 @@ KAKAO = {
     'REDIRECT_URI': os.getenv('KAKAO_REDIRECT_URI'),
     'TOKEN_REQUEST_URI': os.getenv('KAKAO_TOKEN_REQUEST_URI'),
     'USER_INFO_REQUEST_URI': os.getenv('KAKAO_USER_INFO_REQUEST_URI'),
+}
+
+TOSS_PAYMENTS = {
+    'TOSS_PAYMENTS_BASE_URL': os.getenv('TOSS_PAYMENTS_BASE_URL'),
+    'TOSS_PAYMENTS_SECRET_KEY': os.getenv('TOSS_PAYMENTS_SECRET_KEY'),
 }
 
 ROOT_URLCONF = "db_automation.urls"
