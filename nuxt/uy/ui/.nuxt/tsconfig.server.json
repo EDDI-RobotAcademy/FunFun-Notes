@@ -35,6 +35,9 @@
       "nitropack/types": [
         "../node_modules/nitropack/types"
       ],
+      "nitropack/runtime": [
+        "../node_modules/nitropack/runtime"
+      ],
       "nitropack": [
         "../node_modules/nitropack"
       ],
@@ -70,6 +73,9 @@
       ],
       "nuxt": [
         "../node_modules/nuxt"
+      ],
+      "vite/client": [
+        "../node_modules/vite/client"
       ],
       "~": [
         "./.."
@@ -121,9 +127,15 @@
     "./types/nitro-nuxt.d.ts",
     "../node_modules/vuetify-nuxt-module/runtime/server",
     "../node_modules/@pinia/nuxt/runtime/server",
+    "../home/runtime/server",
     "../pandas_basic/runtime/server",
     "../account/runtime/server",
     "../kakaoAuthentication/runtime/server",
+    "../gameSoftware/runtime/server",
+    "../board/runtime/server",
+    "../cart/runtime/server",
+    "../order/runtime/server",
+    "../payments/runtime/server",
     "../node_modules/@nuxt/devtools/runtime/server",
     "../node_modules/@nuxt/telemetry/runtime/server",
     "./types/nitro.d.ts",
@@ -134,9 +146,19 @@
     "../node_modules",
     "../../../../node_modules",
     "../node_modules/nuxt/node_modules",
+    "../home/node_modules",
     "../pandas_basic/node_modules",
     "../account/node_modules",
     "../kakaoAuthentication/node_modules",
+    "../gameSoftware/node_modules",
+    "../board/node_modules",
+    "../cart/node_modules",
+    "../order/node_modules",
+    "../payments/node_modules",
+    "../node_modules/vuetify-nuxt-module/node_modules",
+    "../node_modules/@pinia/nuxt/node_modules",
+    "../node_modules/@nuxt/devtools/node_modules",
+    "../node_modules/@nuxt/telemetry/node_modules",
     "../dist"
   ]
 }

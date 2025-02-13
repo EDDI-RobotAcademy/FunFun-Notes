@@ -26,4 +26,13 @@ urlpatterns = [
     path("account/", include('account.urls')),
     path("account-profile/", include('account_profile.urls')),
     path("normalize/", include('normalization.urls')),
+    path("game-software/", include('game_software.urls')),
+    path("regression/", include('regression.urls')),
+    path("authentication/", include('authentication.urls')),
+    path("cart/", include('cart.urls')),
+    path("payments/", include('payments.urls')),
+    path("orders/", include('orders.urls')),
+    path("board/", include('board.urls')),
+    path("image-gallery/", include('image_gallery.urls')),
+    path("blog-post/", include('blog_post.urls')),
 ]

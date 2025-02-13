@@ -1,7 +1,5 @@
 <template>
   <v-container
-    #
-    띄어쓰기기
     fluid
     class="d-flex justify-center align-center pa-0"
     :style="{
@@ -14,7 +12,6 @@
     <v-row justify="center" align="center" class="fill-height ma-0">
       <v-col cols="12" sm="8" md="6" class="text-center">
         <v-btn class="kakao-login-btn" @click="goToKakaoLogin" block>
-          # 클릭시 goToKakaoLogin 실행행
           <!-- 카카오 로그인 -->
         </v-btn>
       </v-col>
@@ -47,59 +44,8 @@ const kakaoAuthentication = useKakaoAuthenticationStore();
 
 // Google, Kakao, Naver 로그인 함수들
 const goToKakaoLogin = async () => {
-  sessionStorage.setItem("loginType", "KAKAO");
+  // sessionStorage.setItem("loginType", "KAKAO");
   await kakaoAuthentication.requestKakaoLoginToDjango();
-};
-
-// Computed properties (Pinia 상태에 기반한 계산된 속성)
-// const isAuthenticatedKakao = computed(() => authentication.isAuthenticatedKakao);
-// const isAuthenticatedNormal = computed(() => account.isAuthenticatedNormal);
-// const loginType = computed(() => account.loginType);
-// const isKakaoAdmin = computed(() => account.isKakaoAdmin);
-
-// Methods
-const goToHome = () => {
-  router.push("/");
-};
-
-const goToSignUp = () => {
-  router.push("/account/register/normal");
-};
-
-const onSubmit = async () => {
-  if (!form.value) return;
-  loading.value = true;
-
-  try {
-    const response = await checkPassword();
-    const roleType = await account.requestRoleTypeToDjango(email.value);
-
-    if (response) {
-      login_flag.value = true; // 로그인 성공
-      sessionStorage.setItem("email", email.value);
-      sessionStorage.setItem("loginType", "NORMAL");
-
-      if (roleType.data.roleType === "ADMIN") {
-        // Admin 처리
-        sessionStorage.removeItem("normalToken");
-        sessionStorage.setItem("adminToken", true);
-        account.REQUEST_IS_ADMIN_TO_DJANGO(true);
-        goToHome();
-      } else {
-        // Normal 처리
-        sessionStorage.setItem("normalToken", true);
-        account.isAuthenticatedNormal = true;
-        goToHome();
-      }
-    } else {
-      login_flag.value = false; // 로그인 실패
-    }
-  } catch (error) {
-    console.error("로그인 중 에러 발생: ", error);
-    login_flag.value = false;
-  } finally {
-    loading.value = false;
-  }
 };
 </script>
 
