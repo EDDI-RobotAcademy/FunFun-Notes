@@ -1,4 +1,8 @@
+import os
+
 import httpx
+import openai
+
 from fastapi import HTTPException
 from config.openai_config import OpenAIConfig
 from openai_basic.repository.openai_basic_repository import OpenAIBasicRepository
@@ -46,3 +50,23 @@ class OpenAIBasicRepositoryImpl(OpenAIBasicRepository):
             except (httpx.RequestError, ValueError) as e:
                 print(f"Request Error: {e}")
                 raise HTTPException(status_code=500, detail=f"Request Error: {e}")
+
+    async def audioAnalysis(self, audioFile):
+        try:
+            file_location = f"tmp_{audioFile.filename}"
+            with open(file_location, "wb+") as file_object:
+                file_object.write(audioFile.file.read())
+
+            with open(file_location, "rb") as file:
+                transcript = openai.audio.transcriptions.create(
+                    model="whisper-1",
+                    file=file
+                )
+
+            os.remove(file_location)
+            print(f"transcript: {transcript}")
+
+            return transcript.text
+
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"에러 발생: {str(e)}")

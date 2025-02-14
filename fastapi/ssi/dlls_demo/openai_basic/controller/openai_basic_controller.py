@@ -23,3 +23,12 @@ async def talkWithOpenAI(openAITalkRequestForm: OpenAITalkRequestForm,
     openAiGeneratedText = await openAIBasicService.letsTalk(openAITalkRequestForm.userSendMessage)
 
     return JSONResponse(content=openAiGeneratedText, status_code=status.HTTP_200_OK)
+
+@openAiBasicRouter.post("/openai/audio-analysis")
+async def audioAnalysisWithOpenAI(file: UploadFile = File(...),
+                                  openAIBasicService: OpenAIBasicServiceImpl =
+                                  Depends(injectOpenAIBasicService)):
+
+    analyzedAudio = await openAIBasicService.audioAnalysis(file)
+
+    return JSONResponse(content=analyzedAudio, status_code=status.HTTP_200_OK)
