@@ -9,4 +9,7 @@ class OpenAIBasicServiceImpl(OpenAIBasicService):
 
     async def letsTalk(self, userSendMessage):
         return await self.__openAiBasicRepository.generateText(userSendMessage)
+
+    async def audioAnalysis(self, file):
+        return await self.__openAiBasicRepository.audioAnalysis(file)
     
