@@ -1,81 +1,96 @@
 import 'dart:convert';
-import 'dart:io';
+import 'dart:typed_data';
 import 'package:http/http.dart' as http;
 import 'package:crypto/crypto.dart';
-import 'package:uuid/uuid.dart';
-import 'package:path/path.dart' as path;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AwsS3Utility {
-  static const String bucketName = "your-bucket-name";
-  static const String region = "your-region";
-  static const String accessKey = "your-access-key";
-  static const String secretKey = "your-secret-key";
-  static const String endpoint = "https://s3.$region.amazonaws.com"; // S3 endpoint URL
+  static final String bucketName = dotenv.env['AWS_BUCKET_NAME'] ?? '';
+  static final String region = dotenv.env['AWS_REGION'] ?? '';
+  static final String accessKey = dotenv.env['AWS_ACCESS_KEY_ID'] ?? '';
+  static final String secretKey = dotenv.env['AWS_SECRET_ACCESS_KEY'] ?? '';
 
-  // AWS S3에 파일 업로드 함수
-  static Future<String?> uploadHtmlContent(String htmlContent) async {
-    try {
-      final uuid = Uuid().v4();
-      final fileName = "$uuid.html"; // Unique file name using UUID
-      final filePath = "/blog-post/$fileName";
+  // 파일 업로드 메서드 (Content-Type 헤더 없이 전송)
+  static Future<String?> uploadFile(Uint8List fileBytes, String filePath) async {
+    print("[INFO] Starting file upload...");
+    final signedUrl = await _generateSignedUrl('PUT', filePath);
+    print("[DEBUG] Generated Signed URL: $signedUrl");
 
-      // 1. 업로드할 파일을 임시로 로컬 파일로 저장
-      final tempDir = await Directory.systemTemp.createTemp();
-      final file = File(path.join(tempDir.path, fileName));
-      await file.writeAsString(htmlContent);
+    final response = await http.put(
+      signedUrl,
+      body: fileBytes,
+      // Content-Type 헤더를 전송하지 않음.
+    );
 
-      // 2. 서명된 URL 생성
-      final url = Uri.parse("$endpoint/$bucketName$filePath");
-      final signedUrl = await _generateSignedUrl(url, file);
-
-      // 3. HTTP 요청을 통해 S3에 파일 업로드
-      final request = http.MultipartRequest('PUT', signedUrl);
-      request.files.add(await http.MultipartFile.fromPath('file', file.path));
-
-      final response = await request.send();
-
-      if (response.statusCode == 200) {
-        // 업로드 성공
-        print("파일 업로드 성공: $filePath");
-        return "https://$bucketName.s3.$region.amazonaws.com$filePath";
-      } else {
-        print("업로드 실패: ${response.statusCode}");
-        return null;
-      }
-    } catch (e) {
-      print("S3 업로드 실패: $e");
+    print("[DEBUG] Response status: ${response.statusCode}");
+    if (response.statusCode == 200) {
+      print("[INFO] File uploaded successfully: $filePath");
+      return "https://$bucketName.s3.$region.amazonaws.com/$filePath";
+    } else {
+      print("[ERROR] Upload failed: ${response.statusCode}");
+      print("[ERROR] Response body: ${response.body}");
       return null;
     }
   }
 
-  // AWS S3에 대한 서명된 URL을 생성하는 함수
-  static Future<Uri> _generateSignedUrl(Uri url, File file) async {
-    // 여기서 AWS Signature V4를 사용하여 서명된 URL을 생성합니다.
-    // 실제로 서명된 URL을 생성하는 방법은 AWS 문서에서 확인 가능합니다.
-    // 자세한 구현은 복잡하므로, 서명된 URL을 생성하는 라이브러리나 서비스를 사용하는 것이 좋습니다.
+  // URL 서명 생성 (Content-Type 헤더 없이 canonical request 생성)
+  static Future<Uri> _generateSignedUrl(String method, String filePath) async {
+    final service = 's3';
+    final host = '$bucketName.s3.$region.amazonaws.com';
+    final canonicalUri = '/$filePath';
+    final algorithm = 'AWS4-HMAC-SHA256';
+    final date = _getDate();
+    final amzDate = _getAmzDate();
+    final credentialScope = '$date/$region/$service/aws4_request';
 
-    final headers = <String, String>{
-      'x-amz-date': _getAmzDate(),
-      'Authorization': 'AWS4-HMAC-SHA256 Credential=$accessKey/${_getDate()}/$region/s3/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>',
-    };
+    // Content-Type 헤더 없이 canonical headers 구성
+    final canonicalHeaders =
+        'host:$host\n'
+        'x-amz-content-sha256:UNSIGNED-PAYLOAD\n'
+        'x-amz-date:$amzDate\n';
+    final signedHeaders = 'host;x-amz-content-sha256;x-amz-date';
+    final canonicalRequest =
+        "$method\n$canonicalUri\n\n$canonicalHeaders\n$signedHeaders\nUNSIGNED-PAYLOAD";
 
-    return url.replace(queryParameters: headers); // 서명된 URL 반환
+    final hashedCanonicalRequest =
+    sha256.convert(utf8.encode(canonicalRequest)).toString();
+    final stringToSign =
+        "$algorithm\n$amzDate\n$credentialScope\n$hashedCanonicalRequest";
+
+    final signingKey = _getSignatureKey(secretKey, date, region, service);
+    final signature =
+    Hmac(sha256, signingKey).convert(utf8.encode(stringToSign)).toString();
+
+    return Uri.parse("https://$host$canonicalUri").replace(queryParameters: {
+      'X-Amz-Algorithm': algorithm,
+      'X-Amz-Credential': "$accessKey/$credentialScope",
+      'X-Amz-Date': amzDate,
+      'X-Amz-SignedHeaders': signedHeaders,
+      'X-Amz-Signature': signature,
+      'X-Amz-Expires': '3600', // 1시간
+    });
   }
 
-  // AWS S3 서명에 필요한 날짜 형식
+  // 날짜 관련 메서드들
   static String _getDate() {
     final now = DateTime.now().toUtc();
-    return "${now.year}${_pad(now.month)}${_pad(now.day)}";
+    return "${now.year}${_twoDigits(now.month)}${_twoDigits(now.day)}";
   }
 
-  // AWS S3 서명에 필요한 날짜 형식 (예: 20230201)
   static String _getAmzDate() {
     final now = DateTime.now().toUtc();
-    return "${_getDate()}T${_pad(now.hour)}${_pad(now.minute)}${_pad(now.second)}Z";
+    return "${now.year}${_twoDigits(now.month)}${_twoDigits(now.day)}T${_twoDigits(now.hour)}${_twoDigits(now.minute)}${_twoDigits(now.second)}Z";
   }
 
-  static String _pad(int value) {
-    return value.toString().padLeft(2, '0');
+  static List<int> _getSignatureKey(String key, String date, String region, String service) {
+    var kDate = Hmac(sha256, utf8.encode("AWS4$key")).convert(utf8.encode(date)).bytes;
+    var kRegion = Hmac(sha256, kDate).convert(utf8.encode(region)).bytes;
+    var kService = Hmac(sha256, kRegion).convert(utf8.encode(service)).bytes;
+    var kSigning = Hmac(sha256, kService).convert(utf8.encode("aws4_request")).bytes;
+    return kSigning;
+  }
+
+  static String _twoDigits(int n) {
+    return n.toString().padLeft(2, '0');
   }
 }

@@ -1,5 +1,6 @@
 
 
+import 'package:first/blog_post/domain/usecases/upload/upload_blog_post_use_case_impl.dart';
 import 'package:first/blog_post/presentation/providers/blog_post_create_provider.dart';
 import 'package:first/blog_post/presentation/providers/blog_post_list_provider.dart';
 import 'package:first/blog_post/presentation/ui/blog_post_create_page.dart';
@@ -22,6 +23,7 @@ class BlogPostModule {
 
   static final listBlogPostUseCase = ListBlogPostUseCaseImpl(blogPostRepository);
   static final createBlogPostUseCase = CreateBlogPostUseCaseImpl(blogPostRepository);
+  static final uploadBlogPostUseCase = UploadBlogPostUseCaseImpl(blogPostRepository);
   // static final readBoardUseCase = ReadBoardUseCaseImpl(boardRepository);
   // static final updateBoardUseCase = UpdateBoardUseCaseImpl(boardRepository);
   // static final deleteBoardUseCase = DeleteBoardUseCaseImpl(boardRepository);
@@ -30,6 +32,7 @@ class BlogPostModule {
     return [
       Provider(create: (_) => listBlogPostUseCase),
       Provider(create: (_) => createBlogPostUseCase),
+      Provider(create: (_) => uploadBlogPostUseCase),
       // Provider(create: (_) => readBoardUseCase)
     ];
   }
@@ -53,7 +56,10 @@ class BlogPostModule {
         ...provideCommonProviders(),
         ChangeNotifierProvider(
           create: (_) =>
-              BlogPostCreateProvider(createBlogPostUseCase: createBlogPostUseCase),
+            BlogPostCreateProvider(
+              createBlogPostUseCase: createBlogPostUseCase,
+              uploadBlogPostUseCase: uploadBlogPostUseCase,
+            ),
         )
       ],
       child: BlogPostCreatePage(),

@@ -45,6 +45,9 @@ dependencies:
   uuid: ^4.5.1
   vsc_quill_delta_to_html: ^1.0.5
   aws_signature_v4: ^0.6.3
+  aws_sdk: ^0.0.3
+  html: ^0.15.5
+  aws_sdk_flutter: ^0.0.1-dev.1
 #  amazon_s3_cognito: ^0.8.1
 
 dev_dependencies:

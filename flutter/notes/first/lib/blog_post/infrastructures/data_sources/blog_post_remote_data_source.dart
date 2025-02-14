@@ -42,6 +42,27 @@ class BlogPostRemoteDataSource {
     }
   }
 
+  Future<String> uploadBlogPost(String compressedHtmlContent, String userToken) async {
+    print("BlogPostRemoteDataSource uploadBlogPost() -> compressedHtmlContent: $compressedHtmlContent");
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/blog-post/upload'),
+      headers: {
+        'Content-Type': 'application/json', // JSON Content-Type 추가
+      },
+      body: jsonEncode({
+        'content': compressedHtmlContent,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['file_name']; // UUID.html 반환
+    } else {
+      throw Exception('❌ Failed to upload content: ${response.body}');
+    }
+  }
+
   Future<BlogPost> create(String title, String content, String userToken) async {
     final url = Uri.parse('$baseUrl/blog-post/create');
     final response = await http.post(
