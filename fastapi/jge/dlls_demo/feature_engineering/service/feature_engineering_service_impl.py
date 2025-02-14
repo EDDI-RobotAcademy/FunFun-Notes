@@ -17,30 +17,30 @@ class FeatureEngineeringServiceImpl(FeatureEngineeringService):
         self.__featureEngineeringRepository = FeatureEngineeringRepositoryImpl()
 
     async def featureEngineering(self):
-        # 판다스를 사용해서 데이터 프레임화
+        # pandas를 사용해서 데이터 프레임화(엑셀화)
         dataFrame = pd.DataFrame(self.__houseData)
-        #불필요한 정보들 제거
+        # 불 필요한 정보들 제거
         cleanedDataFrame = self.__featureEngineeringRepository.removeUselessInformation(dataFrame)
-        #결측치 제거
-        #결측치란 값이 없거나 누락 되었거나 잘못된 값이 적혀있는 경우
+        # 결측치 제거
+        # 값이 없거나 누락 되었거나 잘못된 값이 적혀 있는 경우
         handledDataFrame = self.__featureEngineeringRepository.handleMissingValues(cleanedDataFrame)
-        #훈련(학습) / 테스트(검증) 데이터를 분리
+        # 훈련(학습) / 테스트(검증) 데이터를 분리
         X_train, X_test, y_train, y_test = (
             self.__featureEngineeringRepository.splitTrainTestData(handledDataFrame))
-        #훈련 데이터로 실제 학습 진행
-        # y = ax +b y는 y트레인,테스트 x는 x트레인,테스트 a,b 는 예측값
+        # 훈련 데이터를 가지고 실제 학습 진행
+        # y = ax + b
         # y = ax^2 + bx + c
         # y = ae^bx + c
         # Fourier Integral(푸리에 적분) 기반인데 이것은 어차피 라이브러리가 알아서 해줌
         featureEngineeringModel = self.__featureEngineeringRepository.trainModel(X_train, y_train)
-        #검증 데이터를 가지고 오차와 예측값을 뽑음
+        # 검증 데이터를 가지고 오차와 예측값을 뽑음
         mseError, y_prediction = self.__featureEngineeringRepository.evaluateModel(
             featureEngineeringModel, X_test, y_test)
         print(f"mseError: {mseError}, y_prediction: {y_prediction}")
 
-        #실제 검증용 데이터와 예측 데이터를 엑셀화
+        # 실제 검증용 데이터와 예측 데이터를 엑셀화
         comparison = self.__featureEngineeringRepository.compareResult(y_test, y_prediction)
         return {
-            "mseError": mseError, # 낱개 정보
-            "comparison": comparison #엑셀화한 딕셔너리 정보
+            "mseError": mseError,
+            "comparison": comparison
         }
