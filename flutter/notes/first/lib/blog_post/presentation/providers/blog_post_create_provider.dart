@@ -1,25 +1,30 @@
-import 'dart:io';
+import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vsc_quill_delta_to_html/vsc_quill_delta_to_html.dart';
 
 import '../../../utility/aws_s3_utility.dart';
 import '../../domain/entity/blog_post.dart';
 import '../../domain/usecases/create/create_blog_post_use_case.dart';
+import '../../domain/usecases/upload/upload_blog_post_use_case.dart';
 
 class BlogPostCreateProvider with ChangeNotifier {
   final CreateBlogPostUseCase createBlogPostUseCase;
+  final UploadBlogPostUseCase uploadBlogPostUseCase;
   final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
   BlogPostCreateProvider({
-    required this.createBlogPostUseCase
+    required this.createBlogPostUseCase,
+    required this.uploadBlogPostUseCase,
   });
 
   bool isLoading = false;
   String message = '';
 
-  Future<BlogPost?> createBlogPost(String title, String content) async {
+  Future<BlogPost?> createBlogPost(String title, String compressedHtml) async {
     isLoading = true;
     notifyListeners();
 
@@ -33,7 +38,12 @@ class BlogPostCreateProvider with ChangeNotifier {
         return null;
       }
 
-      final blogPost = await createBlogPostUseCase.execute(title, content, userToken);
+      // 1. HTML을 S3에 업로드하여 UUID.html 파일명 받기
+      final contentHtmlFile = await uploadBlogPostUseCase.execute(compressedHtml, userToken);
+      print("contentHtmlFile: $contentHtmlFile");
+
+      // 2. UUID.html을 이용해 블로그 포스트 생성
+      final blogPost = await createBlogPostUseCase.execute(title, contentHtmlFile, userToken);
 
       return blogPost;
     } catch (e) {
@@ -45,14 +55,17 @@ class BlogPostCreateProvider with ChangeNotifier {
     }
   }
 
-  /// Delta JSON -> HTML 변환
+  // Delta JSON -> HTML 변환
   String convertDeltaToHtml(List<dynamic> deltaJson) {
     final converter = QuillDeltaToHtmlConverter(List.castFrom(deltaJson));
     return converter.convert();
   }
 
-  /// HTML을 S3에 업로드
+  // HTML을 S3에 업로드
   Future<String?> uploadToS3(String htmlContent) async {
-    return await AwsS3Utility.uploadHtmlContent(htmlContent);
+    print("Uploading to S3...");
+    print("Compressed HTML: $htmlContent");
+
+    return await AwsS3Utility.uploadFile(Uint8List.fromList(utf8.encode(htmlContent)), 'blog-post/${Uuid().v4()}.html');
   }
 }

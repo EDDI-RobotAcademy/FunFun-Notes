@@ -115,13 +115,10 @@ class _BlogPostCreatePageState extends State<BlogPostCreatePage> {
 
                     // Delta -> HTML 변환 후 S3 업로드
                     String compressedHtml = provider.convertDeltaToHtml(contentJson);
-                    String? uploadedFileUrl = await provider.uploadToS3(compressedHtml);
+                    final blogPost = await provider.createBlogPost(title, compressedHtml);
 
-                    if (uploadedFileUrl != null) {
-                      final board = await provider.createBlogPost(title, uploadedFileUrl);
-                      if (board != null) {
-                        print("게시물 등록 완료");
-                      }
+                    if (blogPost != null) {
+                      print("게시물 등록 완료");
                     }
                   },
                   child: Text('등록'),

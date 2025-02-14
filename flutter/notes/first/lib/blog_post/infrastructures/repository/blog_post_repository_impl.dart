@@ -17,6 +17,12 @@ class BlogPostRepositoryImpl implements BlogPostRepository {
   }
 
   @override
+  Future<String> uploadBlogPost(String compressedHtmlContent, String userToken) {
+    print("BlogPostRepositoryImpl uploadBlogPost() -> compressedHtmlContent: $compressedHtmlContent");
+    return blogPostRemoteDataSource.uploadBlogPost(compressedHtmlContent, userToken);
+  }
+
+  @override
   Future<BlogPost> create(String title, String content, String userToken) async {
     try {
       final blogPost = await blogPostRemoteDataSource.create(title, content, userToken);
