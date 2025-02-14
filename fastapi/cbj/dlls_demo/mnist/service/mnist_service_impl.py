@@ -16,6 +16,6 @@ class MnistServiceImpl(MnistService):
         buildModel = self.__mnistRepository.buildModel()
         self.__mnistRepository.compileModel(buildModel)
         self.__mnistRepository.trainModel(buildModel, X_train, y_train)
-        accurracy = self.__mnistRepository.evaluateModel(buildModel, X_test, y_test)
+        accuracy = self.__mnistRepository.evaluateModel(buildModel, X_test, y_test)
 
-        return accurracy
+        return accuracy
