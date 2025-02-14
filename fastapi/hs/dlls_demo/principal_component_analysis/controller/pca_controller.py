@@ -58,7 +58,7 @@ principalComponentAnalysisRouter = APIRouter()
 # (x - 뮤)^2 / 샘플개수
 
 # 우선 대략 이러한 흐름을 잡고 PCA 분석을 살펴보면 이게 뭐하는 짓인지 대략은 파악할 수 있음
-# 결론적으로 종속 변수가 너무 많아서 '정신 나가겠다' 할 때 사용하면 좋다.
+# 결론적으로 독립 변수가 너무 많아서 '정신 나가겠다' 할 때 사용하면 좋다.
 
 async def injectPrincipalComponentAnalysisService() -> PrincipalComponentAnalysisServiceImpl:
     return PrincipalComponentAnalysisServiceImpl()
