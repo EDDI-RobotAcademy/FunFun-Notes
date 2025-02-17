@@ -19,6 +19,7 @@ class BlogPostPageContent extends StatelessWidget {
     while (blogPostList.length < 6) {
       blogPostList.add(null);
     }
+    print("blogPostList: ${blogPostList}");
 
     return Column(
       children: [
