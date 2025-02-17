@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:html/parser.dart';
 import 'package:provider/provider.dart';
 
+import '../../blog_post_module.dart';
 import '../../domain/entity/blog_post.dart';
 import '../providers/blog_post_read_provider.dart';
 
@@ -49,36 +50,36 @@ class _BlogPostReadPageState extends State<BlogPostReadPage> {
               onPressed: () {
                 final selectedBlogPost = blogPostReadProvider.board;
                 if (selectedBlogPost != null) {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => BlogPostModule.provideBoardModifyPage(
-                  //       selectedBlogPost.id,
-                  //       selectedBlogPost.title,
-                  //       selectedBlogPost.content,
-                  //     ),
-                  //   ),
-                  // ).then((updatedData) {
-                  //   if (updatedData != null &&
-                  //       updatedData is Map<String, dynamic>) {
-                  //     final updatedTitle =
-                  //         updatedData['title'] ?? selectedBlogPost.title;
-                  //     final updatedContent =
-                  //         updatedData['content'] ?? selectedBlogPost.content;
-                  //
-                  //     // 생성된 Board 객체
-                  //     final updatedBoard = BlogPost(
-                  //       id: selectedBlogPost.id,
-                  //       title: updatedTitle,
-                  //       content: updatedContent,
-                  //       nickname: selectedBlogPost.nickname,
-                  //       createDate: selectedBlogPost.createDate,
-                  //     );
-                  //
-                  //     // 상세 페이지 갱신
-                  //     blogPostReadProvider.updateBoard(updatedBoard);
-                  //   }
-                  // });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BlogPostModule.provideBlogPostModifyPage(
+                        selectedBlogPost.id,
+                        selectedBlogPost.title,
+                        selectedBlogPost.content,
+                      ),
+                    ),
+                  ).then((updatedData) {
+                    if (updatedData != null &&
+                        updatedData is Map<String, dynamic>) {
+                      final updatedTitle =
+                          updatedData['title'] ?? selectedBlogPost.title;
+                      final updatedContent =
+                          updatedData['content'] ?? selectedBlogPost.content;
+
+                      // 생성된 Board 객체
+                      final updatedBlogPost = BlogPost(
+                        id: selectedBlogPost.id,
+                        title: updatedTitle,
+                        content: updatedContent,
+                        nickname: selectedBlogPost.nickname,
+                        createDate: selectedBlogPost.createDate,
+                      );
+
+                      // 상세 페이지 갱신
+                      blogPostReadProvider.updateBlogPost(updatedBlogPost);
+                    }
+                  });
                 }
               },
             ),
