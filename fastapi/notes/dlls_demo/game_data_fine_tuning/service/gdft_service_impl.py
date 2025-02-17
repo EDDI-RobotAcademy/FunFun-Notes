@@ -1,10 +1,8 @@
 import tensorflow
 import torch
 
-from gdft.repository.gdft_repository_impl import GDFTRepositoryImpl
-from gdft.service.gdft_service import GDFTService
-
-
+from game_data_fine_tuning.repository.gdft_repository_impl import GDFTRepositoryImpl
+from game_data_fine_tuning.service.gdft_service import GDFTService
 
 
 class GDFTServiceImpl(GDFTService):

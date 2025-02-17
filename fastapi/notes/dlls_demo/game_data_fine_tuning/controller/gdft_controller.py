@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from fastapi.responses import JSONResponse
 
-from gdft.controller.request_form.user_request_form import GDFTUserRequestForm
-from gdft.service.gdft_service_impl import GDFTServiceImpl
+from game_data_fine_tuning.controller.request_form.user_request_form import GDFTUserRequestForm
+from game_data_fine_tuning.service.gdft_service_impl import GDFTServiceImpl
 
 gameDataFineTuningRouter = APIRouter()
 
