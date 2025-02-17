@@ -15,6 +15,7 @@ from mnist.controller.mnist_controller import mnistRouter
 from model_regulation.controller.model_regulation_controller import modelRegulationRouter
 from openai_basic.controller.openai_basic_controller import openAiBasicRouter
 from principal_component_analysis.controller.pca_controller import principalComponentAnalysisRouter
+from game_data_fine_tuning.controller.gdft_controller import gameDataFineTuningRouter
 
 load_dotenv()
 
@@ -35,6 +36,7 @@ app.include_router(principalComponentAnalysisRouter)
 app.include_router(convolutionNeuralNetworkRouter)
 app.include_router(gameSoftwareAnalysisRouter)
 app.include_router(openAiBasicRouter)
+app.include_router(gameDataFineTuningRouter)
 
 # HOST는 모두에 열려 있고
 # FASTAPI_PORT를 통해서 이 서비스가 구동되는 포트 번호를 지정
