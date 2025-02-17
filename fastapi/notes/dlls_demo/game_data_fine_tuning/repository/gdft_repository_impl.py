@@ -1,10 +1,9 @@
 from transformers import GPT2Tokenizer, DataCollatorForLanguageModeling, TrainingArguments, GPT2LMHeadModel, Trainer
-
-from gdft.repository.gdft_repository import GDFTRepository
-
 from datasets import Dataset
 
 import tensorflow as tf
+
+from game_data_fine_tuning.repository.gdft_repository import GDFTRepository
 
 gameRules = [
     "광역기는 배틀 필드에 나와 있는 모든 유닛을 공격 할 수 있습니다.",
