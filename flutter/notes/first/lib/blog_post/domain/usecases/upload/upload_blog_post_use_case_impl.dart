@@ -8,8 +8,8 @@ class UploadBlogPostUseCaseImpl implements UploadBlogPostUseCase {
   UploadBlogPostUseCaseImpl(this.blogPostRepository);
 
   @override
-  Future<String> execute(String compressedHtmlContent, String userToken) {
+  Future<String> execute(String title, String compressedHtmlContent, String userToken) {
     print("UploadBlogPostUseCaseImpl execute() -> compressedHtmlContent: $compressedHtmlContent");
-    return blogPostRepository.uploadBlogPost(compressedHtmlContent, userToken);
+    return blogPostRepository.uploadBlogPost(title, compressedHtmlContent, userToken);
   }
 }

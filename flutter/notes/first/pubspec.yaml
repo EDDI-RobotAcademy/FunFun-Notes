@@ -48,7 +48,6 @@ dependencies:
   aws_sdk: ^0.0.3
   html: ^0.15.5
   aws_sdk_flutter: ^0.0.1-dev.1
-#  amazon_s3_cognito: ^0.8.1
 
 dev_dependencies:
   flutter_test:
