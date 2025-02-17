@@ -11,9 +11,16 @@ class BlogPostRepositoryImpl implements BlogPostRepository {
   @override
   Future<BlogPostListResponse> requestList(int page, int perPage) async {
     final blogPostListResponse =
-      await blogPostRemoteDataSource.listBlogPost(page, perPage);
+    await blogPostRemoteDataSource.listBlogPost(page, perPage);
+    print("BlogPostRepositoryImpl requestList() -> blogPostListResponse: $blogPostListResponse");
 
     return blogPostListResponse;
+  }
+
+  @override
+  Future<String> uploadBlogPost(String title, String compressedHtmlContent, String userToken) {
+    print("BlogPostRepositoryImpl uploadBlogPost() -> compressedHtmlContent: $compressedHtmlContent");
+    return blogPostRemoteDataSource.uploadBlogPost(title, compressedHtmlContent, userToken);
   }
 
   @override

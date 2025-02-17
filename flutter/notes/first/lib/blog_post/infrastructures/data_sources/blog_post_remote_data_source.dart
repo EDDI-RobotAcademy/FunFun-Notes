@@ -20,7 +20,7 @@ class BlogPostRemoteDataSource {
 
       List<BlogPost> blogPostList = (data['dataList'] as List)
         .map((data) => BlogPost(
-          id: data['blogPostId'] ?? 0,
+          id: data['id'] ?? 0,
           title: data['title'] ?? 'Untitled',
           content: '',
           nickname: data['nickname'] ?? '익명',
@@ -42,6 +42,28 @@ class BlogPostRemoteDataSource {
     }
   }
 
+  Future<String> uploadBlogPost(String title, String compressedHtmlContent, String userToken) async {
+    print("BlogPostRemoteDataSource uploadBlogPost() -> compressedHtmlContent: $compressedHtmlContent");
+
+    final response = await http.post(
+      Uri.parse('$baseUrl/blog-post/upload'),
+      headers: {
+        'Content-Type': 'application/json', // JSON Content-Type 추가
+      },
+      body: jsonEncode({
+        'content': compressedHtmlContent,
+        'title': title,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['filename']; // UUID.html 반환
+    } else {
+      throw Exception('❌ Failed to upload content: ${response.body}');
+    }
+  }
+
   Future<BlogPost> create(String title, String content, String userToken) async {
     final url = Uri.parse('$baseUrl/blog-post/create');
     final response = await http.post(
@@ -57,7 +79,7 @@ class BlogPostRemoteDataSource {
       final data = json.decode(response.body);
 
       return BlogPost(
-        id: data['data']['blogPostId'] ?? 0,
+        id: data['data']['id'] ?? 0,
         title: data['data']['title'] ?? 'Untitled',
         content: data['data']['content'] ?? '',
         nickname: data['data']['writerNickname'] ?? 'Anonymouse',
