@@ -39,11 +39,12 @@ class BlogPostCreateProvider with ChangeNotifier {
       }
 
       // 1. HTML을 S3에 업로드하여 UUID.html 파일명 받기
-      final contentHtmlFile = await uploadBlogPostUseCase.execute(compressedHtml, userToken);
+      final contentHtmlFile = await uploadBlogPostUseCase.execute(title, compressedHtml, userToken);
       print("contentHtmlFile: $contentHtmlFile");
 
       // 2. UUID.html을 이용해 블로그 포스트 생성
       final blogPost = await createBlogPostUseCase.execute(title, contentHtmlFile, userToken);
+      print("blogPost: $blogPost");
 
       return blogPost;
     } catch (e) {
@@ -59,13 +60,5 @@ class BlogPostCreateProvider with ChangeNotifier {
   String convertDeltaToHtml(List<dynamic> deltaJson) {
     final converter = QuillDeltaToHtmlConverter(List.castFrom(deltaJson));
     return converter.convert();
-  }
-
-  // HTML을 S3에 업로드
-  Future<String?> uploadToS3(String htmlContent) async {
-    print("Uploading to S3...");
-    print("Compressed HTML: $htmlContent");
-
-    return await AwsS3Utility.uploadFile(Uint8List.fromList(utf8.encode(htmlContent)), 'blog-post/${Uuid().v4()}.html');
   }
 }

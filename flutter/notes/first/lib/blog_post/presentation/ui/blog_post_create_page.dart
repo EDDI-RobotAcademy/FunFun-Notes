@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io' as io show Directory, File;
 
+import 'package:first/blog_post/blog_post_module.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -119,6 +120,13 @@ class _BlogPostCreatePageState extends State<BlogPostCreatePage> {
 
                     if (blogPost != null) {
                       print("게시물 등록 완료");
+
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => BlogPostModule.provideBlogPostReadPage(blogPost.id),
+                          )
+                      );
                     }
                   },
                   child: Text('등록'),
