@@ -16,7 +16,6 @@ gameRules = [
     "유닛은 공격을 할 수 있습니다."
 ]
 
-
 class GDFTRepositoryImpl(GDFTRepository):
     MODEL_NAME = "gpt2"
 
