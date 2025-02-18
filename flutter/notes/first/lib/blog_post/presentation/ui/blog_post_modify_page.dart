@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:html/parser.dart' as htmlParser;
+import 'package:html/dom.dart' as htmlDom;
 
 import 'component/blog_post_modify_provider.dart';
-
 
 class BlogPostModifyPage extends StatefulWidget {
   final int blogPostId;
@@ -22,15 +27,41 @@ class BlogPostModifyPage extends StatefulWidget {
 
 class _BlogPostModifyPageState extends State<BlogPostModifyPage> {
   late TextEditingController _titleController;
-  late TextEditingController _contentController;
+  late quill.QuillController _quillController;
   final FlutterSecureStorage _secureStorage = FlutterSecureStorage();
 
   @override
   void initState() {
     super.initState();
-
     _titleController = TextEditingController(text: widget.initialTitle);
-    _contentController = TextEditingController(text: widget.initialContent);
+
+    // HTML -> Quill Document 변환
+    final delta = _convertHtmlToQuillDelta(widget.initialContent);
+    _quillController = quill.QuillController(
+      document: quill.Document.fromDelta(delta),
+      selection: const TextSelection.collapsed(offset: 0),
+    );
+  }
+
+  Delta _convertHtmlToQuillDelta(String htmlString) {
+    final htmlDom.Document document = htmlParser.parse(htmlString);
+    final delta = Delta();
+
+    document.body?.nodes.forEach((node) {
+      if (node is htmlDom.Element) {
+        if (node.localName == "p") {
+          delta.insert("${node.text}\n");
+        } else if (node.localName == "strong") {
+          delta.insert(node.text, {"bold": true});
+        } else if (node.localName == "em") {
+          delta.insert(node.text, {"italic": true});
+        } else if (node.localName == "u") {
+          delta.insert(node.text, {"underline": true});
+        }
+      }
+    });
+
+    return delta;
   }
 
   @override
@@ -42,9 +73,7 @@ class _BlogPostModifyPageState extends State<BlogPostModifyPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('블로그 포스트 수정'),
-      ),
+      appBar: AppBar(title: Text('블로그 포스트 수정')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -54,9 +83,13 @@ class _BlogPostModifyPageState extends State<BlogPostModifyPage> {
               controller: _titleController,
               decoration: InputDecoration(labelText: '제목'),
             ),
-            TextFormField(
-              controller: _contentController,
-              decoration: InputDecoration(labelText: '내용'),
+            SizedBox(height: 10),
+            Expanded(
+              child: quill.QuillEditor(
+                controller: _quillController,
+                focusNode: FocusNode(),
+                scrollController: ScrollController(),
+              ),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -71,7 +104,7 @@ class _BlogPostModifyPageState extends State<BlogPostModifyPage> {
 
   void _submitUpdate() {
     final updatedTitle = _titleController.text;
-    final updatedContent = _contentController.text;
+    final updatedContent = jsonEncode(_quillController.document.toDelta().toJson());
 
     print("Updated Title: $updatedTitle");
     print("Updated Content: $updatedContent");
@@ -82,14 +115,12 @@ class _BlogPostModifyPageState extends State<BlogPostModifyPage> {
   Future<void> _getUserTokenAndUpdate(String title, String content) async {
     try {
       final userToken = await _secureStorage.read(key: 'userToken');
-      print("Fetched userToken: $userToken");
-
       if (userToken == null) {
         throw Exception('User is not logged in.');
       }
 
       final blogPostModifyProvider =
-          Provider.of<BlogPostModifyProvider>(context, listen: false);
+      Provider.of<BlogPostModifyProvider>(context, listen: false);
       await blogPostModifyProvider.updateBlogPost(title, content, userToken);
 
       print("BlogPost updated successfully");
@@ -105,7 +136,7 @@ class _BlogPostModifyPageState extends State<BlogPostModifyPage> {
   @override
   void dispose() {
     _titleController.dispose();
-    _contentController.dispose();
+    _quillController.dispose();
     super.dispose();
   }
 }
