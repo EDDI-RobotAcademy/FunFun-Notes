@@ -2,6 +2,8 @@
 .venv/
 game_fined_tuned_model/
 game_fine_tuned_model/
+results/
+
 
 =0.26.0
 cnn_model.h5
