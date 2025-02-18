@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../board/presentation/ui/component/card_item.dart';
 import '../../../blog_post_module.dart';
 import '../../../domain/entity/blog_post.dart';
 import '../../providers/blog_post_list_provider.dart';
+import 'blog_post_card_item.dart';
 
 class BlogPostList extends StatelessWidget {
   final List<dynamic> blogPostList;
@@ -24,19 +24,19 @@ class BlogPostList extends StatelessWidget {
           return SizedBox(height: 20);
         }
 
-        return CardItem(
+        return BlogPostCardItem(
           title: blogPost.title,
           content: blogPost.content,
           nickname: blogPost.nickname,
           createDate: blogPost.createDate,
           onTap: () async {
-            // final result = await Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => BlogPostModule.provideBlogPostReadPage(blogPost.id)
-            //   ),
-            // );
-            //
+            final result = await Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BlogPostModule.provideBlogPostReadPage(blogPost.id)
+              ),
+            );
+
             // if (result != null) {
             //   final blogPostListProvider = Provider.of<BlogPostListProvider>(context, listen: false);
             //
