@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entity/blog_post.dart';
-import '../../domain/usecases/update/update_blog_post_usecase.dart';
+import '../../../domain/entity/blog_post.dart';
+import '../../../domain/usecases/update/update_blog_post_usecase.dart';
+
 
 class BlogPostModifyProvider extends ChangeNotifier {
   final UpdateBlogPostUseCase updateBlogPostUseCase;
-  final int boardId;
+  final int blogPostId;
 
-  bool isLoading = false;
-  String? errorMessage;
+  bool isLoading = false; // To track loading state
+  String? errorMessage; // To store error message
 
   BlogPostModifyProvider({
     required this.updateBlogPostUseCase,
-    required this.boardId,
+    required this.blogPostId,
   });
 
   Future<BlogPost?> updateBlogPost(
@@ -21,12 +22,12 @@ class BlogPostModifyProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      print('BlogPostModifyProvider Updating board with ID: $boardId');
+      print('BlogPostModifyProvider Updating board with ID: $blogPostId');
       print(
           'BlogPostModifyProvider New Title: $title, New Content: $content, UserToken: $userToken');
 
       final updatedBlogPost =
-          await updateBlogPostUseCase.execute(boardId, title, content, userToken);
+          await updateBlogPostUseCase.execute(blogPostId, title, content, userToken);
 
       print(
           'BoardModifyProvider Board updated successfully: ${updatedBlogPost?.toJson()}');
