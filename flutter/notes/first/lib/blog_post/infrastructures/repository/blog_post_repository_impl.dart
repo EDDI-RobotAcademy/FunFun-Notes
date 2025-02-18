@@ -45,6 +45,12 @@ class BlogPostRepositoryImpl implements BlogPostRepository {
   }
 
   @override
+  Future<String> uploadBlogPostImage(String imageContent, String userToken) {
+    print("BlogPostRepositoryImpl uploadBlogPostImage() -> imageContent: $imageContent");
+    return blogPostRemoteDataSource.uploadBlogPostImage(imageContent, userToken);
+  }
+
+  @override
   Future<BlogPost?> updateBlogPost(
       int blogPostId, String title, String content, String userToken) async {
     try {
