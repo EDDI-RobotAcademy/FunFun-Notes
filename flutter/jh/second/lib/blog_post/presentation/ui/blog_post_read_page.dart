@@ -252,9 +252,9 @@ class _BlogPostReadPageState extends State<BlogPostReadPage> {
           ),
           TextButton(
             onPressed: () async {
-              // await blogPostReadProvider.deleteBoard();
-              // Navigator.of(context).pop();
-              // Navigator.of(context).pop({'deleted': true});
+              await blogPostReadProvider.deleteBlogPost();
+              Navigator.of(context).pop();
+              Navigator.of(context).pop({'deleted': true});
             },
             child: Text('삭제'),
           ),
