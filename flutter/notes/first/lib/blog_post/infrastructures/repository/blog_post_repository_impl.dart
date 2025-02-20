@@ -38,6 +38,7 @@ class BlogPostRepositoryImpl implements BlogPostRepository {
   Future<BlogPost?> readBlogPost(int id) async {
     try {
       final blogPost = await blogPostRemoteDataSource.fetchBlogPost(id);
+      print("readBlogPost() -> blogPost: ${blogPost}");
       return blogPost;
     } catch (e) {
       throw Exception("게시물 읽기 실패");

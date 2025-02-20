@@ -157,7 +157,6 @@ class _BlogPostReadPageState extends State<BlogPostReadPage> {
         print('Element text: ${element.text}');
 
         if (element.localName == 'p') {
-          // Handling <p> tags and also checking if it contains an <img> tag
           final children = element.children;
           List<Widget> widgets = [];
 
@@ -168,20 +167,19 @@ class _BlogPostReadPageState extends State<BlogPostReadPage> {
 
               if (src == null || src.isEmpty) {
                 print('Error: Image src is null or empty inside <p>');
-                widgets.add(SizedBox()); // Skip empty image src
+                widgets.add(SizedBox());
               } else if (src.startsWith('data:image')) {
                 try {
                   final base64Str = src.contains(',')
-                      ? src.split(',').last // Remove prefix like 'data:image/jpeg;base64,'
+                      ? src.split(',').last
                       : src;
 
                   print('Base64 image string: $base64Str');
 
                   if (base64Str.isEmpty) {
                     print('Error: Base64 string is empty');
-                    widgets.add(_imageErrorWidget()); // Error widget for empty base64 string
+                    widgets.add(_imageErrorWidget());
                   } else {
-                    // Decode base64 image
                     Uint8List bytes = base64Decode(base64Str);
                     print('Base64 decoding successful, byte length: ${bytes.length}');
                     widgets.add(Image.memory(
@@ -194,7 +192,6 @@ class _BlogPostReadPageState extends State<BlogPostReadPage> {
                   widgets.add(_imageErrorWidget()); // Error widget for base64 decoding failure
                 }
               } else {
-                // Handle network image
                 widgets.add(Image.network(
                   src,
                   loadingBuilder: (context, child, loadingProgress) {
@@ -212,12 +209,10 @@ class _BlogPostReadPageState extends State<BlogPostReadPage> {
                 ));
               }
             } else {
-              // If it's not an image, treat it as text and add it to the widget list
               widgets.add(Text(child.text));
             }
           }
 
-          // Return the combined widgets (images and text)
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 8.0),
             child: Column(
@@ -226,7 +221,7 @@ class _BlogPostReadPageState extends State<BlogPostReadPage> {
             ),
           );
         } else {
-          return SizedBox(); // Skip other elements if not <p>
+          return SizedBox();
         }
       }).toList(),
     );
@@ -252,9 +247,9 @@ class _BlogPostReadPageState extends State<BlogPostReadPage> {
           ),
           TextButton(
             onPressed: () async {
-              // await blogPostReadProvider.deleteBoard();
-              // Navigator.of(context).pop();
-              // Navigator.of(context).pop({'deleted': true});
+              await blogPostReadProvider.deleteBlogPost();
+              Navigator.of(context).pop();
+              Navigator.of(context).pop({'deleted': true});
             },
             child: Text('삭제'),
           ),
