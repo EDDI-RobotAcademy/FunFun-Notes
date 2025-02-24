@@ -3,12 +3,12 @@
 import 'package:first/blog_post/domain/usecases/upload/upload_blog_post_use_case_impl.dart';
 import 'package:first/blog_post/presentation/providers/blog_post_create_provider.dart';
 import 'package:first/blog_post/presentation/providers/blog_post_list_provider.dart';
+import 'package:first/blog_post/presentation/providers/blog_post_modify_provider.dart';
 import 'package:first/blog_post/presentation/providers/blog_post_read_provider.dart';
 import 'package:first/blog_post/presentation/ui/blog_post_create_page.dart';
 import 'package:first/blog_post/presentation/ui/blog_post_list_page.dart';
 import 'package:first/blog_post/presentation/ui/blog_post_modify_page.dart';
 import 'package:first/blog_post/presentation/ui/blog_post_read_page.dart';
-import 'package:first/blog_post/presentation/ui/component/blog_post_modify_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
