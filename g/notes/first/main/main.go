@@ -31,14 +31,10 @@ func main() {
 		return
 	}
 
-	// Initialize the Fiber app
 	app := fiber.New()
-
-	// Register routes for all domains (posts, users, etc.)
 	router.RegisterRoutes(app, db)
 
-	// Start the server
-	if err := app.Listen(":3773"); err != nil {
+	if err := app.Listen(":" + port); err != nil {
 		fmt.Println("Error starting server:", err)
 	}
 }
