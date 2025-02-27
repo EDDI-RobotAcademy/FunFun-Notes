@@ -18,6 +18,12 @@ export default defineNuxtModule({
 					file: resolve(themeDir, "account/pages/login/AccountLoginPage.vue"),
 				},
 			);
+
+			pages.push({
+                name: 'GithubAdminLoginPage',
+                path: '/account/admin-login',
+                file: resolve(themeDir, 'account/pages/adminLogin/GithubAdminLoginPage.vue'),
+            });
 		});
 
 		nuxt.hook("imports:dirs", (dirs) => {
