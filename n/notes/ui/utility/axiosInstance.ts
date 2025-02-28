@@ -2,12 +2,14 @@ import axios, { type AxiosInstance } from "axios";
 import { useRuntimeConfig } from "nuxt/app";
 export let djangoAxiosInstance: AxiosInstance | null = null;
 export let fastapiAxiosInst: AxiosInstance | null = null;
+export let fiberAxiosInstance: AxiosInstance | null = null;
 
 export function createAxiosInstances() {
     const config = useRuntimeConfig();
 
     const mainApiUrl: string = config.public.MAIN_API_URL as string;
     const aiBaseUrl: string = config.public.AI_BASE_URL as string;
+    const monitorBaseUrl: string = config.public.MONITOR_BASE_URL as string;
 
     if (!djangoAxiosInstance) {
         djangoAxiosInstance = axios.create({
@@ -26,5 +28,12 @@ export function createAxiosInstances() {
         });
     }
 
-    return { djangoAxiosInstance, fastapiAxiosInst };
+    if (!fiberAxiosInstance) {
+        fiberAxiosInstance = axios.create({
+            baseURL: monitorBaseUrl,
+            timeout: 5000,
+        });
+    }
+
+    return { djangoAxiosInstance, fastapiAxiosInst, fiberAxiosInstance };
 }

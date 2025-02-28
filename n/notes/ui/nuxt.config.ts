@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     './dataAnalysis/nuxt.config.ts',
     './imageGallery/nuxt.config.ts',
     './blogPost/nuxt.config.ts',
+    './githubAuthentication/nuxt.config.ts',
   ],
 
   css: [
@@ -61,6 +62,7 @@ export default defineNuxtConfig({
     '~/dataAnalysis/index.ts',
     '~/imageGallery/index.ts',
     '~/blogPost/index.ts',
+    '~/githubAuthentication/index.ts',
   ],
 
   imports: {
@@ -71,6 +73,7 @@ export default defineNuxtConfig({
     public: {
       MAIN_API_URL: process.env.VUE_APP_BASE_URL,
       AI_BASE_URL: process.env.VUE_APP_AI_BASE_URL,
+      MONITOR_BASE_URL: process.env.VUE_APP_MONITOR_BASE_URL,
       TOSS_CLIENT_KEY : process.env.TOSS_CLIENT_KEY,
       TOSS_SECRET_KEY : process.env.TOSS_SECRET_KEY,
       AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID,
