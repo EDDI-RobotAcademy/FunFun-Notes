@@ -7,25 +7,25 @@ import { onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 import { useAccountStore } from '../../account/stores/accountStore';
-import { useKakaoAuthenticationStore } from '../../kakaoAuthentication/stores/kakaoAuthenticationStore'
+import { useGithubAuthenticationStore } from '../../githubAuthentication/stores/githubAuthenticationStore'
 
 const accountStore = useAccountStore()
-const kakaoAuthenticationStore = useKakaoAuthenticationStore()
+const githubAuthenticationStore = useGithubAuthenticationStore()
 
 const router = useRouter()
 const route = useRoute()
 
-const setRedirectKakaoData = async() => {
+const setRedirectGithubData = async() => {
     const code = route.query.code
-    const userToken = await kakaoAuthenticationStore.requestAccessToken({ code });
+    const userToken = await githubAuthenticationStore.requestAccessToken({ code });
 
     localStorage.setItem("userToken", userToken)
-    kakaoAuthenticationStore.isAuthenticated = true
+    githubAuthenticationStore.isAuthenticated = true
 
     router.push('/')
 }
 
 onMounted(async () => {
-    await setRedirectKakaoData()
+    await setRedirectGithubData()
 })
 </script>

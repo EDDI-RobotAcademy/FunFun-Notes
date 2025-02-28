@@ -23,43 +23,43 @@ class GithubOauthController(viewsets.ViewSet):
 
         return JsonResponse({"url": url}, status=status.HTTP_200_OK)
 
-    # def requestAccessToken(self, request):
-    #     serializer = GithubOauthAccessTokenSerializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     code = serializer.validated_data['code']
-    #     print(f"code: {code}")
-    #
-    #     try:
-    #         tokenResponse = self.githubOauthService.requestAccessToken(code)
-    #         accessToken = tokenResponse['access_token']
-    #         print(f"accessToken: {accessToken}")
-    #
-    #         with transaction.atomic():
-    #             userInfo = self.githubOauthService.requestUserInfo(accessToken)
-    #             nickname = userInfo.get('properties', {}).get('nickname', '')
-    #             email = userInfo.get('kakao_account', {}).get('email', '')
-    #             print(f"email: {email}, nickname: {nickname}")
-    #
-    #             account = self.accountService.checkEmailDuplication(email)
-    #             print(f"account: {account}")
-    #
-    #             if account is None:
-    #                 account = self.accountService.createAccount(email)
-    #                 print(f"account: {account}")
-    #
-    #                 accountProfile = self.accountProfileService.createAccountProfile(
-    #                     account.getId(), nickname
-    #                 )
-    #                 print(f"accountProfile: {accountProfile}")
-    #
-    #             userToken = self.__createUserTokenWithAccessToken(account, accessToken)
-    #             print(f"userToken: {userToken}")
-    #
-    #         return JsonResponse({'userToken': userToken})
-    #
-    #     except Exception as e:
-    #         return JsonResponse({'error': str(e)}, status=500)
-    #
+    def requestAccessToken(self, request):
+        postRequest = request.data
+
+        code = postRequest.get('code')
+        print(f"code: {code}")
+
+        try:
+            tokenResponse = self.githubOauthService.requestAccessToken(code)
+            accessToken = tokenResponse['access_token']
+            print(f"accessToken: {accessToken}")
+
+            with transaction.atomic():
+                userInfo = self.githubOauthService.requestUserInfo(accessToken)
+                nickname = userInfo.get('properties', {}).get('nickname', '')
+                email = userInfo.get('kakao_account', {}).get('email', '')
+                print(f"email: {email}, nickname: {nickname}")
+
+                account = self.accountService.checkEmailDuplication(email)
+                print(f"account: {account}")
+
+                if account is None:
+                    account = self.accountService.createAdminAccount(email)
+                    print(f"account: {account}")
+
+                    accountProfile = self.accountProfileService.createAccountProfile(
+                        account.getId(), nickname
+                    )
+                    print(f"accountProfile: {accountProfile}")
+
+                userToken = self.__createUserTokenWithAccessToken(account, accessToken)
+                print(f"userToken: {userToken}")
+
+            return JsonResponse({'userToken': userToken})
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
     # def requestUserToken(self, request):
     #     access_token = request.data.get('access_token')  # 클라이언트에서 받은 access_token
     #     email = request.data.get('email')  # 클라이언트에서 받은 email
@@ -87,15 +87,15 @@ class GithubOauthController(viewsets.ViewSet):
     #
     #     except Exception as e:
     #         return JsonResponse({'error': str(e)}, status=500)
-    #
-    # def __createUserTokenWithAccessToken(self, account, accessToken):
-    #     try:
-    #         userToken = str(uuid.uuid4())
-    #         self.redisCacheService.storeKeyValue(account.getId(), accessToken)
-    #         self.redisCacheService.storeKeyValue(userToken, account.getId())
-    #
-    #         return userToken
-    #
-    #     except Exception as e:
-    #         print('Redis에 토큰 저장 중 에러:', e)
-    #         raise RuntimeError('Redis에 토큰 저장 중 에러')
+
+    def __createUserTokenWithAccessToken(self, account, accessToken):
+        try:
+            userToken = str(uuid.uuid4())
+            self.redisCacheService.storeKeyValue(account.getId(), accessToken)
+            self.redisCacheService.storeKeyValue(userToken, account.getId())
+
+            return userToken
+
+        except Exception as e:
+            print('Redis에 토큰 저장 중 에러:', e)
+            raise RuntimeError('Redis에 토큰 저장 중 에러')

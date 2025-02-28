@@ -34,6 +34,8 @@ class GithubOauthRepositoryImpl(GithubOauthRepository):
                 f"client_id={self.clientId}&redirect_uri={self.redirectUri}")
 
     def getAccessToken(self, githubAuthCode):
+        print(f"getAccessToken(): {githubAuthCode}")
+
         accessTokenRequestForm = {
             "client_id": self.clientId,
             "client_secret": self.clientSecret,
@@ -44,10 +46,15 @@ class GithubOauthRepositoryImpl(GithubOauthRepository):
             "Accept": "application/json"
         }
 
+        print(f"accessTokenRequestForm: {accessTokenRequestForm}")
+        print(f"tokenRequestUri: {self.tokenRequestUri}")
+
         response = requests.post(self.tokenRequestUri, data=accessTokenRequestForm, headers=headers)
         return response.json()
 
     def getUserInfo(self, accessToken):
         headers = {'Authorization': f'Bearer {accessToken}'}
+        print(f"headers: {headers}, userInfoRequestUri: {self.userInfoRequestUri}")
+
         response = requests.post(self.userInfoRequestUri, headers=headers)
         return response.json()
