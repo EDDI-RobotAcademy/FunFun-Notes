@@ -1,4 +1,5 @@
 # Ignore .venv & things
+.env
 .venv/
 game_fined_tuned_model/
 game_fine_tuned_model/
