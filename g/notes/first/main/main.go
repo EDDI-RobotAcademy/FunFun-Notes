@@ -1,12 +1,14 @@
 package main
 
 import (
+	"first/config"
 	"first/initializer"
 	"first/router"
 	"fmt"
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 )
 
@@ -32,6 +34,7 @@ func main() {
 	}
 
 	app := fiber.New()
+	app.Use(cors.New(config.CorsConfig()))
 	router.RegisterRoutes(app, db)
 
 	if err := app.Listen(":" + port); err != nil {

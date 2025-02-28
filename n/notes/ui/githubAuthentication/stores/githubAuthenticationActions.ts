@@ -3,10 +3,10 @@ import * as axiosUtility from "../../utility/axiosInstance"
 export const githubAuthenticationAction = {
     async requestGithubLoginToFiber(): Promise<void> {
         console.log("requestGithubLoginToFiber")
-        const { fiberAxiosInstance } = axiosUtility.createAxiosInstances()
+        const { djangoAxiosInstance } = axiosUtility.createAxiosInstances()
 
         try {
-            return fiberAxiosInstance.get('/github-oauth/request-login-url').then((res) => {
+            return djangoAxiosInstance.get('/github-oauth/request-login-url').then((res) => {
                 console.log(`res: ${res}`)
                 window.location.href = res.data.url
             })
@@ -15,9 +15,9 @@ export const githubAuthenticationAction = {
         }
     },
     async requestAccessToken(code: string): Promise<string | null> {
-        const { fiberAxiosInstance } = axiosUtility.createAxiosInstances();
+        const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
         try {
-            const response = await fiberAxiosInstance.post('/github-oauth/redirect-access-token', code)
+            const response = await djangoAxiosInstance.post('/github-oauth/redirect-access-token', code)
             return response.data.userToken
         } catch(error){
             console.log('Access Token 요청 중 문제 발생:', error)
