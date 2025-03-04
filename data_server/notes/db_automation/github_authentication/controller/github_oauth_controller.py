@@ -36,8 +36,10 @@ class GithubOauthController(viewsets.ViewSet):
 
             with transaction.atomic():
                 userInfo = self.githubOauthService.requestUserInfo(accessToken)
-                nickname = userInfo.get('properties', {}).get('nickname', '')
-                email = userInfo.get('kakao_account', {}).get('email', '')
+                print(f"userInfo: {userInfo}")
+
+                email = userInfo.get('email', '')
+                nickname = userInfo.get('login', '')
                 print(f"email: {email}, nickname: {nickname}")
 
                 account = self.accountService.checkEmailDuplication(email)
@@ -90,7 +92,7 @@ class GithubOauthController(viewsets.ViewSet):
 
     def __createUserTokenWithAccessToken(self, account, accessToken):
         try:
-            userToken = str(uuid.uuid4())
+            userToken = 'gho_' + str(uuid.uuid4())
             self.redisCacheService.storeKeyValue(account.getId(), accessToken)
             self.redisCacheService.storeKeyValue(userToken, account.getId())
 

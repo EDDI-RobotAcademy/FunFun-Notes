@@ -56,5 +56,5 @@ class GithubOauthRepositoryImpl(GithubOauthRepository):
         headers = {'Authorization': f'Bearer {accessToken}'}
         print(f"headers: {headers}, userInfoRequestUri: {self.userInfoRequestUri}")
 
-        response = requests.post(self.userInfoRequestUri, headers=headers)
+        response = requests.get(self.userInfoRequestUri, headers=headers)
         return response.json()
