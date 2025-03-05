@@ -993,3 +993,4 @@ migrations
 
 # exclude .nuxt
 .nuxt
+ai_server/jge/dlls_demo/data/cifar-10-python.tar.gz

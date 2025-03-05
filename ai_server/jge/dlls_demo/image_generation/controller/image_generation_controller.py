@@ -15,6 +15,7 @@ openaiApiKey = os.getenv('OPENAI_API_KEY')
 client = OpenAI(api_key=openaiApiKey)
 
 
+
 class ImageGenerationRequestForm(BaseModel):
     userRequestDescription: str
 
@@ -22,7 +23,8 @@ class ImageGenerationRequestForm(BaseModel):
 @imageGenerationRouter.post("/request-image-generation")
 async def requestImageGeneration(imageGenerationRequestForm: ImageGenerationRequestForm):
     print(f"controller -> requestImageGeneration(): imageGenerationRequestForm: {imageGenerationRequestForm}")
-
+    # 기존 GAN을 사용했던 방식 외 DALL-E3를 사용해서 멀티 모달 및 이미지 처리가 가능
+    # 이번 방식은 온전히 OpenAI에게 기능을 맡기는 방식으로 진행합니다.
     generatedImageURL = client.images.generate(
         model="dall-e-3",
         prompt=("A highly detailed, high-resolution 3D rendering of a medieval siege. "
@@ -39,8 +41,8 @@ async def requestImageGeneration(imageGenerationRequestForm: ImageGenerationRequ
         size="1024x1024"
     )
 
-    print("Generated Image URL:", generatedImageURL)
+    print("Generated Image URL:", generatedImageURL.data[0].url)
 
-    return JSONResponse(content=generatedImageURL, status_code=status.HTTP_200_OK)
+    return JSONResponse(content={"image_url": generatedImageURL.data[0].url}, status_code=status.HTTP_200_OK)
 
 
