@@ -986,3 +986,4 @@ fabric.properties
 fastapi/jge/dlls_demo/game_fine_tuned_model/model.safetensors
 fastapi/jge/dlls_demo/results/checkpoint-1000/model.safetensors
 fastapi/jge/dlls_demo/results/checkpoint-1000/optimizer.pt
+ai_server/jge/dlls_demo/data/cifar-10-python.tar.gz

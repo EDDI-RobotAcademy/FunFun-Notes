@@ -13,6 +13,7 @@ from game_software_analysis.controller.game_software_analysis_controller import 
 from gan.controller.gan_controller import ganRouter
 from gradient_descent.controller.gradient_descent_controller import gradientDescentRouter
 from hyper_parameter.controller.hyper_parameter_controller import hyperParameterRouter
+from image_generation.controller.image_generation_controller import imageGenerationRouter
 from kmeans.controller.kmeans_controller import kMeansRouter
 from mnist.controller.mnist_controller import mnistRouter
 from model_regulation.controller.model_regulation_controller import modelRegulationRouter
@@ -43,6 +44,7 @@ app.include_router(gameDataFineTuningRouter)
 app.include_router(openaiFineTuningRouter)
 app.include_router(ganRouter)
 app.include_router(dcganRouter)
+app.include_router(imageGenerationRouter)
 
 # HOST는 모두에 열려 있고
 # FASTAPI_PORT를 통해서 이 서비스가 구동되는 포트 번호를 지정
