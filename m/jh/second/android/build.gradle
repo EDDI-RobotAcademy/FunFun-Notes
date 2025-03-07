@@ -16,3 +16,10 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
+
+buildscript {
+    dependencies {
+        // AGP 버전 업데이트
+        classpath 'com.android.tools.build:gradle:8.2.1'  // AGP 8.2.1 이상으로 업데이트
+    }
+}
