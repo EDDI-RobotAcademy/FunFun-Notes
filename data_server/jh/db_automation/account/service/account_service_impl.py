@@ -26,6 +26,9 @@ class AccountServiceImpl(AccountService):
         print("AAA0")
         return self.__accountRepository.save(email)
 
+    def createAdminAccount(self, email):
+        return self.__accountRepository.saveAdmin(email)
+
     def checkEmailDuplication(self, email):
         try:
             print("AAA1")
