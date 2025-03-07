@@ -1,8 +1,26 @@
 import * as axiosUtility from "../../utility/axiosInstance"
 
 export const githubAuthenticationAction = {
-    async requestGithubLoginToFiber(): Promise<void> {
-        console.log("requestGithubLoginToFiber")
+    async requestAdminCodeToDjango(adminCode: string): Promise<boolean> {
+        console.log("requestAdminCodeToDjango")
+        const { djangoAxiosInstance } = axiosUtility.createAxiosInstances()
+
+        try {
+            const response = await djangoAxiosInstance.post('/github-oauth/request-admin-code-validation', {
+                admin_code: adminCode  // 데이터로 adminCode를 보내는 방식
+            });
+
+            console.log('response:', response)
+            console.log('response,data:', response.data)
+    
+            return response.data.isValid;
+        } catch (error) {
+            console.error('관리자 코드 검증 실패:', error);
+            return false;
+        }
+    },
+    async requestGithubLoginToDjango(): Promise<void> {
+        console.log("requestGithubLoginToDjango")
         const { djangoAxiosInstance } = axiosUtility.createAxiosInstances()
 
         try {
@@ -11,7 +29,7 @@ export const githubAuthenticationAction = {
                 window.location.href = res.data.url
             })
         } catch (error) {
-            console.log('requestGithubLoginToFiber() 중 에러:', error)
+            console.log('requestGithubLoginToDjango() 중 에러:', error)
         }
     },
     async requestAccessToken(code: string): Promise<string | null> {

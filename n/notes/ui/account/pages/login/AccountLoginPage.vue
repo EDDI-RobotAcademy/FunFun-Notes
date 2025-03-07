@@ -33,9 +33,8 @@ const goToKakaoLogin = async () => {
   await kakaoAuthentication.requestKakaoLoginToDjango();
 };
 
-// 관리자 로그인 함수 (예시)
 const goToAdminLogin = () => {
-  router.push('/account/admin-login');
+  router.push('/account/admin-code');
 };
 </script>
 

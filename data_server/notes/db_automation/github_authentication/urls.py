@@ -14,7 +14,7 @@ urlpatterns = [
     path('redirect-access-token',
          GithubOauthController.as_view({ 'post': 'requestAccessToken' }),
          name='Github Access Token 요청'),
-    path('request-user-token',
-         GithubOauthController.as_view({ 'post': 'requestUserToken' }),
-         name='User Token 요청'),
+    path('request-admin-code-validation',
+         GithubOauthController.as_view({ 'post': 'requestAdminCodeValidation' }),
+         name='관리자 확인 코드'),
 ]

@@ -14,3 +14,7 @@ class GithubOauthService(ABC):
     @abstractmethod
     def requestUserInfo(self, accessToken):
         pass
+
+    @abstractmethod
+    def validateAdminCode(self, adminCode: str) -> bool:
+        pass

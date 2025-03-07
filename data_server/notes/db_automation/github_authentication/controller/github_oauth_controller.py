@@ -18,6 +18,26 @@ class GithubOauthController(viewsets.ViewSet):
     accountProfileService = AccountProfileServiceImpl.getInstance()
     redisCacheService = RedisCacheServiceImpl.getInstance()
 
+    def requestAdminCodeValidation(self, request):
+        try:
+            postRequest = request.data
+            print(f"postRequest: {postRequest}")
+
+            adminCode = postRequest.get("admin_code")  # 요청에서 관리자 코드 추출
+            print(f"controller - validateAdminCode: {adminCode}")
+
+            if not adminCode:
+                return JsonResponse({"message": "관리자 코드가 제공되지 않았습니다."}, status=status.HTTP_400_BAD_REQUEST)
+
+            isValid = self.githubOauthService.validateAdminCode(adminCode)
+            print(f"Validation Result: {isValid}")
+
+            return JsonResponse({"isValid": isValid}, status=HTTP_200_OK)
+
+        except Exception as e:
+            print(f"Error in requestAdminCodeValidation: {e}")
+            return JsonResponse({"error": str(e)}, status=500)
+
     def requestGithubOauthLink(self, request):
         url = self.githubOauthService.requestGithubOauthLink()
 
@@ -61,34 +81,6 @@ class GithubOauthController(viewsets.ViewSet):
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
-
-    # def requestUserToken(self, request):
-    #     access_token = request.data.get('access_token')  # 클라이언트에서 받은 access_token
-    #     email = request.data.get('email')  # 클라이언트에서 받은 email
-    #     nickname = request.data.get('nickname')  # 클라이언트에서 받은 nickname
-    #
-    #     if not access_token:
-    #         return JsonResponse({'error': 'Access token is required'}, status=400)
-    #
-    #     if not email or not nickname:
-    #         return JsonResponse({'error': 'Email and nickname are required'}, status=400)
-    #
-    #     try:
-    #         # 이메일을 기반으로 계정을 찾거나 새로 생성합니다.
-    #         account = self.accountService.checkEmailDuplication(email)
-    #         if account is None:
-    #             account = self.accountService.createAccount(email)
-    #             accountProfile = self.accountProfileService.createAccountProfile(
-    #                 account.getId(), nickname
-    #             )
-    #
-    #         # 사용자 토큰 생성 및 Redis에 저장
-    #         userToken = self.__createUserTokenWithAccessToken(account, access_token)
-    #
-    #         return JsonResponse({'userToken': userToken})
-    #
-    #     except Exception as e:
-    #         return JsonResponse({'error': str(e)}, status=500)
 
     def __createUserTokenWithAccessToken(self, account, accessToken):
         try:

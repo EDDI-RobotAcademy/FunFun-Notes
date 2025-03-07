@@ -10,7 +10,7 @@
                 <v-img :src="githubIconSrc" width="120" class="mx-auto mb-6"></v-img>
               </div>
 
-              <v-btn block x-large rounded color="gray lighten-1" class="mt-6" @click="goToGithubLogin">
+              <v-btn block x-large rounded color="gray lighten-1" class="mt-6" @click="goToAdminCodeInput">
                 로그인
               </v-btn>
             </v-card-text>
@@ -30,10 +30,15 @@ import { useGithubAuthenticationStore } from '../../../githubAuthentication/stor
 // Pinia store 상태
 const githubAuthentication = useGithubAuthenticationStore();
 
+// 관리자 코드 입력 페이지로 이동
+const goToAdminCodeInput = () => {
+  router.push('/account/admin-code');
+};
+
 // Github 로그인 함수
 const goToGithubLogin = async () => {
   console.log('goToGithubLogin')
-  await githubAuthentication.requestGithubLoginToFiber();
+  await githubAuthentication.requestGithubLoginToDjango();
 };
 </script>
 
