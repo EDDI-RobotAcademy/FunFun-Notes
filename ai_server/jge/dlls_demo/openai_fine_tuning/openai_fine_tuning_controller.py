@@ -20,7 +20,7 @@ feedbackData = []
 # 이전 파인 튜닝 데이터 그대로 가져오면 됩니다
 trainingData = [
     {"messages": [
-        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "system", "content": "Youㅌ are a helpful assistant."},
         {"role": "user", "content": "광역기는 배틀 필드에 나와 있는 모든 유닛을 공격 할 수 있습니다."},
         {"role": "assistant", "content": "모든 유닛을 공격합니다."}
     ]},
