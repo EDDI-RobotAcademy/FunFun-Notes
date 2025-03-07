@@ -56,7 +56,8 @@
         </v-btn>
 
         <!-- 로그인 버튼 -->
-        <template v-if="!kakaoAuthentication.isAuthenticated">
+        <template v-if="!authentication.isAuthenticated">
+        <!-- <template v-if="!kakaoAuthentication.isAuthenticated"> -->
             <v-btn text @click="signIn" class="btn-text">
                 <!-- 아이콘 설정 (mdi-login은 로그인 아이콘) -->
                 <v-icon left>mdi-login</v-icon>
@@ -77,9 +78,14 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router'
 import { useKakaoAuthenticationStore } from '~/kakaoAuthentication/stores/kakaoAuthenticationStore';
+import { useGithubAuthenticationStore } from '~/githubAuthentication/stores/githubAuthenticationStore';
+
+import { useAuthenticationStore } from '~/authentication/stores/authenticationStore';
 
 const router = useRouter()
-const kakaoAuthentication = useKakaoAuthenticationStore();
+// const kakaoAuthentication = useKakaoAuthenticationStore();
+// const githubAuthentication = useGithubAuthenticationStore();
+const authentication = useAuthenticationStore();
 
 const goToHome = () => {
   router.push('/')
@@ -116,13 +122,13 @@ const signOut = () => {
   const userToken = localStorage.getItem("userToken")
 
   if (userToken != null) {
-    kakaoAuthentication.requestLogout(userToken)
+    authentication.requestLogout(userToken)
   } else {
     console.log('userToken이 없습니다')
   }
 
   localStorage.removeItem("userToken")
-  kakaoAuthentication.isAuthenticated = false
+  authentication.isAuthenticated = false
   router.push('/')
 }
 
@@ -130,8 +136,8 @@ onMounted(async () => {
   const userToken = localStorage.getItem('userToken');
   
   if (userToken) {
-    const isValid = await kakaoAuthentication.requestValidationUserToken(userToken)
-    kakaoAuthentication.isAuthenticated = isValid;
+    const isValid = await authentication.requestValidationUserToken(userToken)
+    authentication.isAuthenticated = isValid;
   }
 });
 </script>

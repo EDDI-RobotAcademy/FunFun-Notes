@@ -17,6 +17,7 @@ class GithubOauthRepositoryImpl(GithubOauthRepository):
             cls.__instance.redirectUri = settings.GITHUB['REDIRECT_URI']
             cls.__instance.tokenRequestUri = settings.GITHUB['TOKEN_REQUEST_URI']
             cls.__instance.userInfoRequestUri = settings.GITHUB['USER_INFO_REQUEST_URI']
+            cls.__instance.adminCode = settings.GITHUB['ADMIN_CODE']
 
         return cls.__instance
 
@@ -58,3 +59,12 @@ class GithubOauthRepositoryImpl(GithubOauthRepository):
 
         response = requests.get(self.userInfoRequestUri, headers=headers)
         return response.json()
+
+    def getAdminCode(self, adminCode: str) -> bool:
+        print(f"repository validateAdminCode adminCode: {adminCode}")
+        print(f"repository validateAdminCode self.adminCode: {self.adminCode}")
+
+        if self.adminCode is None:
+            raise ValueError("GITHUB_ADMIN_CODE is not set in settings.")
+
+        return adminCode == self.adminCode

@@ -24,6 +24,12 @@ export default defineNuxtModule({
                 path: '/account/admin-login',
                 file: resolve(themeDir, 'account/pages/adminLogin/GithubAdminLoginPage.vue'),
             });
+
+			pages.push({
+                name: 'AdminCodeInputPage',
+                path: '/account/admin-code',
+                file: resolve(themeDir, 'account/pages/adminLogin/AdminCodeInputPage.vue'),
+            });
 		});
 
 		nuxt.hook("imports:dirs", (dirs) => {

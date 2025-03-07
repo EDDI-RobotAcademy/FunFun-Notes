@@ -28,3 +28,7 @@ class GithubOauthServiceImpl(GithubOauthService):
 
     def requestUserInfo(self, accessToken):
         return self.__githubOauthRepository.getUserInfo(accessToken)
+
+    def validateAdminCode(self, adminCode: str) -> bool:
+        print(f"service - validateAdminCode: {adminCode}")
+        return self.__githubOauthRepository.getAdminCode(adminCode)
