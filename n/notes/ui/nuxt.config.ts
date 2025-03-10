@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     './blogPost/nuxt.config.ts',
     './githubAuthentication/nuxt.config.ts',
     './authentication/nuxt.config.ts',
+    './admin/nuxt.config.ts',
   ],
 
   css: [
@@ -65,6 +66,7 @@ export default defineNuxtConfig({
     '~/blogPost/index.ts',
     '~/githubAuthentication/index.ts',
     '~/authentication/index.ts',
+    '~/admin/index.ts',
   ],
 
   imports: {

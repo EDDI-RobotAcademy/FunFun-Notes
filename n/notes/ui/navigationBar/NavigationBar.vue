@@ -120,7 +120,7 @@ const goToDataAnalysis = () => {
 
 const goToImageGallery = () => router.push('/image-gallery/list');
 
-const goToAdminPage = () => router.push('/admin');
+const goToAdminPage = () => router.push('/admin/default');
 
 // 기존 Domain/index.ts에 등록한 라우터 URL로 맵핑
 const signIn = () => {
