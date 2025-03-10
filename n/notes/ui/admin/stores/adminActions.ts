@@ -3,20 +3,22 @@ import { AxiosResponse } from "axios"
 
 export const adminAction = {
 
-	async requestGithubWorkflow(userToken: string): Promise<any> {
+	async requestGithubWorkflow(userToken: string, repoUrl: string): Promise<any> {
     const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+    
     try {
-      // userToken을 body로 보내기
+      console.log(`🔄 GitHub Workflow 요청: Repo=${repoUrl}`);
+
       const res: AxiosResponse = await djangoAxiosInstance.post(
-        "/admin/github-workflow", // Django 서버에서 처리할 엔드포인트
-        { userToken } // userToken을 요청 바디로 전달
+        "/github-action-monitor/workflow",
+        { userToken, repoUrl } // 🔥 userToken + repoUrl 함께 전송
       );
-      
-      // 응답에서 이메일 추출
-      // Golang API에서 이메일을 받았다면 추가 처리
+
+      console.log("✅ GitHub Workflow 응답:", res.data);
+
       return res.data.workflowInfo;
     } catch (error) {
-      console.error("requestGithubWorkflow() axios 오류!", error);
+      console.error("❌ requestGithubWorkflow() 오류:", error);
       throw new Error("Failed to fetch GitHub Workflow data");
     }
   },

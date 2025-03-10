@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia';
-import {accountState} from './accountState'
-import {accountAction} from './accountActions'
+import { adminState } from './adminState';
+import { adminAction } from './adminActions';
 
-export const useAccountStore = defineStore('accountStore', {
-  state: accountState,
-  actions: accountAction,
+export const useAdminStore = defineStore('adminStore', {
+  state: adminState,
+  actions: adminAction,
 });

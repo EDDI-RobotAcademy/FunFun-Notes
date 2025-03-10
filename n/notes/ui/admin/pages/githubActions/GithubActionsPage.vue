@@ -43,45 +43,47 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
-import axios from 'axios';
+import { ref, computed, onMounted } from "vue";
+import { useAdminStore } from "~/admin/stores/adminStore";
 
-// 선택된 리포지토리 이름
-const selectedRepo = ref<string | null>(null);
+// Pinia 스토어 가져오기
+const adminStore = useAdminStore();
+
+// 선택된 리포지토리
+const selectedRepo = ref<{ name: string; url: string } | null>(null);
 
 // 두 저장소의 목록
 const repositories = [
-  { name: 'Mashed-Potato-Frontend', url: 'https://github.com/silenc3502/Mashed-Potato-Frontend' },
-  { name: 'Mashed-Potato-Data-Server', url: 'https://github.com/silenc3502/Mashed-Potato-Data-Server' }
+  { name: "Mashed-Potato-Frontend", url: "https://github.com/silenc3502/Mashed-Potato-Frontend" },
+  { name: "Mashed-Potato-Data-Server", url: "https://github.com/silenc3502/Mashed-Potato-Data-Server" }
 ];
 
-// 워크플로우 데이터
-const workflows = ref<any[]>([]);
+// 사용자의 토큰
+const userToken = "your-user-token";
 
-// 선택한 리포지토리의 URL 찾기
-const selectedRepoUrl = computed(() => {
-  return repositories.find(repo => repo.name === selectedRepo.value)?.url || null;
+// 선택한 리포지토리의 워크플로우 데이터 필터링
+const filteredWorkflows = computed(() => {
+  return adminStore.workflows.filter(workflow => workflow.repoName === selectedRepo.value?.name);
 });
 
-// 워크플로우 데이터를 가져오는 함수
+// GitHub Workflow 데이터 가져오기
 const fetchWorkflowRuns = async () => {
-  if (!selectedRepoUrl.value) {
-    alert('리포지토리를 선택해 주세요.');
+  if (!selectedRepo.value) {
+    alert("리포지토리를 선택해 주세요.");
     return;
   }
 
   try {
-    console.log("API 요청:", `/api/github/workflows?repo=${selectedRepoUrl.value}`);
-    const response = await axios.get(`/api/github/workflows?repo=${encodeURIComponent(selectedRepoUrl.value)}`);
-    workflows.value = response.data;  // 워크플로우 데이터를 저장
+    console.log(`🔄 ${selectedRepo.value.name}의 GitHub Workflow 데이터 요청`);
+    await adminStore.requestGithubWorkflow(userToken, selectedRepo.value.url); // 🔥 repoUrl 추가
   } catch (error) {
-    console.error('워크플로우 데이터를 가져오는 중 오류 발생:', error);
+    console.error("❌ fetchWorkflowRuns() 오류:", error);
   }
 };
 
 // 워크플로우 상세 페이지로 이동하는 함수
 const viewDetails = (url: string) => {
-  window.open(url, '_blank');
+  window.open(url, "_blank");
 };
 
 // 날짜 포맷을 사람이 읽기 좋은 형식으로 변환하는 함수
