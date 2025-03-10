@@ -55,6 +55,13 @@
             <span>이미지 갤러리</span>
         </v-btn>
 
+        <template v-if="isAdmin">
+            <v-btn text @click="goToAdminPage" class="btn-text">
+                <v-icon left>mdi-shield-account</v-icon>
+                <span>관리자 페이지</span>
+            </v-btn>
+        </template>
+
         <!-- 로그인 버튼 -->
         <template v-if="!authentication.isAuthenticated">
         <!-- <template v-if="!kakaoAuthentication.isAuthenticated"> -->
@@ -75,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { useKakaoAuthenticationStore } from '~/kakaoAuthentication/stores/kakaoAuthenticationStore';
 import { useGithubAuthenticationStore } from '~/githubAuthentication/stores/githubAuthenticationStore';
@@ -86,6 +93,8 @@ const router = useRouter()
 // const kakaoAuthentication = useKakaoAuthenticationStore();
 // const githubAuthentication = useGithubAuthenticationStore();
 const authentication = useAuthenticationStore();
+
+const isAdmin = ref(false);
 
 const goToHome = () => {
   router.push('/')
@@ -111,6 +120,8 @@ const goToDataAnalysis = () => {
 
 const goToImageGallery = () => router.push('/image-gallery/list');
 
+const goToAdminPage = () => router.push('/admin/default');
+
 // 기존 Domain/index.ts에 등록한 라우터 URL로 맵핑
 const signIn = () => {
   console.log('로그인 클릭')
@@ -129,6 +140,7 @@ const signOut = () => {
 
   localStorage.removeItem("userToken")
   authentication.isAuthenticated = false
+  isAdmin.value = false;
   router.push('/')
 }
 
@@ -138,6 +150,7 @@ onMounted(async () => {
   if (userToken) {
     const isValid = await authentication.requestValidationUserToken(userToken)
     authentication.isAuthenticated = isValid;
+    isAdmin.value = userToken.startsWith('gho_');
   }
 });
 </script>
