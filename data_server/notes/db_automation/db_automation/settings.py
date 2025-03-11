@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'board',
     'image_gallery',
     'blog_post',
+    'github_action_monitor',
 ]
 
 MIDDLEWARE = [
