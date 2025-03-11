@@ -1,3 +1,4 @@
+from github_action_monitor.repository.github_action_monitor_repository_impl import GithubActionMonitorRepositoryImpl
 from github_action_monitor.service.github_action_monitor_service import GithubActionMonitorService
 
 
@@ -8,7 +9,7 @@ class GithubActionMonitorServiceImpl(GithubActionMonitorService):
         if cls.__instance is None:
             cls.__instance = super().__new__(cls)
 
-            # cls.__instance.__githubActionMonitorRepository = GithubActionMonitorRepositoryImpl.getInstance()
+            cls.__instance.__githubActionMonitorRepository = GithubActionMonitorRepositoryImpl.getInstance()
 
         return cls.__instance
 
@@ -19,7 +20,6 @@ class GithubActionMonitorServiceImpl(GithubActionMonitorService):
 
         return cls.__instance
 
-    def requestGithubActionWorkflow(self):
-        # return self.__githubActionMonitorRepository.getOauthLink()
-        pass
+    def requestGithubActionWorkflow(self, token, repoUrl):
+        return self.__githubActionMonitorRepository.getGithubActionWorkflow(token, repoUrl)
 

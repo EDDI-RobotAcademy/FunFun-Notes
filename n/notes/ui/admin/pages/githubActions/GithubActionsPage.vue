@@ -12,7 +12,7 @@
               v-model="selectedRepo"
               :items="repositories"
               item-title="name"
-              item-value="name"
+              item-value="url"
               label="모니터링할 리포지토리 선택"
               outlined
             ></v-select>
@@ -20,7 +20,7 @@
           </v-card-text>
           <v-divider></v-divider>
           <v-list>
-            <v-list-item v-for="run in workflows" :key="run.id">
+            <v-list-item v-for="run in filteredWorkflows" :key="run.id">
               <v-list-item-content>
                 <v-list-item-title>
                   {{ run.name }} - {{ run.status }} ({{ run.conclusion || '진행 중' }})
@@ -50,7 +50,7 @@ import { useAdminStore } from "~/admin/stores/adminStore";
 const adminStore = useAdminStore();
 
 // 선택된 리포지토리
-const selectedRepo = ref<{ name: string; url: string } | null>(null);
+const selectedRepo = ref<string | null>(null);
 
 // 두 저장소의 목록
 const repositories = [
@@ -58,12 +58,9 @@ const repositories = [
   { name: "Mashed-Potato-Data-Server", url: "https://github.com/silenc3502/Mashed-Potato-Data-Server" }
 ];
 
-// 사용자의 토큰
-const userToken = "your-user-token";
-
 // 선택한 리포지토리의 워크플로우 데이터 필터링
 const filteredWorkflows = computed(() => {
-  return adminStore.workflows.filter(workflow => workflow.repoName === selectedRepo.value?.name);
+  return adminStore.workflows.filter(workflow => workflow.repoUrl === selectedRepo.value);
 });
 
 // GitHub Workflow 데이터 가져오기
@@ -73,13 +70,20 @@ const fetchWorkflowRuns = async () => {
     return;
   }
 
+  const userToken = localStorage.getItem("userToken");
+  if (!userToken) {
+    alert("로그인이 필요합니다.");
+    return;
+  }
+
   try {
-    console.log(`🔄 ${selectedRepo.value.name}의 GitHub Workflow 데이터 요청`);
-    await adminStore.requestGithubWorkflow(userToken, selectedRepo.value.url); // 🔥 repoUrl 추가
+    console.log(`🔄 ${selectedRepo.value}의 GitHub Workflow 데이터 요청`);
+    await adminStore.requestGithubWorkflow({ userToken, repoUrl: selectedRepo.value });
   } catch (error) {
     console.error("❌ fetchWorkflowRuns() 오류:", error);
   }
 };
+
 
 // 워크플로우 상세 페이지로 이동하는 함수
 const viewDetails = (url: string) => {
