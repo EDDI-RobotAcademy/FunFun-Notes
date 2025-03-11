@@ -23,7 +23,7 @@ class GithubActionMonitorRepositoryImpl(GithubActionMonitorRepository):
 
     def getGithubActionWorkflow(self, token: str, repoUrl: str):
         """Fiber 서버에 요청하여 GitHub Actions Workflow 상태 가져오기"""
-        endpoint = "/github-action-workflow"  # 엔드포인트 수정
+        endpoint = "/github-actions/workflow"  # 엔드포인트 수정
         data = {"token": token, "repoUrl": repoUrl}
 
         try:
