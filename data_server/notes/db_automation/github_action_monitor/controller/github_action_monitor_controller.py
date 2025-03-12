@@ -49,6 +49,8 @@ class GithubActionMonitorController(viewsets.ViewSet):
                     status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
 
+            print(f"workflowData: {workflowData}")
+
             # 성공적으로 데이터를 가져왔다면
             return Response({"workflowInfo": workflowData}, status=status.HTTP_200_OK)
 

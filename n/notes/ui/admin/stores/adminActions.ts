@@ -15,8 +15,12 @@ export const adminAction = {
       );
   
       console.log("✅ GitHub Workflow 응답:", res.data);
-  
-      return res.data.workflowInfo;
+
+      const { workflowInfo } = res.data;
+      console.log(`workflowInfo: ${workflowInfo}`);
+
+      // 데이터 설정
+      this.workflows = workflowInfo || [];        // workflows가 없으면 빈 배열
     } catch (error) {
       console.error("❌ requestGithubWorkflow() 오류:", error);
       throw new Error("Failed to fetch GitHub Workflow data");

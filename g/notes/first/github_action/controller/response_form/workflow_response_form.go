@@ -1,7 +1,7 @@
-package entity
+package response_form
 
 type WorkflowRun struct {
-	ID         int    `json:"id" gorm:"primaryKey"`
+	ID         int    `json:"id"`
 	Name       string `json:"name"`
 	Status     string `json:"status"`
 	Conclusion string `json:"conclusion"`

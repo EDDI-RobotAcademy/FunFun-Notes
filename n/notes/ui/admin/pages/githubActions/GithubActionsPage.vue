@@ -19,22 +19,32 @@
             <v-btn color="primary" @click="fetchWorkflowRuns">데이터 새로고침</v-btn>
           </v-card-text>
           <v-divider></v-divider>
+
+          <!-- 워크플로우 실행 리스트 -->
           <v-list>
-            <v-list-item v-for="run in filteredWorkflows" :key="run.id">
-              <v-list-item-content>
-                <v-list-item-title>
-                  {{ run.name }} - {{ run.status }} ({{ run.conclusion || '진행 중' }})
-                </v-list-item-title>
-                <v-list-item-subtitle>
-                  실행 시간: {{ formatDate(run.created_at) }}
-                </v-list-item-subtitle>
-              </v-list-item-content>
-              <v-list-item-action>
-                <v-btn icon @click="viewDetails(run.html_url)">
-                  <v-icon>mdi-open-in-new</v-icon>
-                </v-btn>
-              </v-list-item-action>
-            </v-list-item>
+            <v-list-item-group v-if="adminStore.workflows.length > 0">
+              <v-list-item v-for="run in adminStore.workflows" :key="run.id">
+                <v-list-item-content>
+                  <v-list-item-title class="text-h6">
+                    {{ run.name }}
+                  </v-list-item-title>
+                  <v-list-item-subtitle class="workflow-info">
+                    <v-chip :color="statusColor(run.status)" label>
+                      {{ statusLabel(run.status, run.conclusion) }}
+                    </v-chip>
+                    <span class="run-time">실행 시간: <strong>{{ formatDate(run.created_at) }}</strong></span>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+                <v-list-item-action>
+                  <v-btn icon @click="viewDetails(run.html_url)">
+                    <v-icon>mdi-open-in-new</v-icon>
+                  </v-btn>
+                </v-list-item-action>
+              </v-list-item>
+            </v-list-item-group>
+            <v-alert v-else type="info" class="mt-4">
+              워크플로우 실행 데이터가 없습니다.
+            </v-alert>
           </v-list>
         </v-card>
       </v-col>
@@ -43,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useAdminStore } from "~/admin/stores/adminStore";
 
 // Pinia 스토어 가져오기
@@ -57,11 +67,6 @@ const repositories = [
   { name: "Mashed-Potato-Frontend", url: "https://github.com/silenc3502/Mashed-Potato-Frontend" },
   { name: "Mashed-Potato-Data-Server", url: "https://github.com/silenc3502/Mashed-Potato-Data-Server" }
 ];
-
-// 선택한 리포지토리의 워크플로우 데이터 필터링
-const filteredWorkflows = computed(() => {
-  return adminStore.workflows.filter(workflow => workflow.repoUrl === selectedRepo.value);
-});
 
 // GitHub Workflow 데이터 가져오기
 const fetchWorkflowRuns = async () => {
@@ -79,11 +84,11 @@ const fetchWorkflowRuns = async () => {
   try {
     console.log(`🔄 ${selectedRepo.value}의 GitHub Workflow 데이터 요청`);
     await adminStore.requestGithubWorkflow({ userToken, repoUrl: selectedRepo.value });
+    console.log("Fetched workflows:", adminStore.workflows); 
   } catch (error) {
     console.error("❌ fetchWorkflowRuns() 오류:", error);
   }
 };
-
 
 // 워크플로우 상세 페이지로 이동하는 함수
 const viewDetails = (url: string) => {
@@ -92,10 +97,63 @@ const viewDetails = (url: string) => {
 
 // 날짜 포맷을 사람이 읽기 좋은 형식으로 변환하는 함수
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleString();
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("ko-KR", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "Asia/Seoul",
+  }).format(date);
+};
+
+// 상태에 따른 색상 설정
+const statusColor = (status: string) => {
+  switch (status) {
+    case "completed":
+      return "green";
+    case "in_progress":
+      return "orange";
+    case "queued":
+      return "blue";
+    case "failed":
+    case "cancelled":
+      return "red";
+    default:
+      return "gray";
+  }
+};
+
+// 상태 레이블 포맷
+const statusLabel = (status: string, conclusion: string | null) => {
+  if (status === "completed" && conclusion === "success") {
+    return "성공";
+  } else if (status === "completed" && conclusion === "failure") {
+    return "실패";
+  } else {
+    return status === "in_progress" ? "진행 중" : status;
+  }
 };
 
 onMounted(() => {
   fetchWorkflowRuns();
 });
 </script>
+
+<style scoped>
+.v-list-item {
+  cursor: pointer;
+}
+
+.workflow-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.run-time {
+  font-weight: normal;
+}
+</style>

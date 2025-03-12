@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"first/github_action/controller/request_form"
 	"first/github_action/entity"
 	"first/github_action/service"
 	"strconv"
@@ -20,18 +21,30 @@ func NewGitHubActionController(service service.GitHubActionService) *GitHubActio
 
 // GetWorkflowRuns 워크플로우 실행 정보 가져오기
 func (c *GitHubActionController) GetWorkflowRuns(ctx *fiber.Ctx) error {
-	println("GetWorkflowRuns()")
-	repoUrl := ctx.Query("repoUrl")
-	token := ctx.Query("token")
+	println("controller - GetWorkflowRuns()")
+
+	// 요청 바디 파싱
+	var req request_form.WorkflowRequest
+	if err := ctx.BodyParser(&req); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid request body",
+		})
+	}
+	println("controller - pass request_form")
 
 	// 요청 파라미터 검증
-	if repoUrl == "" || token == "" {
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "repo_url and token are required"})
+	if req.RepoUrl == "" || req.Token == "" {
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "repo_url and token are required",
+		})
 	}
+	println("controller - non-null request_form")
 
-	workflowRuns, err := c.GitHubActionService.GetWorkflowRuns(repoUrl, token)
+	workflowRuns, err := c.GitHubActionService.GetWorkflowRuns(req.RepoUrl, req.Token)
 	if err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": err.Error(),
+		})
 	}
 
 	return ctx.JSON(workflowRuns)
