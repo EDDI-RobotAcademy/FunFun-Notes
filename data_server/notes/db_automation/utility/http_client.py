@@ -26,7 +26,7 @@ class HttpClient:
             response = client.post(endpoint, json=data)
 
             if response.status_code == 200:
-                return True
+                return response.json()
             else:
                 print(f"❌ Failed to send request to Fiber: {response.status_code}")
                 return False

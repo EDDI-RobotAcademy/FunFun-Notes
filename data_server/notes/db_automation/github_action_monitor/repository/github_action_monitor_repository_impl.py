@@ -23,8 +23,9 @@ class GithubActionMonitorRepositoryImpl(GithubActionMonitorRepository):
 
     def getGithubActionWorkflow(self, token: str, repoUrl: str):
         """Fiber 서버에 요청하여 GitHub Actions Workflow 상태 가져오기"""
-        endpoint = "/github-action-workflow"  # 엔드포인트 수정
-        data = {"token": token, "repoUrl": repoUrl}
+        endpoint = "/github-actions/workflow"  # 엔드포인트 수정
+        data = {"token": token, "repo_url": repoUrl}
+        print(f"token: {token}, repoUrl: {repoUrl}")
 
         try:
             # HttpClient의 비동기 POST 메서드를 사용하여 요청
