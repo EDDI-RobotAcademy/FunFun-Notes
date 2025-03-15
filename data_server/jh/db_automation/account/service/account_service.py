@@ -7,6 +7,10 @@ class AccountService(ABC):
         pass
 
     @abstractmethod
+    def createAdminAccount(self, email):
+        pass
+
+    @abstractmethod
     def checkEmailDuplication(self, email):
         pass
 

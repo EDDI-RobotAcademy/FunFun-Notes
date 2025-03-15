@@ -18,6 +18,8 @@ from model_regulation.controller.model_regulation_controller import modelRegulat
 from openai_basic.controller.openai_basic_controller import openAiBasicRouter
 from openai_fine_tuning.openai_fine_tuning_controller import openaiFineTuningRouter
 from principal_component_analysis.controller.pca_controller import principalComponentAnalysisRouter
+from dcgan.controller.dcgan_controller import dcganRouter
+from image_generation.controller.image_generation_controller import imageGenerationRouter
 
 load_dotenv()
 
@@ -41,6 +43,8 @@ app.include_router(openAiBasicRouter)
 app.include_router(gameDataFineTuningRouter)
 app.include_router(openaiFineTuningRouter)
 app.include_router(ganRouter)
+app.include_router(dcganRouter)
+app.include_router(imageGenerationRouter)
 
 # HOST는 모두에 열려 있고
 # FASTAPI_PORT를 통해서 이 서비스가 구동되는 포트 번호를 지정
