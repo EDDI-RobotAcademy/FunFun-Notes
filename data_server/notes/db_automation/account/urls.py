@@ -11,4 +11,7 @@ urlpatterns = [
     path('email',
          AccountController.as_view({ 'post': 'requestEmail' }),
          name='로그아웃 요청'),
+    path('email',
+         AccountController.as_view({ 'post': 'requestWithdraw' }),
+         name='회원 탈퇴 요청'),
 ]

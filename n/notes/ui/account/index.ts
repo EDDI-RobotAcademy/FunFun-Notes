@@ -30,6 +30,12 @@ export default defineNuxtModule({
                 path: '/account/admin-code',
                 file: resolve(themeDir, 'account/pages/adminLogin/AdminCodeInputPage.vue'),
             });
+
+			pages.push({
+				name: 'AccountWithdrawPage',
+				path: '/account/withdraw',
+				file: resolve(themeDir, 'account/pages/withdraw/AccountWithdrawPage.vue'),
+			});
 		});
 
 		nuxt.hook("imports:dirs", (dirs) => {

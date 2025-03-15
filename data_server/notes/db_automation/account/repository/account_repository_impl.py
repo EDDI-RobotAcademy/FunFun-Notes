@@ -73,3 +73,11 @@ class AccountRepositoryImpl(AccountRepository):
             return Account.objects.get(email=email)
         except ObjectDoesNotExist:
             raise ObjectDoesNotExist(f"Account {email} 존재하지 않음.")
+
+    def deleteAccount(self, accountId: int) -> bool:
+        try:
+            account = Account.objects.get(id=accountId)
+            account.delete()
+            return True
+        except Account.DoesNotExist:
+            return False
