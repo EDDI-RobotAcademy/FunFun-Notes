@@ -19,5 +19,23 @@ export const accountAction = {
           console.error("requestEmail() axios 오류!", error);
           throw new Error("Failed to fetch email");
         }
-      },
+    },
+    async withdraw(userToken: string): Promise<void> {
+        const { djangoAxiosInstance } = axiosUtility.createAxiosInstances();
+        const accountStore = useAccountStore();
+
+        try {
+            // 회원 탈퇴 요청
+            await djangoAxiosInstance.delete("/account/withdraw", {
+                data: { userToken }, // DELETE 요청의 body로 userToken 전달
+            });
+
+            // Pinia 스토어의 사용자 정보 초기화
+            accountStore.resetAccount();
+
+        } catch (error) {
+            console.error("withdraw() axios 오류!", error);
+            throw new Error("Failed to withdraw account");
+        }
+    },
 };

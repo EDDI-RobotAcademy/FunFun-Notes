@@ -17,3 +17,7 @@ class AccountService(ABC):
     @abstractmethod
     def findEmail(self, accountId):
         pass
+
+    @abstractmethod
+    def withdraw(self, accountId: int) -> bool:
+        pass

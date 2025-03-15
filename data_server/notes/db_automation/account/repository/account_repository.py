@@ -18,3 +18,7 @@ class AccountRepository(ABC):
     @abstractmethod
     def findByEmail(self, email):
         pass
+
+    @abstractmethod
+    def deleteAccount(self, accountId: int) -> bool:
+        pass

@@ -44,3 +44,6 @@ class AccountServiceImpl(AccountService):
 
         except ObjectDoesNotExist:
             return None
+
+    def withdraw(self, accountId: int) -> bool:
+        return self.__accountRepository.deleteAccount(accountId)
