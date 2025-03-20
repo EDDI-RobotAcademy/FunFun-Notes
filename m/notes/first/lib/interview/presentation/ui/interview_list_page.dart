@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../common_ui/error_message.dart';
 import '../../../common_ui/loading_indicator.dart';
+import '../../interview_module.dart';
 import '../providers/interview_list_provider.dart';
 import 'component/interview_page_content.dart';
 
@@ -83,18 +84,12 @@ class _InterviewListPageState extends State<InterviewListPage> {
               right: 16,
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigate to the interview creation page
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) =>
-                  //         InterviewModule.provideInterviewCreatePage(),
-                  //   ),
-                  // ).then((_) {
-                  //   final interviewListProvider =
-                  //   Provider.of<InterviewListProvider>(context, listen: false);
-                  //   interviewListProvider.listInterview(1, 6); // Reload data after creation
-                  // });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => InterviewModule.provideInterviewStartPage(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue, // 버튼 배경색
