@@ -1,4 +1,5 @@
 import 'package:first/board/board_module.dart';
+import 'package:first/interview/interview_module.dart';
 import 'package:first/path_finder/path_finder_module.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,6 +65,19 @@ class CustomAppBar extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => KakaoAuthModule.provideKakaoLoginPage()
+                  ),
+                );
+              },
+            ),
+            AppBarAction(
+              icon: Icons.record_voice_over, // 면접 관련 아이콘
+              tooltip: '모의 면접',
+              onPressed: () {
+                print('모의 면접 시작');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => InterviewModule.provideInterviewListPage()
                   ),
                 );
               },
