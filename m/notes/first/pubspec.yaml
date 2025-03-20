@@ -54,6 +54,7 @@ dependencies:
   webview_flutter_wkwebview: ^3.18.2
   geolocator: ^13.0.2
   sensors_plus: ^6.1.1
+  speech_to_text: ^7.0.0
 #  kakao_map_plugin: ^0.3.2
 
 dev_dependencies:
