@@ -8,10 +8,6 @@ class AccountRepository(ABC):
         pass
 
     @abstractmethod
-    def saveAdmin(self, email):
-        pass
-
-    @abstractmethod
     def findById(self, accountId):
         pass
 

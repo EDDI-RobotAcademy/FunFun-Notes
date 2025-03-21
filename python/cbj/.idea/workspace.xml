@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d044954b-592d-46f8-be81-88abcbfa6012" name="변경" comment="">
-      <change beforePath="$PROJECT_DIR$/../../data_server/cbj/db_automation/account/repository/account_repository.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../data_server/cbj/db_automation/account/repository/account_repository.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../data_server/cbj/db_automation/account/repository/account_repository_impl.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../data_server/cbj/db_automation/account/repository/account_repository_impl.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../data_server/cbj/db_automation/account/service/account_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/../../data_server/cbj/db_automation/account/service/account_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../m/cbj/first/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/../../m/cbj/first/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../m/cbj/first/linux/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../../m/cbj/first/linux/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../m/cbj/first/linux/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../m/cbj/first/linux/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../m/cbj/first/linux/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../../m/cbj/first/linux/flutter/generated_plugins.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../m/cbj/first/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/../../m/cbj/first/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../m/cbj/first/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/../../m/cbj/first/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../m/cbj/first/windows/flutter/generated_plugin_registrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/../../m/cbj/first/windows/flutter/generated_plugin_registrant.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../m/cbj/first/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/../../m/cbj/first/windows/flutter/generated_plugins.cmake" afterDir="false" />
-    </list>
+    <list default="true" id="d044954b-592d-46f8-be81-88abcbfa6012" name="변경" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,18 +20,16 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/lectures/SK-Networks-8-Notes/ai_server/cbj/dlls_demo"
+    "last_opened_file_path": "C:/lecture/SK-Networks-8-Notes/python/cbj"
   }
 }]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-495700d161d3-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.220" />
+        <option value="bundled-python-sdk-1b1018131e27-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.180" />
       </set>
     </attachedChunks>
   </component>
