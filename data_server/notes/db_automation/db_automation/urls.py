@@ -43,4 +43,5 @@ urlpatterns = [
     path("blog-post/", include('blog_post.urls')),
     path("github-oauth/", include('github_authentication.urls')),
     path("github-action-monitor/", include('github_action_monitor.urls')),
+    path("interview/", include('interview.urls')),
 ]
