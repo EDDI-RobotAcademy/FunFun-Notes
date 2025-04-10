@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../domain/entity/interview.dart';
 import '../../domain/usecases/list/list_interview_use_case.dart';
 
 class InterviewListProvider with ChangeNotifier {
   final ListInterviewUseCase listInterviewUseCase;
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
   List<Interview> interviewList = [];
   String message = '';
@@ -25,8 +27,17 @@ class InterviewListProvider with ChangeNotifier {
     notifyListeners();
 
     try {
+      final userToken = await secureStorage.read(key: 'userToken');
+
+      if (userToken == null) {
+        message = '로그인 상태가 아니므로 로그인을 먼저 해주세요.';
+        isLoading = false;
+        notifyListeners();
+        return null;
+      }
+
       final interviewListResponse =
-      await listInterviewUseCase.call(page, perPage);
+      await listInterviewUseCase.call(page, perPage, userToken);
 
       if (interviewListResponse.interviewList.isEmpty) {
         message = '등록된 모의 면접이 없습니다';

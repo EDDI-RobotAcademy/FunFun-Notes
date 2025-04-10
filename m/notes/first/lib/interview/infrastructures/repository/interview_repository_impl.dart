@@ -9,8 +9,8 @@ class InterviewRepositoryImpl implements InterviewRepository {
   InterviewRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<InterviewListResponse> listInterview(int page, int perPage) async {
-    final interviewListResponse = await remoteDataSource.listInterview(page, perPage);
+  Future<InterviewListResponse> listInterview(int page, int perPage, String userToken) async {
+    final interviewListResponse = await remoteDataSource.listInterview(page, perPage, userToken);
 
     return interviewListResponse;
   }
