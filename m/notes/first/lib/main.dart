@@ -8,11 +8,17 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:provider/provider.dart';
 
+import 'authentication/presentation/ui/login_page.dart';
+import 'base_url_provider.dart';
+import 'home/presentation/ui/home_page.dart';
 import 'kakao_authentication/domain/usecase/fetch_user_info_usecase_impl.dart';
 import 'kakao_authentication/domain/usecase/request_user_token_usecase_impl.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+
+import 'kakao_authentication/presentation/providers/kakao_auth_providers.dart';
+import 'main_module.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,28 +44,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("baseUrl: $baseUrl");
+
     return MultiProvider(
-      providers: [
-        Provider<KakaoAuthRemoteDataSource>(
-          create: (_) => KakaoAuthRemoteDataSource(baseUrl)
-        ),
-        ProxyProvider<KakaoAuthRemoteDataSource, KakaoAuthRepository>(
-          update: (_, remoteDataSrouce, __) =>
-            KakaoAuthRepositoryImpl(remoteDataSrouce),
-        ),
-        ProxyProvider<KakaoAuthRepository, LoginUseCaseImpl>(
-          update: (_, repository, __) =>
-            LoginUseCaseImpl(repository)
-        ),
-        ProxyProvider<KakaoAuthRepository, FetchUserInfoUseCaseImpl>(
-          update: (_, repository, __) =>
-            FetchUserInfoUseCaseImpl(repository),
-        ),
-        ProxyProvider<KakaoAuthRepository, RequestUserTokenUseCaseImpl>(
-          update: (_, repository, __) =>
-            RequestUserTokenUseCaseImpl(repository),
-        ),
-      ],
+        providers: [
+          // BaseUrlProvider를 Consumer로 감싸서 baseUrl을 처리
+          ChangeNotifierProvider<BaseUrlProvider>(
+            create: (_) => BaseUrlProvider(baseUrl),
+          ),
+          ...MainModule.provideAppModules(),  // MainModule에서 제공하는 인증 관련 모듈들
+        ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -75,7 +69,16 @@ class MyApp extends StatelessWidget {
           Locale('en', 'US'), // Add supported locales
           Locale('ko', 'KR'), // For example, support Korean
         ],
-        home: HomeModule.provideHomePage(),
+        // home: HomeModule.provideHomePage(loginType: "Kakao"),
+        home: Consumer<KakaoAuthProvider>(
+          builder: (context, kakaoProvider, child) {
+            if (kakaoProvider.isLoggedIn) {
+              return HomePage(loginType: "Kakao");
+            } else {
+              return LoginPage();
+            }
+          },
+        ),
       )
     );
   }
