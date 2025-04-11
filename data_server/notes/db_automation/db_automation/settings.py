@@ -67,6 +67,8 @@ INSTALLED_APPS = [
     'image_gallery',
     'blog_post',
     'github_action_monitor',
+    'interview',
+    'naver_authentication'
 ]
 
 MIDDLEWARE = [
@@ -122,6 +124,15 @@ GITHUB = {
     'TOKEN_REQUEST_URI': os.getenv('GITHUB_TOKEN_REQUEST_URI'),
     'USER_INFO_REQUEST_URI': os.getenv('GITHUB_USER_INFO_REQUEST_URI'),
     'ADMIN_CODE': os.getenv('GITHUB_ADMIN_CODE'),
+}
+
+NAVER = {
+    'LOGIN_URL': os.environ.get('NAVER_LOGIN_URL'),
+    'CLIENT_ID': os.environ.get('NAVER_CLIENT_ID'),
+    'CLIENT_SECRET': os.environ.get('NAVER_CLIENT_SECRET'),
+    'REDIRECT_URI': os.environ.get('NAVER_REDIRECT_URI'),
+    'TOKEN_REQUEST_URI': os.environ.get('NAVER_TOKEN_REQUEST_URI'),
+    'USER_INFO_REQUEST_URI': os.environ.get('NAVER_USER_INFO_REQUEST_URI'),
 }
 
 print(f"ADMIN_CODE: {GITHUB['ADMIN_CODE']}")

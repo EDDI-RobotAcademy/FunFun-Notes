@@ -8,15 +8,26 @@ class InterviewRemoteDataSource {
 
   InterviewRemoteDataSource(this.baseUrl);
 
-  Future<InterviewListResponse> listInterview(int page, int perPage) async {
-    final parsedUri = Uri.parse('$baseUrl/interview/list?page=$page&perPage=$perPage');
+  Future<InterviewListResponse> listInterview(int page, int perPage, String userToken) async {
+    final parsedUri = Uri.parse('$baseUrl/interview/list');
 
-    final interviewListResponse = await http.get(parsedUri);
+    // POST 요청에 필요한 body 데이터
+    final requestBody = {
+      'userToken': userToken,
+      'page': page,
+      'perPage': perPage,
+    };
 
-    if (interviewListResponse.statusCode == 200) {
-      final data = json.decode(interviewListResponse.body);
+    final response = await http.post(
+      parsedUri,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode(requestBody),  // body에 JSON 데이터 전송
+    );
 
-      List<Interview> interviewList = (data['dataList'] as List)
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+
+      List<Interview> interviewList = (data['interviewList'] as List)
           .map((data) => Interview(
         id: data['id'] ?? 0,  // id 추가
         title: data['title'] ?? 'No Title',  // title 추가

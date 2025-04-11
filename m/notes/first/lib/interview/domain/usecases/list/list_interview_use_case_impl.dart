@@ -9,10 +9,10 @@ class ListInterviewUseCaseImpl implements ListInterviewUseCase {
   ListInterviewUseCaseImpl(this.interviewRepository);
 
   @override
-  Future<InterviewListResponse> call(int page, int perPage) async {
+  Future<InterviewListResponse> call(int page, int perPage, String userToken) async {
     try {
       // 인터뷰 목록을 리포지토리에서 가져옴
-      final InterviewListResponse response = await interviewRepository.listInterview(page, perPage);
+      final InterviewListResponse response = await interviewRepository.listInterview(page, perPage, userToken);
 
       return response;
     } catch (error) {
