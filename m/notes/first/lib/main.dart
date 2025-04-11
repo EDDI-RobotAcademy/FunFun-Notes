@@ -19,6 +19,7 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 
 import 'kakao_authentication/presentation/providers/kakao_auth_providers.dart';
 import 'main_module.dart';
+import 'naver_authentication/presentation/providers/naver_auth_providers.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,11 +70,12 @@ class MyApp extends StatelessWidget {
           Locale('en', 'US'), // Add supported locales
           Locale('ko', 'KR'), // For example, support Korean
         ],
-        // home: HomeModule.provideHomePage(loginType: "Kakao"),
-        home: Consumer<KakaoAuthProvider>(
-          builder: (context, kakaoProvider, child) {
+        home: Consumer2<KakaoAuthProvider, NaverAuthProvider>(
+          builder: (context, kakaoProvider, naverProvider, child) {
             if (kakaoProvider.isLoggedIn) {
               return HomePage(loginType: "Kakao");
+            } else if (naverProvider.isLoggedIn) {
+              return HomePage(loginType: "Naver");
             } else {
               return LoginPage();
             }

@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../../../home/home_module.dart';
 import '../../../kakao_authentication/presentation/providers/kakao_auth_providers.dart';
+import '../../../naver_authentication/presentation/providers/naver_auth_providers.dart';
+import '../../../naver_authentication/presentation/redirection/naver_login_webview_page.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -44,6 +46,27 @@ class LoginPage extends StatelessWidget {
                     },
                     child: Image.asset(
                       'assets/images/kakao_login.png',
+                      width: 200,
+                      height: 50,
+                      fit: BoxFit.fill,
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(height: 10),
+
+              Consumer<NaverAuthProvider>(
+                builder: (context, naverProvider, child) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const NaverLoginWebViewPage()),
+                      );
+                    },
+                    child: Image.asset(
+                      'assets/images/naver_login.png',
                       width: 200,
                       height: 50,
                       fit: BoxFit.fill,
