@@ -1,48 +1,40 @@
 class Interview {
   final int id;
-  final String title;
-  final String companyName;
-  final String jobTitle;
-  final String jobCategory;
+  final String jobCategory;  // 직무
+  final String experienceLevel;  // 경력 수준
   final String createDate;
+  final String updateDate;
 
   Interview({
-    this.id = 0, // 기본값 설정
-    this.title = 'No Title',
-    this.companyName = 'Unknown Company',
-    this.jobTitle = 'Unknown Job Title',
+    this.id = 0,
     this.jobCategory = 'Unknown Category',
+    this.experienceLevel = 'Unknown',
     this.createDate = 'Unknown',
+    this.updateDate = 'Unknown',
   });
 
   Map<String, dynamic> toJson() {
     return {
       'interviewId': id,
-      'title': title,
-      'companyName': companyName,
-      'jobTitle': jobTitle,
       'jobCategory': jobCategory,
+      'experienceLevel': experienceLevel,
       'createDate': createDate,
+      'updateDate': updateDate,
     };
   }
 
   factory Interview.fromJson(Map<String, dynamic> json) {
-    try {
-      return Interview(
-        id: json['interviewId'] ?? 0,
-        title: json['title'] ?? 'No Title',
-        companyName: json['companyName'] ?? 'Unknown Company',
-        jobTitle: json['jobTitle'] ?? 'Unknown Job Title',
-        jobCategory: json['jobCategory'] ?? 'Unknown Category',
-        createDate: json['createDate'] ?? 'Unknown',
-      );
-    } catch (e) {
-      rethrow;
-    }
+    return Interview(
+      id: json['interviewId'] ?? 0,
+      jobCategory: json['jobCategory'] ?? 'Unknown Category',
+      experienceLevel: json['experienceLevel'] ?? 'Unknown',
+      createDate: json['createDate'] ?? 'Unknown',
+      updateDate: json['updateDate'] ?? 'Unknown',
+    );
   }
 
   @override
   String toString() {
-    return 'Interview(id: $id, title: $title, companyName: $companyName, jobTitle: $jobTitle, jobCategory: $jobCategory, createDate: $createDate)';
+    return 'Interview(id: $id, jobCategory: $jobCategory, experienceLevel: $experienceLevel, createDate: $createDate, updateDate: $updateDate)';
   }
 }

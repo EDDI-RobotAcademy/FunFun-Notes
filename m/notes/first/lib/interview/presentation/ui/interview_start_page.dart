@@ -29,22 +29,24 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
 
   // 권한 요청 함수
   Future<void> _requestPermissions() async {
-    // 마이크 권한 요청
-    PermissionStatus microphonePermission = await Permission.microphone.request();
-    if (!microphonePermission.isGranted) {
-      print("마이크 권한이 필요합니다.");
-      return;
-    }
-
     // 카메라 권한 요청
-    PermissionStatus cameraPermission = await Permission.camera.request();
-    if (!cameraPermission.isGranted) {
-      print("카메라 권한이 필요합니다.");
-      return;
-    }
+    final cameraStatus = await Permission.camera.request();
 
-    // 권한이 모두 승인되었을 때 처리
-    print("모든 권한이 승인되었습니다.");
+    if (cameraStatus.isGranted) {
+      // 카메라 권한이 승인되면, 마이크 권한 요청
+      final micStatus = await Permission.microphone.request();
+
+      if (micStatus.isGranted) {
+        // 마이크 권한도 승인되면 카메라 초기화
+        _initializeCamera();
+      } else {
+        // 마이크 권한 거부 처리
+        print("마이크 권한이 거부되었습니다.");
+      }
+    } else {
+      // 카메라 권한 거부 처리
+      print("카메라 권한이 거부되었습니다.");
+    }
   }
 
   // 카메라 초기화

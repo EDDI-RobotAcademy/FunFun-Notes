@@ -32,27 +32,35 @@ class InterviewForm extends StatefulWidget {
 }
 
 class _InterviewFormState extends State<InterviewForm> {
-  String? selectedCompany;
   String? selectedJob;
   String? selectedExperience;
 
-  final List<String> companies = ['회사 A', '회사 B', '회사 C'];
-  final List<String> jobs = ['개발자', '디자이너', '기획자'];
-  final List<String> experiences = ['신입', '경력 3년', '경력 5년 이상'];
+  final Map<String, int> jobOptions = {
+    'Backend': 1,
+    'Front': 2,
+    'DevOps': 3,
+    'AI': 4,
+    'Embedded': 5,
+  };
+
+  final Map<String, int> experienceOptions = {
+    '신입': 1,
+    '3년 이하': 2,
+    '5년 이하': 3,
+    '10년 이하': 4,
+    '10년 이상': 5,
+  };
 
   void _submitSelection() {
-    if (selectedCompany != null && selectedJob != null && selectedExperience != null) {
+    if (selectedJob != null && selectedExperience != null) {
       final interview = Interview(
-        companyName: selectedCompany!,
-        jobTitle: selectedJob!,
-        jobCategory: selectedExperience!,
-        createDate: DateTime.now().toString(), // 생성 날짜를 현재 시간으로 설정
+        jobCategory: jobOptions[selectedJob!].toString(),
+        experienceLevel: experienceOptions[selectedExperience!].toString(),
+        createDate: DateTime.now().toString(),
       );
 
-      // InterviewCreateProvider를 통해 면접을 생성
       widget.createProvider.createInterview(interview).then((_) {
         if (widget.createProvider.errorMessage == null) {
-          // InterviewStartPage로 이동
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => InterviewStartPage()),
@@ -76,20 +84,10 @@ class _InterviewFormState extends State<InterviewForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DropdownButtonFormField<String>(
-          value: selectedCompany,
-          hint: Text('회사를 선택하세요'),
-          onChanged: (value) => setState(() => selectedCompany = value),
-          items: companies.map((company) => DropdownMenuItem(
-            value: company,
-            child: Text(company, style: TextStyle(fontWeight: FontWeight.bold)),
-          )).toList(),
-        ),
-        SizedBox(height: 16),
-        DropdownButtonFormField<String>(
           value: selectedJob,
           hint: Text('직무를 선택하세요'),
           onChanged: (value) => setState(() => selectedJob = value),
-          items: jobs.map((job) => DropdownMenuItem(
+          items: jobOptions.keys.map((job) => DropdownMenuItem(
             value: job,
             child: Text(job, style: TextStyle(fontWeight: FontWeight.bold)),
           )).toList(),
@@ -99,9 +97,9 @@ class _InterviewFormState extends State<InterviewForm> {
           value: selectedExperience,
           hint: Text('경력을 선택하세요'),
           onChanged: (value) => setState(() => selectedExperience = value),
-          items: experiences.map((experience) => DropdownMenuItem(
-            value: experience,
-            child: Text(experience, style: TextStyle(fontWeight: FontWeight.bold)),
+          items: experienceOptions.keys.map((exp) => DropdownMenuItem(
+            value: exp,
+            child: Text(exp, style: TextStyle(fontWeight: FontWeight.bold)),
           )).toList(),
         ),
         Spacer(),
