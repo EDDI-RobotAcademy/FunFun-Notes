@@ -3,6 +3,8 @@ import 'package:first/interview/domain/entity/interview.dart';
 import 'package:first/interview/domain/usecases/list/response/interview_list_response.dart';
 import 'package:http/http.dart' as http;
 
+import '../../domain/usecases/create/response/interview_create_response.dart';
+
 class InterviewRemoteDataSource {
   final String baseUrl;
 
@@ -30,9 +32,6 @@ class InterviewRemoteDataSource {
       List<Interview> interviewList = (data['interviewList'] as List)
           .map((data) => Interview(
         id: data['id'] ?? 0,  // id 추가
-        title: data['title'] ?? 'No Title',  // title 추가
-        companyName: data['companyName'] ?? 'Unknown',
-        jobTitle: data['jobTitle'] ?? 'Unknown',
         jobCategory: data['jobCategory'] ?? 'Unknown',
         createDate: data['createDate'] ?? 'Unknown',  // createDate 추가
       ))
@@ -50,6 +49,28 @@ class InterviewRemoteDataSource {
       throw Exception('인터뷰 목록 조회 실패');
     }
   }
+
+  Future<InterviewCreateResponse> createInterview(String userToken, Interview interview) async {
+    final uri = Uri.parse('$baseUrl/interview/create');
+
+    final response = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'userToken': userToken,
+        'jobCategory': interview.jobCategory,
+        'experienceLevel': interview.experienceLevel,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return InterviewCreateResponse.fromJson(data); // ✅ interviewId만 있으면 되는 구조
+    } else {
+      throw Exception('인터뷰 세션 생성 실패');
+    }
+  }
+
 
   int parseInt(dynamic value) {
     if (value is String) {

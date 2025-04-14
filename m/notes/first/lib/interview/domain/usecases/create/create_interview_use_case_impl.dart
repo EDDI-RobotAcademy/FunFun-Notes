@@ -1,3 +1,4 @@
+import 'package:first/interview/domain/usecases/create/response/interview_create_response.dart';
 import 'package:first/interview/infrastructures/repository/interview_repository_impl.dart';
 
 import '../../entity/interview.dart';
@@ -9,12 +10,11 @@ class CreateInterviewUseCaseImpl implements CreateInterviewUseCase {
   CreateInterviewUseCaseImpl(this.interviewRepository);
 
   @override
-  Future<void> createInterview(Interview interview) async {
+  Future<InterviewCreateResponse> createInterview(String userToken, Interview interview) async {
     try {
-      // Call the repository to save the interview
-      // await interviewRepository.createInterview(interview);
+      final response = await interviewRepository.createInterview(userToken, interview);
+      return response;
     } catch (e) {
-      // Handle error in the interview creation process
       throw Exception('Failed to create interview: $e');
     }
   }
