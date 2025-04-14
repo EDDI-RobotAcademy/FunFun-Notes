@@ -20,7 +20,8 @@ class InterviewRepositoryImpl(InterviewRepository):
 
     def save(self, interview) -> Interview:
         """인터뷰 저장"""
-        return interview.save()
+        interview.save()
+        return interview
 
     def findById(self, interviewId: int) -> Interview:
         """인터뷰 ID로 인터뷰 찾기"""

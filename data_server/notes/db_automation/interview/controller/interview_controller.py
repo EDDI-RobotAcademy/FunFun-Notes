@@ -13,18 +13,34 @@ class InterviewController(viewsets.ViewSet):
 
     def requestCreateInterview(self, request):
         postRequest = request.data
-        interview = postRequest.get("interview")
+        print(f"postRequest: {postRequest}")
+
         userToken = postRequest.get("userToken")
+        jobCategory = postRequest.get("jobCategory")
+        experienceLevel = postRequest.get("experienceLevel")
 
         if not userToken:
             return JsonResponse({"error": "userToken이 필요합니다", "success": False}, status=status.HTTP_400_BAD_REQUEST)
+        if not jobCategory or not experienceLevel:
+            return JsonResponse({"error": "jobCategory와 experienceLevel이 필요합니다", "success": False},
+                                status=status.HTTP_400_BAD_REQUEST)
+
+        print(f"userToken 획득")
 
         try:
             accountId = self.redisCacheService.getValueByKey(userToken)
+            print(f"accountId 찾기: {accountId}")
 
-            createdInterview = self.interviewService.createInterview(accountId, interview)
+            createdInterview = self.interviewService.createInterview(
+                accountId, jobCategory, experienceLevel
+            )
+            print(f"createdInterview: {createdInterview}")
             if createdInterview is not None:
-                return JsonResponse({"message": "면접 정보가 추가되었습니다.", "success": True}, status=status.HTTP_200_OK)
+                return JsonResponse({
+                    "message": "면접 정보가 추가되었습니다.",
+                    "interviewId": createdInterview.id,
+                    "success": True
+                }, status=status.HTTP_200_OK)
 
         except Exception as e:
             print(f"면접 정보 생성 중 오류 발생: {e}")

@@ -1,6 +1,7 @@
 from django.core.paginator import Paginator
 from account.repository.account_repository_impl import AccountRepositoryImpl
 from interview.entity.interview import Interview
+from interview.entity.interview_status import InterviewStatus
 from interview.repository.interview_repository_impl import InterviewRepositoryImpl
 from interview.service.interview_service import InterviewService
 
@@ -21,7 +22,7 @@ class InterviewServiceImpl(InterviewService):
             cls.__instance = cls()
         return cls.__instance
 
-    def createInterview(self, accountId, interview):
+    def createInterview(self, accountId, jobCategory, experienceLevel):
         foundAccount = self.__accountRepository.findById(accountId)
 
         if not foundAccount:
@@ -29,9 +30,11 @@ class InterviewServiceImpl(InterviewService):
 
         newInterview = Interview(
             account=foundAccount,
-            topic=interview["topic"],  # Updated field
-            yearsOfExperience=interview["yearsOfExperience"]  # Updated field
+            status=InterviewStatus.IN_PROGRESS.value,
+            topic=jobCategory.value if hasattr(jobCategory, 'value') else jobCategory,
+            experience_level=experienceLevel.value if hasattr(experienceLevel, 'value') else experienceLevel
         )
+        print(f"newInterview: {newInterview}")
 
         savedInterview = self.__interviewRepository.save(newInterview)
         return savedInterview
