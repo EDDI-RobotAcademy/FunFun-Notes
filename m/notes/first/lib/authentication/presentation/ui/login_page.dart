@@ -56,6 +56,7 @@ class LoginPage extends StatelessWidget {
 
               const SizedBox(height: 10),
 
+              // 네이버 로그인 버튼
               Consumer<NaverAuthProvider>(
                 builder: (context, naverProvider, child) {
                   return GestureDetector(
