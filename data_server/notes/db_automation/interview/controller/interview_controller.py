@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.shortcuts import render
 
 from django.http import JsonResponse
@@ -5,6 +6,7 @@ from rest_framework import viewsets, status
 
 from interview.service.interview_service_impl import InterviewServiceImpl
 from redis_cache.service.redis_cache_service_impl import RedisCacheServiceImpl
+from utility.http_client import HttpClient
 
 
 class InterviewController(viewsets.ViewSet):
@@ -31,19 +33,44 @@ class InterviewController(viewsets.ViewSet):
             accountId = self.redisCacheService.getValueByKey(userToken)
             print(f"accountId 찾기: {accountId}")
 
-            createdInterview = self.interviewService.createInterview(
-                accountId, jobCategory, experienceLevel
-            )
-            print(f"createdInterview: {createdInterview}")
-            if createdInterview is not None:
-                return JsonResponse({
-                    "message": "면접 정보가 추가되었습니다.",
-                    "interviewId": createdInterview.id,
-                    "success": True
-                }, status=status.HTTP_200_OK)
+            with transaction.atomic():  # ✅ 트랜잭션 블록 시작
+                createdInterview = self.interviewService.createInterview(
+                    accountId, jobCategory, experienceLevel
+                )
+                print(f"createdInterview: {createdInterview}")
+
+                if createdInterview is None:
+                    raise Exception("면접 생성 실패")
+
+                payload = {
+                    "userToken": userToken,
+                    "interviewId": str(createdInterview.id),
+                    "topic": createdInterview.topic,
+                    "experienceLevel": createdInterview.experience_level
+                }
+
+                response = HttpClient.postToAI("/interview/question/generate", payload)
+                print(f"FastAPI Response: {response}")
+
+                if not response:
+                    raise Exception("FastAPI 질문 생성 실패")
+
+                question = response["questions"]
+                questionId = self.interviewService.saveQuestion(createdInterview.id, question)
+
+                if questionId is None:
+                    raise Exception("질문 저장 실패")
+
+            return JsonResponse({
+                "message": "면접 정보가 추가되었습니다.",
+                "interviewId": createdInterview.id,
+                "questionId": questionId,
+                "question": question,
+                "success": True
+            }, status=status.HTTP_200_OK)
 
         except Exception as e:
-            print(f"면접 정보 생성 중 오류 발생: {e}")
+            print(f"❌ 면접 생성 트랜잭션 실패: {e}")
             return JsonResponse({"error": "서버 내부 오류", "success": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def requestListInterview(self, request):
