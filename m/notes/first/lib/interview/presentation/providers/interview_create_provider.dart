@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../../domain/entity/interview.dart';
 import '../../domain/usecases/create/create_interview_use_case.dart';
+import '../../domain/usecases/create/response/interview_create_response.dart';
 
 class InterviewCreateProvider extends ChangeNotifier {
   final CreateInterviewUseCase createInterviewUseCase;
@@ -15,7 +16,10 @@ class InterviewCreateProvider extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  Future<void> createInterview(Interview interview) async {
+  int? _createdInterviewId;
+  int? get createdInterviewId => _createdInterviewId;
+
+  Future<InterviewCreateResponse?> createInterview(Interview interview) async {
     _isLoading = true;
     notifyListeners();
 
@@ -26,13 +30,25 @@ class InterviewCreateProvider extends ChangeNotifier {
         throw Exception('로그인 정보가 없습니다. 다시 로그인해주세요.');
       }
 
-      await createInterviewUseCase.createInterview(userToken, interview);
-      _errorMessage = null; // 성공시 에러 메시지 초기화
+      final response = await createInterviewUseCase.createInterview(userToken, interview);
+
+      print('[🔍 DEBUG] 받은 응답:');
+      print('Interview ID: ${response.interviewId}');
+      print('Question ID: ${response.questionId}');
+      print('Question: "${response.question}"');
+
+      _createdInterviewId = response.interviewId;
+
+      _errorMessage = null;
+      return response;
     } catch (e) {
       _errorMessage = '면접 설정 실패: $e';
+      _createdInterviewId = null;
+      return null;
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 }
+

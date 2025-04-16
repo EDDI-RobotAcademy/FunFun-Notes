@@ -39,6 +39,10 @@ class InterviewServiceImpl(InterviewService):
         savedInterview = self.__interviewRepository.save(newInterview)
         return savedInterview
 
+    def saveQuestion(self, interview_id: int, question: str) -> int | None:
+        print(f"📥 [service] Saving question to DB for interviewId={interview_id}")
+        return self.__interviewRepository.saveQuestion(interview_id, question)
+
     def listInterview(self, accountId, page, pageSize):
         try:
             account = self.__accountRepository.findById(accountId)

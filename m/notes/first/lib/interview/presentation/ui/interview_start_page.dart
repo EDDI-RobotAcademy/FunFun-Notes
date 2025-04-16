@@ -1,10 +1,24 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt; // 음성 인식 라이브러리 추가
-import 'package:permission_handler/permission_handler.dart'; // 권한 요청 패키지
+import 'package:permission_handler/permission_handler.dart';
+
+import '../providers/interview_question_answer_provider.dart'; // 권한 요청 패키지
 
 class InterviewStartPage extends StatefulWidget {
+  final int interviewId;
+  final int questionId;
+  final String question;
+
+  const InterviewStartPage({
+    Key? key,
+    required this.interviewId,
+    required this.questionId,
+    required this.question,
+  }) : super(key: key);
+
   @override
   _InterviewStartPageState createState() => _InterviewStartPageState();
 }
@@ -18,6 +32,9 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
   bool _isListening = false; // 음성 인식 상태
   String _recognizedText = ''; // 변환된 텍스트 저장
 
+  String? currentQuestion;
+  bool _isLoading = false;
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +42,9 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
     _initializeCamera();
     _initializeTTS();
     _initializeSpeechToText(); // 음성 인식 초기화
+
+    currentQuestion = widget.question.trim().isNotEmpty ? widget.question : null;
+    print("[DEBUG] 전달된 질문: ${widget.question}");
   }
 
   // 권한 요청 함수
@@ -70,6 +90,7 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
   Future<void> _initializeTTS() async {
     await _flutterTts.setLanguage("ko-KR");
     await _flutterTts.setSpeechRate(0.5);
+    await _flutterTts.awaitSpeakCompletion(true);
   }
 
   // 음성 인식 초기화
@@ -85,6 +106,17 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
   // 면접 시작 TTS 음성 출력
   Future<void> _speakInterviewStart() async {
     await _flutterTts.speak("면접이 시작되었습니다! 지금부터 질문을 시작하겠습니다!");
+    await _speakInterviewQuestion();
+  }
+
+  Future<void> _speakInterviewQuestion() async {
+    if (currentQuestion == null || currentQuestion!.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("질문이 비어있습니다. 다시 시도해주세요.")),
+      );
+      return;
+    }
+    await _flutterTts.speak(currentQuestion!);
   }
 
   // 음성 인식 시작
@@ -136,8 +168,63 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
   // 음성 인식된 텍스트 서버로 전송
   Future<void> _sendRecognizedTextToServer() async {
     print("인식된 텍스트: $_recognizedText");
-    // 여기에 변환된 텍스트를 서버로 전송하는 로직을 추가합니다.
-    // 예: HTTP 요청으로 서버에 텍스트를 보내는 코드
+
+    final interviewQuestionAnswerProvider =
+    Provider.of<InterviewQuestionAnswerProvider>(context, listen: false);
+
+    // 서버 전송 처리
+    try {
+      await interviewQuestionAnswerProvider.create(_recognizedText);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('답변이 성공적으로 전송되었습니다.')),
+      );
+    } catch (e) {
+      print('서버 전송 실패: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('답변 전송 실패: $e')),
+      );
+    }
+
+    await _getNextQuestion();
+  }
+
+  Future<void> _getNextQuestion() async {
+    setState(() {
+      _isLoading = true;  // 로딩 시작
+    });
+
+    // 질문을 받아오는 API 호출 예시
+    try {
+      bool questionReceived = false;
+      while (!questionReceived) {
+        await Future.delayed(Duration(seconds: 1));
+
+        // TODO: 여기서 실제 API 호출
+        // 이 부분은 질문을 받아오는 실제 API로 대체해야 합니다.
+
+        // 질문을 받았다고 가정한 부분 (응답이 도착했다고 가정)
+        questionReceived = true; // 실제 조건에 맞춰 변경
+
+        if (questionReceived) {
+          setState(() {
+            currentQuestion = "새로운 질문이 도착했습니다! 다시 시작하겠습니다.";
+            _isLoading = false;  // 로딩 종료
+          });
+
+          // 새로운 질문을 음성으로 출력
+          await _speakInterviewQuestion();
+        }
+      }
+    } catch (e) {
+      setState(() {
+        _isLoading = false;  // 오류 발생 시 로딩 종료
+      });
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("질문을 가져오는 중에 오류가 발생했습니다!")),
+      );
+    }
   }
 
   @override

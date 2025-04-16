@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
-          quill.FlutterQuillLocalizations.delegate, // Add this line to fix the error
+          quill.FlutterQuillLocalizations.delegate,
         ],
         supportedLocales: [
           Locale('en', 'US'), // Add supported locales
