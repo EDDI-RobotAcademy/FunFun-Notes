@@ -87,7 +87,7 @@ class _InterviewListPageState extends State<InterviewListPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => InterviewModule.provideInterviewStartPage(),
+                      builder: (context) => InterviewModule.provideInterviewReadyPage(),
                     ),
                   );
                 },

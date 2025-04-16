@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:first/interview/presentation/providers/interview_create_provider.dart';
 import '../../domain/entity/interview.dart';
+import '../../interview_module.dart';
 import 'interview_start_page.dart'; // InterviewStartPage 임포트
 
 class InterviewReadyPage extends StatelessWidget {
@@ -59,11 +60,17 @@ class _InterviewFormState extends State<InterviewForm> {
         createDate: DateTime.now().toString(),
       );
 
-      widget.createProvider.createInterview(interview).then((_) {
-        if (widget.createProvider.errorMessage == null) {
-          Navigator.push(
+      widget.createProvider.createInterview(interview).then((response) {
+        if (widget.createProvider.errorMessage == null && response != null) {
+          Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => InterviewStartPage()),
+            MaterialPageRoute(
+              builder: (context) => InterviewModule.provideInterviewStartPage(
+                interviewId: response.interviewId,
+                questionId: response.questionId,
+                question: response.question,
+              ),
+            ),
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(

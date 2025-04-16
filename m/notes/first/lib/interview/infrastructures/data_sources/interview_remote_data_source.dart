@@ -63,6 +63,9 @@ class InterviewRemoteDataSource {
       }),
     );
 
+    print('[📥 응답 바디]');
+    print(response.body);
+
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       return InterviewCreateResponse.fromJson(data); // ✅ interviewId만 있으면 되는 구조

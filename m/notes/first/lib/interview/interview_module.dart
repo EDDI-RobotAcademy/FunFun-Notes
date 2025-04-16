@@ -1,5 +1,7 @@
 import 'package:first/interview/presentation/providers/interview_create_provider.dart';
+import 'package:first/interview/presentation/providers/interview_question_answer_provider.dart';
 import 'package:first/interview/presentation/ui/interview_ready_page.dart';
+import 'package:first/interview/presentation/ui/interview_start_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
@@ -20,11 +22,13 @@ class InterviewModule {
 
   static final listInterviewUseCase = ListInterviewUseCaseImpl(interviewRepository);
   static final createInterviewUseCase = CreateInterviewUseCaseImpl(interviewRepository);
+  // static final interviewDetailUseCase = InterviewDetailUseCaseImpl(interviewRepository);
 
   static List<SingleChildWidget> provideCommonProviders() {
     return [
       Provider(create: (_) => listInterviewUseCase),
       Provider(create: (_) => createInterviewUseCase),
+      // Provider(create: (_) => interviewDetailUseCase),
     ];
   }
 
@@ -41,7 +45,7 @@ class InterviewModule {
     );
   }
 
-  static Widget provideInterviewStartPage() {
+  static Widget provideInterviewReadyPage() {
     return MultiProvider(
       providers: [
         ...provideCommonProviders(),
@@ -50,6 +54,26 @@ class InterviewModule {
         ),
       ],
       child: InterviewReadyPage(),
+    );
+  }
+
+  static Widget provideInterviewStartPage({
+    required int interviewId,
+    required int questionId,
+    required String question,
+  }) {
+    return MultiProvider(
+      providers: [
+        ...provideCommonProviders(),
+        ChangeNotifierProvider(
+          create: (_) => InterviewQuestionAnswerProvider(),
+        ),
+      ],
+      child: InterviewStartPage(
+        interviewId: interviewId,
+        questionId: questionId,
+        question: question,
+      ),
     );
   }
 }
