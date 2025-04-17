@@ -118,3 +118,68 @@ class InterviewController(viewsets.ViewSet):
         except Exception as e:
             print(f"면접 정보 제거 중 오류 발생: {e}")
             return JsonResponse({"error": "서버 내부 오류", "success": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def requestCreateAnswer(self, request):
+        postRequest = request.data
+        print(f"postRequest: {postRequest}")
+
+        userToken = postRequest.get("userToken")
+        interviewId = postRequest.get("interviewId")
+        questionId = postRequest.get("questionId")
+        answerText = postRequest.get("answerText")
+
+        # 기본 유효성 검사
+        if not userToken or not interviewId or not questionId or not answerText:
+            return JsonResponse({
+                "error": "userToken, interviewId, questionId, answerText 모두 필요합니다.",
+                "success": False
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            accountId = self.redisCacheService.getValueByKey(userToken)
+            print(f"accountId: {accountId}")
+
+            with transaction.atomic():
+                result = self.interviewService.saveAnswer(
+                    accountId=accountId,
+                    interviewId=interviewId,
+                    questionId=questionId,
+                    answerText=answerText
+                )
+
+                if not result:
+                    raise Exception("답변 저장 실패")
+
+                payload = {
+                    "userToken": userToken,
+                    "interviewId": interviewId,
+                    "questionId": questionId,
+                    "answerText": answerText
+                }
+
+                response = HttpClient.postToAI("/interview/question/generate-after-answer", payload)
+                print(f"FastAPI Response: {response}")
+
+                if not response:
+                    raise Exception("FastAPI 질문 생성 실패")
+
+                question = response["questions"]
+                questionId = self.interviewService.saveQuestion(interviewId, question)
+
+                if questionId is None:
+                    raise Exception("질문 저장 실패")
+
+            return JsonResponse({
+                "message": "면접 정보가 추가되었습니다.",
+                "interviewId": interviewId,
+                "questionId": questionId,
+                "question": question,
+                "success": True
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print(f"❌ 답변 저장 실패: {e}")
+            return JsonResponse({
+                "error": f"서버 내부 오류: {str(e)}",
+                "success": False
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

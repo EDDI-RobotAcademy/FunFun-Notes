@@ -1,7 +1,9 @@
 from django.core.paginator import Paginator
 from account.repository.account_repository_impl import AccountRepositoryImpl
 from interview.entity.interview import Interview
+from interview.entity.interview_answer import InterviewAnswer
 from interview.entity.interview_status import InterviewStatus
+from interview.repository.interview_answer_repository_impl import InterviewAnswerRepositoryImpl
 from interview.repository.interview_repository_impl import InterviewRepositoryImpl
 from interview.service.interview_service import InterviewService
 
@@ -14,6 +16,7 @@ class InterviewServiceImpl(InterviewService):
             cls.__instance = super().__new__(cls)
             cls.__instance.__interviewRepository = InterviewRepositoryImpl.getInstance()
             cls.__instance.__accountRepository = AccountRepositoryImpl.getInstance()
+            cls.__instance.__interviewAnswerRepository = InterviewAnswerRepositoryImpl.getInstance()
         return cls.__instance
 
     @classmethod
@@ -91,3 +94,19 @@ class InterviewServiceImpl(InterviewService):
                 "error": "서버 내부 오류",
                 "success": False
             }
+
+    def saveAnswer(self, accountId: int, interviewId: int, questionId: int, answerText: str) -> bool:
+        try:
+            # InterviewAnswer 레포지토리를 사용하여 답변 저장
+            interviewAnswer = InterviewAnswer(
+                account_id=accountId,
+                interview_id=interviewId,
+                question_id=questionId,
+                answer_text=answerText
+            )
+
+            result = self.__interviewAnswerRepository.save(interviewAnswer)
+            return result is not None
+        except Exception as e:
+            print(f"답변 저장 중 오류 발생: {e}")
+            return False
