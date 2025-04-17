@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import transaction
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from rest_framework import viewsets, status
 from rest_framework.status import HTTP_200_OK
@@ -88,6 +88,60 @@ class KakaoOauthController(viewsets.ViewSet):
 
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
+
+    def requestAccessTokenForApp(self, request):
+        code = request.GET.get('code')
+        if not code:
+            return JsonResponse({'error': 'code is required'}, status=400)
+
+        print(f"[KAKAO] Received code: {code}")
+
+        try:
+            tokenResponse = self.kakaoOauthService.requestAccessToken(code)
+            accessToken = tokenResponse['access_token']
+            print(f"[KAKAO] accessToken: {accessToken}")
+
+            with transaction.atomic():
+                userInfo = self.kakaoOauthService.requestUserInfo(accessToken)
+                print(f"[KAKAO] userInfo: {userInfo}")
+
+                kakaoAccount = userInfo.get('kakao_account', {})
+                email = kakaoAccount.get('email', '')
+                profile = kakaoAccount.get('profile', {})
+                nickname = profile.get('nickname', '')
+
+                account = self.accountService.checkEmailDuplication(email)
+                if account is None:
+                    account = self.accountService.createAccount(email)
+                    self.accountProfileService.createAccountProfile(
+                        account.getId(), nickname
+                    )
+
+                userToken = self.__createUserTokenWithAccessToken(account, accessToken)
+
+                return HttpResponse(f"""
+                    <html>
+                      <body>
+                        <script>
+                          const userToken = '{userToken}';
+                          window.location.href = 'flutter://kakao-login-success?userToken=' + userToken;
+                        </script>
+                      </body>
+                    </html>
+                """)
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    def __createUserTokenWithAccessToken(self, account, accessToken):
+        try:
+            userToken = str(uuid.uuid4())
+            self.redisCacheService.storeKeyValue(account.getId(), accessToken)
+            self.redisCacheService.storeKeyValue(userToken, account.getId())
+            return userToken
+        except Exception as e:
+            print('Redis에 토큰 저장 중 에러:', e)
+            raise RuntimeError('Redis에 토큰 저장 중 에러')
 
     def __createUserTokenWithAccessToken(self, account, accessToken):
         try:
