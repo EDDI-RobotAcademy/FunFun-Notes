@@ -18,3 +18,7 @@ class InterviewService(ABC):
     @abstractmethod
     def saveQuestion(self, interview_id: int, question: str) -> bool:
         pass
+
+    @abstractmethod
+    def saveAnswer(self, accountId: int, interviewId: int, questionId: int, answerText: str) -> bool:
+        pass

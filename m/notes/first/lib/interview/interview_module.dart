@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 import 'domain/usecases/create/create_interview_use_case_impl.dart';
+import 'domain/usecases/create_answer/create_interview_question_answer_use_case_impl.dart';
 import 'domain/usecases/list/list_interview_use_case_impl.dart';
 import 'infrastructures/data_sources/interview_remote_data_source.dart';
 import 'infrastructures/repository/interview_repository_impl.dart';
@@ -22,13 +23,13 @@ class InterviewModule {
 
   static final listInterviewUseCase = ListInterviewUseCaseImpl(interviewRepository);
   static final createInterviewUseCase = CreateInterviewUseCaseImpl(interviewRepository);
-  // static final interviewDetailUseCase = InterviewDetailUseCaseImpl(interviewRepository);
+  static final createInterviewQuestionAnswerUseCase = CreateInterviewQuestionAnswerUseCaseImpl(interviewRepository);
 
   static List<SingleChildWidget> provideCommonProviders() {
     return [
       Provider(create: (_) => listInterviewUseCase),
       Provider(create: (_) => createInterviewUseCase),
-      // Provider(create: (_) => interviewDetailUseCase),
+      Provider(create: (_) => createInterviewQuestionAnswerUseCase),
     ];
   }
 
@@ -66,7 +67,9 @@ class InterviewModule {
       providers: [
         ...provideCommonProviders(),
         ChangeNotifierProvider(
-          create: (_) => InterviewQuestionAnswerProvider(),
+          create: (_) => InterviewQuestionAnswerProvider(
+            createInterviewQuestionAnswerUseCase: createInterviewQuestionAnswerUseCase,
+          ),
         ),
       ],
       child: InterviewStartPage(

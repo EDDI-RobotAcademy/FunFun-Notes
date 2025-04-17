@@ -24,6 +24,8 @@ class InterviewStartPage extends StatefulWidget {
 }
 
 class _InterviewStartPageState extends State<InterviewStartPage> {
+  late int _questionId;
+
   late CameraController _cameraController;
   late List<CameraDescription> cameras;
   bool _isCameraInitialized = false;
@@ -45,6 +47,8 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
 
     currentQuestion = widget.question.trim().isNotEmpty ? widget.question : null;
     print("[DEBUG] 전달된 질문: ${widget.question}");
+
+    _questionId = widget.questionId;
   }
 
   // 권한 요청 함수
@@ -174,11 +178,24 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
 
     // 서버 전송 처리
     try {
-      await interviewQuestionAnswerProvider.create(_recognizedText);
+      final response = await interviewQuestionAnswerProvider.create(
+        answerText: _recognizedText,
+        interviewId: widget.interviewId,
+        questionId: _questionId,
+      );
+
+      if (response == null) {
+        throw Exception('후속 질문 생성 실패');
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('답변이 성공적으로 전송되었습니다.')),
       );
+
+      setState(() {
+        _questionId = response.questionId!;  // 값 갱신
+        currentQuestion = "다음 질문입니다. " + response.question!;
+      });
     } catch (e) {
       print('서버 전송 실패: $e');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -200,15 +217,10 @@ class _InterviewStartPageState extends State<InterviewStartPage> {
       while (!questionReceived) {
         await Future.delayed(Duration(seconds: 1));
 
-        // TODO: 여기서 실제 API 호출
-        // 이 부분은 질문을 받아오는 실제 API로 대체해야 합니다.
-
-        // 질문을 받았다고 가정한 부분 (응답이 도착했다고 가정)
         questionReceived = true; // 실제 조건에 맞춰 변경
 
         if (questionReceived) {
           setState(() {
-            currentQuestion = "새로운 질문이 도착했습니다! 다시 시작하겠습니다.";
             _isLoading = false;  // 로딩 종료
           });
 

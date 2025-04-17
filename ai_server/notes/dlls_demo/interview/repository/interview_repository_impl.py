@@ -13,3 +13,14 @@ class InterviewRepositoryImpl(InterviewRepository):
             f"그에 관련한 본인의 경험을 말씀해주시고, "
             f"{experience_level} 수준에서 마주치는 대표적인 문제는 무엇이라 생각하시나요?"
         )
+
+    def generateFollowupQuestion(
+            self, interview_id: int, question_id: int, answer_text: str, user_token: str
+    ) -> str:
+        print(f"📡 [repository] Generating follow-up question for interviewId={interview_id}, questionId={question_id}")
+
+        # TODO: OpenAI 연동 or 파인튜닝 모델로 대체
+        return (
+            "이전에 말씀하신 경험 중 가장 어려웠던 상황은 무엇이었고, "
+            "그 상황을 어떻게 극복하셨는지 자세히 말씀해 주세요."
+        )
