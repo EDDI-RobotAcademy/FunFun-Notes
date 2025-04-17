@@ -4,6 +4,7 @@ import 'package:first/interview/domain/usecases/list/response/interview_list_res
 import 'package:http/http.dart' as http;
 
 import '../../domain/usecases/create/response/interview_create_response.dart';
+import '../../domain/usecases/create/response/interview_followup_response.dart';
 
 class InterviewRemoteDataSource {
   final String baseUrl;
@@ -74,6 +75,33 @@ class InterviewRemoteDataSource {
     }
   }
 
+  Future<InterviewFollowupResponse?> createInterviewQuestionAnswer({
+    required String userToken,
+    required int interviewId,
+    required int questionId,
+    required String answerText,
+  }) async {
+    final uri = Uri.parse('$baseUrl/interview/user-answer');
+
+    final response = await http.post(
+      uri,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        'userToken': userToken,
+        'interviewId': interviewId,
+        'questionId': questionId,
+        'answerText': answerText,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = jsonDecode(response.body);
+      return InterviewFollowupResponse.fromJson(data);
+    } else {
+      print('❌ 서버 에러: ${response.statusCode} - ${response.body}');
+      return null;
+    }
+  }
 
   int parseInt(dynamic value) {
     if (value is String) {
