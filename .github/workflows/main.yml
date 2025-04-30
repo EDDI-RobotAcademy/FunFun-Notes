@@ -1,0 +1,18 @@
+name: Deploy Test Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      triggered_by:
+        description: 'Who triggered this test deployment'
+        required: false
+        default: 'unknown'
+
+jobs:
+  deploy_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show who triggered
+        run: echo "Triggered by ${{ github.event.inputs.triggered_by }}"
+      - name: Simulate deployment
+        run: echo "잘 동작합니다"
