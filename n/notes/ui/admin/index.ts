@@ -22,6 +22,12 @@ export default defineNuxtModule({
                 path: '/admin/monitoring',
                 file: resolve(themeDir, 'admin/pages/githubActions/GithubActionsPage.vue'),
             });
+
+			pages.push({
+				name: 'WorkflowSettingsPage',
+				path: '/admin/workflow-settings',
+				file: resolve(themeDir, 'admin/pages/githubActions/WorkflowSettingsPage.vue'),
+			});
 		});
 
 		nuxt.hook("imports:dirs", (dirs) => {
