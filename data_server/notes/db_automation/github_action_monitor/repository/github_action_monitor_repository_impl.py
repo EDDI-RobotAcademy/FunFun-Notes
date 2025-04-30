@@ -41,3 +41,24 @@ class GithubActionMonitorRepositoryImpl(GithubActionMonitorRepository):
         except Exception as e:
             print(f"⚠️ 요청 실패: {str(e)}")
             return None
+
+    def triggerGithubActionWorkflow(self, token: str, repoUrl: str, workflowName: str):
+        """GitHub Actions Workflow 트리거"""
+        endpoint = "/github-actions/trigger"
+        data = {
+            "token": token,
+            "repo_url": repoUrl,
+            "workflow_name": workflowName,
+        }
+
+        try:
+            result = HttpClient.postToAdmin(endpoint, data)
+            if result:
+                print("✅ 워크플로우 트리거 성공")
+                return result
+            else:
+                print("❌ 워크플로우 트리거 실패")
+                return None
+        except Exception as e:
+            print(f"⚠️ 트리거 요청 실패: {str(e)}")
+            return None

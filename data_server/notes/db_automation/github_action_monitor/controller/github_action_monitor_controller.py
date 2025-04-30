@@ -57,3 +57,24 @@ class GithubActionMonitorController(viewsets.ViewSet):
         except Exception as e:
             print(f"Error in requestGithubActionWorkflow: {e}")
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    def triggerWorkflow(self, request):
+        try:
+            userToken = request.data.get("userToken")
+            repoUrl = request.data.get("repoUrl")
+            workflowName = request.data.get("workflowName")
+
+            if not userToken or not repoUrl or not workflowName:
+                return Response({"message": "필수 데이터 누락"}, status=status.HTTP_400_BAD_REQUEST)
+
+            accountId = self.redis.getValueByKey(userToken)
+            if not accountId:
+                return Response({"message": "유효하지 않은 토큰"}, status=status.HTTP_401_UNAUTHORIZED)
+
+            result = self.service.triggerWorkflow(accountId, repoUrl, workflowName)
+            return Response(result, status=status.HTTP_200_OK)
+
+        except PermissionError as e:
+            return Response({"message": str(e)}, status=status.HTTP_403_FORBIDDEN)
+        except Exception as e:
+            return Response({"message": f"오류 발생: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
