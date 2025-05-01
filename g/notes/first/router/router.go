@@ -9,6 +9,10 @@ import (
 	githubActionRepository "first/github_action/repository"
 	githubActionService "first/github_action/service"
 
+	githubActionTriggerController "first/github_action_trigger/controller"
+	githubActionTriggerRepository "first/github_action_trigger/repository"
+	githubActionTriggerService "first/github_action_trigger/service"
+
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
@@ -48,8 +52,22 @@ func RegisterGitHubActionRoutes(app *fiber.App, db *gorm.DB) {
 	// app.Delete("/github-actions/:id", gitHubActionController.DeleteWorkflowRun)
 }
 
+func RegisterGitHubActionTriggerRoutes(app *fiber.App) {
+	// DB를 기반으로 Repository 생성
+	gitHubActionTriggerRepo := githubActionTriggerRepository.NewGitHubActionTriggerRepositoryImpl()
+	// Repository를 기반으로 Service 생성
+	gitHubActionTriggerService := githubActionTriggerService.NewGitHubActionTriggerServiceImpl(gitHubActionTriggerRepo)
+
+	// Controller 생성
+	gitHubActionTriggerController := githubActionTriggerController.NewGitHubActionTriggerController(gitHubActionTriggerService)
+
+	// 라우트 등록
+	app.Post("/github-actions-trigger/run", gitHubActionTriggerController.GetTriggers)
+}
+
 // RegisterRoutes는 모든 도메인(게시글 등)의 라우트를 등록합니다.
 func RegisterRoutes(app *fiber.App, db *gorm.DB) {
 	RegisterPostRoutes(app, db)
 	RegisterGitHubActionRoutes(app, db)
+	RegisterGitHubActionTriggerRoutes(app)
 }
