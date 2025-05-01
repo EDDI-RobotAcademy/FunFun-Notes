@@ -49,7 +49,7 @@ const repositories = [
 ]
 
 const workflowOptions = [
-    { label: 'Deploy Test', value: 'deploy_test.yml' },
+    { label: 'Deploy Test', value: 'deploy-test.yml' },
     { label: 'Integration Test', value: 'integration_test.yml' },
     { label: 'Deploy', value: 'deploy.yml' },
 ]
@@ -65,9 +65,15 @@ const canTrigger = computed(() => selectedWorkflows.value.length > 0)
 const triggerWorkflows = async () => {
     message.value = ''
     try {
+        const userToken = localStorage.getItem("userToken")
+
+        if (!userToken) {
+            throw new Error('사용자 토큰이 존재하지 않습니다.')
+        }
+
         for (const workflow of selectedWorkflows.value) {
             await adminStore.triggerGithubWorkflow({
-                userToken: 'your-token-goes-here', // TODO: 추후 인증 처리
+                userToken,
                 repoUrl: selectedRepo.value,
                 workflowName: workflow,
             })

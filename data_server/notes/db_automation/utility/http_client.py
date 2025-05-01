@@ -33,6 +33,9 @@ class HttpClient:
         """Admin 서버로 POST 요청"""
         client = cls.getAdminClient()
         try:
+            print(f"❗ Sending request to Admin: {client.base_url}{endpoint}")
+            print(f"📝 Request Data: {data}")
+
             response = client.post(endpoint, json=data)
             if response.status_code == 200:
                 return response.json()
