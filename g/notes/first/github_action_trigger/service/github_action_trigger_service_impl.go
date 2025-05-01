@@ -12,6 +12,6 @@ func NewGitHubActionTriggerServiceImpl(repo repository.GitHubActionTriggerReposi
 }
 
 // GetTriggers 구현
-func (s *GitHubActionTriggerServiceImpl) GetTriggers(repoUrl string, token string) ([]string, error) {
-	return s.Repo.FetchTriggers(repoUrl, token)
+func (s *GitHubActionTriggerServiceImpl) RunWorkflow(repoUrl string, token string, workflowFileName string) error {
+	return s.Repo.TriggerWorkflow(repoUrl, token, workflowFileName)
 }

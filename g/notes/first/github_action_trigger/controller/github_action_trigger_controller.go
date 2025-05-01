@@ -3,6 +3,7 @@ package controller
 import (
 	"first/github_action_trigger/controller/request_form"
 	"first/github_action_trigger/service"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -14,31 +15,35 @@ func NewGitHubActionTriggerController(service service.GitHubActionTriggerService
 	return &GitHubActionTriggerController{GitHubActionTriggerService: service}
 }
 
-func (c *GitHubActionTriggerController) GetTriggers(ctx *fiber.Ctx) error {
-	println("controller - GetTriggers() 시작")
+func (c *GitHubActionTriggerController) TriggerWorkflow(ctx *fiber.Ctx) error {
+	fmt.Println("🔧 controller - TriggerWorkflow() 시작")
 
 	var req request_form.WorkflowTriggerRequestForm
 	if err := ctx.BodyParser(&req); err != nil {
-		println("controller - BodyParser 오류:", err)
+		fmt.Println("❌ controller - BodyParser 오류:", err)
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request"})
 	}
 
-	println("controller - 요청 파싱 완료")
+	// 실제 값 찍어보기
+	fmt.Println("📥 입력값 확인:")
+	fmt.Println("  📦 RepoUrl      :", req.RepoUrl)
+	fmt.Println("  🔑 Token        :", req.Token)
+	fmt.Println("  📝 WorkflowName :", req.WorkflowName)
 
-	if req.RepoUrl == "" || req.Token == "" {
-		println("controller - repoUrl 또는 token이 비어있음")
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Missing repoUrl or token"})
+	if req.RepoUrl == "" || req.Token == "" || req.WorkflowName == "" {
+		fmt.Println("❌ controller - 필수 입력값 없음")
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Missing required fields"})
 	}
 
-	println("controller - repoUrl 및 token 확인 완료")
+	fmt.Println("✅ controller - 입력값 확인 완료")
 
-	triggers, err := c.GitHubActionTriggerService.GetTriggers(req.RepoUrl, req.Token)
+	err := c.GitHubActionTriggerService.RunWorkflow(req.RepoUrl, req.Token, req.WorkflowName)
 	if err != nil {
-		println("controller - GetTriggers 오류:", err)
+		fmt.Println("❌ controller - RunWorkflow 오류:", err)
 		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	println("controller - 트리거 데이터 가져오기 완료")
-
-	return ctx.JSON(fiber.Map{"triggers": triggers})
+	fmt.Println("🎉 controller - 워크플로우 트리거 성공")
+	return ctx.JSON(fiber.Map{"success": true})
 }
+
