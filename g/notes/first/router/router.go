@@ -62,7 +62,7 @@ func RegisterGitHubActionTriggerRoutes(app *fiber.App) {
 	gitHubActionTriggerController := githubActionTriggerController.NewGitHubActionTriggerController(gitHubActionTriggerService)
 
 	// 라우트 등록
-	app.Post("/github-actions-trigger/run", gitHubActionTriggerController.GetTriggers)
+	app.Post("/github-actions-trigger/run", gitHubActionTriggerController.TriggerWorkflow)
 }
 
 // RegisterRoutes는 모든 도메인(게시글 등)의 라우트를 등록합니다.

@@ -1,5 +1,5 @@
 package repository
 
 type GitHubActionTriggerRepository interface {
-	FetchTriggers(repoUrl string, token string) ([]string, error)
+	TriggerWorkflow(repoUrl string, token string, workflowFileName string) error
 }
